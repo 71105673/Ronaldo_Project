@@ -4,10 +4,14 @@ import cv2
 
 pygame.init()
 
-# 화면 설정
-screen_width = 2600
-screen_height = 1450
-screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN) # 전체 화면으로 시작
+# --- 수정된 부분: 자동 전체 화면 설정 ---
+# (0, 0)과 FULLSCREEN 플래그를 사용해 현재 해상도에 맞는 전체 화면을 생성합니다.
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+# 생성된 화면의 너비와 높이 정보를 가져와 변수에 저장합니다.
+screen_width = screen.get_width()
+screen_height = screen.get_height()
+# ------------------------------------
+
 pygame.display.set_caption("Pygame with Webcam")
 
 # 색상 정의
@@ -15,6 +19,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BUTTON_COLOR = (100, 100, 100)
 BUTTON_HOVER_COLOR = (150, 150, 150)
+GRID_COLOR = (0, 255, 0) # 격자 색상 정의
 
 # 한글 폰트 (경로가 다를 경우 수정 필요)
 try:
@@ -165,20 +170,19 @@ def main():
                     # 좌우 반전
                     frame = cv2.flip(frame, 1)
                     
-                    # 격자 그리기
-                    cam_height, cam_width, _ = frame.shape
-                    # 가로선 (세로를 2등분)
-                    cv2.line(frame, (0, cam_height // 2), (cam_width, cam_height // 2), (0, 255, 0), 2)
-                    # 세로선 (가로를 5등분)
-                    for i in range(1, 5):
-                        x = i * (cam_width // 5)
-                        cv2.line(frame, (x, 0), (x, cam_height), (0, 255, 0), 2)
-
-                    # Pygame Surface로 변환하여 그리기
+                    # Pygame Surface로 변환하여 배경으로 그리기
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     frame = cv2.resize(frame, (screen_width, screen_height))
                     frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
                     screen.blit(frame_surface, (0, 0))
+                    
+                    # --- 수정: Pygame을 사용하여 화면에 직접 격자 그리기 ---
+                    # 가로선 (세로를 2등분)
+                    pygame.draw.line(screen, GRID_COLOR, (0, screen_height // 2), (screen_width, screen_height // 2), 2)
+                    # 세로선 (가로를 5등분)
+                    for i in range(1, 5):
+                        x = i * (screen_width // 5)
+                        pygame.draw.line(screen, GRID_COLOR, (x, 0), (x, screen_height), 2)
                 else:
                     # 웹캠 프레임 읽기 실패 시
                     screen.fill(BLACK)
