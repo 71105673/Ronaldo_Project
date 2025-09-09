@@ -5,6 +5,9 @@
 - git commit -m "업데이트 할 내용 요약"
 - git push
 
+### 이모티콘 모음
+😄 [Tips](./Software/markdown.md)
+
 ### ⚠️ 주의사항
 - 원본이 훼손되지 않도록 버전을 늘려가며 수정 후 Push
 - 중요한 변경사항 발생 시 README.md → 필수 확인사항 섹션에 반드시 기록
