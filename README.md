@@ -15,6 +15,19 @@
 **코드 변경이나 확인 사항이 있다면 꼭 적기**
 **경로까지 알려주면 감사**
 
+FPGA 보드와 PC 의 파이썬 코드로 신호를 전달하려면?
+하드웨어와 소프트웨어가 통신할수 있는 인터페이스를 정해야 한다.
+
+```py
+import serial
+ser = serial.Serial('COM3', 9600)  # Basys 보드 연결된 포트 확인 필요
+while True:
+    if ser.in_waiting > 0:
+        data = ser.readline().decode().strip()
+        print("받은 데이터:", data)
+``` 
+
+
 ```
 -> 은성아 test_ver3.py가 자동전체화면임
 multi state 에서의 기능
@@ -30,7 +43,6 @@ multi state 에서의 기능
 winner state 로 이동
 ```
 ---
-
 
 
 ### 09.10 할 일
