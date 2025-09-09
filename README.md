@@ -5,7 +5,7 @@
 - git commit -m "업데이트 할 내용 요약"
 - git push
 
-### 이모티콘 모음
+### 😄 이모티콘 모음
 😄 [Tips](./Software/markdown.md)
 
 ### ⚠️ 주의사항
