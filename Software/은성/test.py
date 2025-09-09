@@ -5,9 +5,11 @@ import cv2
 pygame.init()
 
 # 화면 설정
-screen_width = 2500
-screen_height = 1300
-screen = pygame.display.set_mode((screen_width, screen_height))
+# (0, 0)과 FULLSCREEN 플래그를 사용해 현재 해상도에 맞는 전체 화면을 생성합니다.
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+# 생성된 화면의 너비와 높이 정보를 가져와 변수에 저장합니다.
+screen_width = screen.get_width()
+screen_height = screen.get_height()
 pygame.display.set_caption("Pygame Button Example")
 
 # 색상 정의
