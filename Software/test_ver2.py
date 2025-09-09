@@ -5,8 +5,8 @@ import cv2
 pygame.init()
 
 # 화면 설정
-screen_width = 2500
-screen_height = 1300
+screen_width = 2600
+screen_height = 1450
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN) # 전체 화면으로 시작
 pygame.display.set_caption("Pygame with Webcam")
 
