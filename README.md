@@ -1,9 +1,14 @@
 # Ronaldo_Project
 
-muchas gracias afición esto es para vosotros 
+***muchas gracias afición esto es para vosotros*** 
 
 
-## 할 일
+##  09.10 할 일
+ 
+### 목표
+- 중앙 맞추기 
+- 카메라 모듈 따로 분류하기 
+- 카메라가 작동 시 3초 카운트를 화면 중앙에 띄우기-> 시간 지나면 아웃
 
 ---
 
