@@ -26,7 +26,7 @@ while True:
         data = ser.readline().decode().strip()
         print("받은 데이터:", data)
 ``` 
-
+받은 데이터로 이것저것 이제 상태를 넘기든 영상을 재생하든 하면 될듯!
 
 ```
 -> 은성아 test_ver3.py가 자동전체화면임
