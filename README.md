@@ -6,7 +6,7 @@
 - git push
 
 ### 😄 이모티콘 모음
-😄 [Tips](./Software/markdown.md)
+🚀 [Tips](./Software/markdown.md)
 
 ### ⚠️ 주의사항
 - 원본이 훼손되지 않도록 버전을 늘려가며 수정 후 Push
