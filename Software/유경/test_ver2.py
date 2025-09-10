@@ -23,12 +23,12 @@ HIGHLIGHT_COLOR = (255, 0, 0, 100) # Highlight color (R, G, B, Alpha)
 
 # Font setup
 try:
-    font = pygame.font.Font("C:/Ronaldo_Git/Ronaldo_Project/Software/fonts/netmarbleM.ttf", 40)
-    description_font = pygame.font.Font("C:/Ronaldo_Git/Ronaldo_Project/Software/fonts/netmarbleM.ttf", 50) # 설명 폰트 크기
+    font = pygame.font.Font("./fonts/netmarbleM.ttf", 40)
+    description_font = pygame.font.Font("./fonts/netmarbleM.ttf", 50) # 설명 폰트 크기
     #description_font.set_bold(True) # 설명 폰트 볼드 처리
-    title_font = pygame.font.Font("C:/Ronaldo_Git/Ronaldo_Project/Software/fonts/netmarbleB.ttf", 120) # 제목 폰트 크기
+    title_font = pygame.font.Font("./fonts/netmarbleB.ttf", 120) # 제목 폰트 크기
     #title_font.set_bold(True)
-    countdown_font = pygame.font.Font("C:/Ronaldo_Git/Ronaldo_Project/Software/fonts/netmarbleM.ttf", 200)
+    countdown_font = pygame.font.Font("./fonts/netmarbleM.ttf", 200)
 except FileNotFoundError:
     font = pygame.font.Font(None, 50)
     description_font = pygame.font.Font(None, 60) # 설명 폰트 크기
