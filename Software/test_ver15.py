@@ -5,7 +5,7 @@ import numpy as np
 import random
 
 pygame.init()
-pygame.mixer.init()
+#pygame.mixer.init()
 
 # 자동 전체 화면 설정
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
