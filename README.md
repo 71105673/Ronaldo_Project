@@ -19,7 +19,7 @@
 
 🚀 [TodaysUpdate](./TodaysUpdate)
 
-### 🎯 TO DO
+### 🎯 해야 할 것
 
 🚀 [TO DO](./ToDoList)
 
