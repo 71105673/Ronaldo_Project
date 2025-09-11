@@ -33,12 +33,12 @@ except pygame.error as e:
 
 # Font setup
 try:
-    font = pygame.font.Font("../fonts/netmarbleM.ttf", 40)
-    description_font = pygame.font.Font("../fonts/netmarbleM.ttf", 50)
-    title_font = pygame.font.Font("../fonts/netmarbleB.ttf", 120)
-    countdown_font = pygame.font.Font("../fonts/netmarbleM.ttf", 200)
-    score_font = pygame.font.Font("../fonts/netmarbleB.ttf", 60)
-    rank_font = pygame.font.Font("../fonts/netmarbleB.ttf", 100)
+    font = pygame.font.Font("./fonts/netmarbleM.ttf", 40)
+    description_font = pygame.font.Font("./fonts/netmarbleM.ttf", 50)
+    title_font = pygame.font.Font("./fonts/netmarbleB.ttf", 120)
+    countdown_font = pygame.font.Font("./fonts/netmarbleM.ttf", 200)
+    score_font = pygame.font.Font("./fonts/netmarbleB.ttf", 60)
+    rank_font = pygame.font.Font("./fonts/netmarbleB.ttf", 100)
 except FileNotFoundError:
     print("폰트 파일을 찾을 수 없습니다. 기본 폰트를 사용합니다.")
     font = pygame.font.Font(None, 50)
@@ -93,7 +93,6 @@ def main():
     countdown_start_time, selected_grid_col, final_selected_col, ball_col = None, None, None, None
     is_failure, is_success, result_display_time, gif_start_time = False, False, None, None
     uart_ball_col = None
-    waiting_for_start = False 
 
     # 화면 전환 변수
     transition_surface = pygame.Surface((screen_width, screen_height)); transition_surface.fill(BLACK)
@@ -101,13 +100,13 @@ def main():
     fading_out, fading_in = False, False
 
     # 웹캠 초기화
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened(): print("오류: 웹캠을 열 수 없습니다."); cap = None
 
     # 시리얼 포트 초기화
     ser = None
     try:
-        ser = serial.Serial('COM13', 9600, timeout=0) 
+        ser = serial.Serial('COM11', 9600, timeout=0) 
         print("Basys3 보드가 성공적으로 연결되었습니다.")
     except serial.SerialException as e:
         print(f"오류: 시리얼 포트를 열 수 없습니다 - {e}")
@@ -115,34 +114,34 @@ def main():
 
     # 효과음 로드
     try:
-        button_sound = pygame.mixer.Sound("../sound/button_click.wav")
-        siu_sound = pygame.mixer.Sound("../sound/SIUUUUU.wav")
-        success_sound = pygame.mixer.Sound("../sound/야유.mp3") 
+        button_sound = pygame.mixer.Sound("./sound/button_click.wav")
+        siu_sound = pygame.mixer.Sound("./sound/SIUUUUU.wav")
+        success_sound = pygame.mixer.Sound("./sound/야유.mp3") 
         failed_sound = siu_sound
     except pygame.error as e:
         print(f"효과음 로드 오류: {e}"); button_sound=siu_sound=success_sound=failed_sound=None
     
     # 게임 이미지 및 GIF/영상 로드
     try:
-        ball_image = pygame.image.load("../image/final_ronaldo/Ball.png").convert_alpha()
+        ball_image = pygame.image.load("./image/final_ronaldo/Ball.png").convert_alpha()
         scoreboard_ball_image = pygame.transform.scale(ball_image, (80, 80)) 
         ball_image = pygame.transform.scale(ball_image, (200, 200))
     except pygame.error as e: print(f"이미지 로드 오류: Ball.png - {e}"); ball_image=scoreboard_ball_image=None
 
-    try: failure_gif = cv2.VideoCapture("../image/G.O.A.T/siuuu.gif")
+    try: failure_gif = cv2.VideoCapture("./image/G.O.A.T/siuuu.gif")
     except Exception as e: print(f"GIF 로드 오류: siuuu.gif - {e}"); failure_gif = None
-    try: success_gif = cv2.VideoCapture("../image/final_ronaldo/pk.gif")
+    try: success_gif = cv2.VideoCapture("./image/final_ronaldo/pk.gif")
     except Exception as e: print(f"GIF 로드 오류: pk.gif - {e}"); success_gif = None
-    try: victory_video = cv2.VideoCapture("../image/victory.gif")
+    try: victory_video = cv2.VideoCapture("./image/victory.gif")
     except Exception as e: print(f"영상 로드 오류: victory.gif - {e}"); victory_video = None
-    try: defeat_video = cv2.VideoCapture("../image/defeat.gif")
+    try: defeat_video = cv2.VideoCapture("./image/defeat.gif")
     except Exception as e: print(f"영상 로드 오류: defeat.gif - {e}"); defeat_video = None
     
     bg_video = None
     bg_video_total_frames, bg_video_frame_interval = 0, 0
     bg_video_original_w, bg_video_original_h = 0, 0
     try:
-        bg_video = cv2.VideoCapture("../image/shoot.gif")
+        bg_video = cv2.VideoCapture("./image/shoot.gif")
         if bg_video.isOpened():
             bg_video_total_frames = int(bg_video.get(cv2.CAP_PROP_FRAME_COUNT))
             bg_video_original_w = int(bg_video.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -192,19 +191,19 @@ def main():
 
     game_mode = {"mode": None}
     buttons = {
-        "menu": [ImageButton("../image/btn_start.png", screen_width - 300, screen_height - 175, 400, 250, lambda: start_transition("game"), sound=button_sound),
-                 ImageButton("../image/btn_desc.png", screen_width - 150, 150, 100, 100, lambda: start_transition("info"), sound=button_sound)],
-        "game": [ImageButton("../image/btn_single.png", screen_width//2 - 280, screen_height//2 + 200, 550, 600, lambda: start_game("single")),
-                 ImageButton("../image/btn_multi.png", screen_width//2 + 430, screen_height//2 + 200, 550, 600, lambda: start_game("multi")),
-                 ImageButton("../image/btn_back.png", 150, 150, 100, 100, go_to_menu, sound=button_sound)],
-        "webcam_view": [ImageButton("../image/btn_back.png", 150, 150, 100, 100, go_to_game_select, sound=button_sound)],
-        "info": [ImageButton("../image/btn_exit.png", screen_width - 150, 150, 100, 100, go_to_menu, sound=button_sound)],
-        "end": [ImageButton("../image/btn_restart.png", screen_width//2 - 300, screen_height - 250, 400, 250, go_to_game_select, sound=button_sound),
-                ImageButton("../image/btn_main_menu.png", screen_width//2 + 300, screen_height - 250, 400, 250, go_to_menu, sound=button_sound)]
+        "menu": [ImageButton("./image/btn_start.png", screen_width - 300, screen_height - 175, 400, 250, lambda: start_transition("game"), sound=button_sound),
+                 ImageButton("./image/btn_desc.png", screen_width - 150, 150, 100, 100, lambda: start_transition("info"), sound=button_sound)],
+        "game": [ImageButton("./image/btn_single.png", screen_width//2 - 280, screen_height//2 + 200, 550, 600, lambda: start_game("single")),
+                 ImageButton("./image/btn_multi.png", screen_width//2 + 430, screen_height//2 + 200, 550, 600, lambda: start_game("multi")),
+                 ImageButton("./image/btn_back.png", 150, 150, 100, 100, go_to_menu, sound=button_sound)],
+        "webcam_view": [ImageButton("./image/btn_back.png", 150, 150, 100, 100, go_to_game_select, sound=button_sound)],
+        "info": [ImageButton("./image/btn_exit.png", screen_width - 150, 150, 100, 100, go_to_menu, sound=button_sound)],
+        "end": [ImageButton("./image/btn_restart.png", screen_width//2 - 300, screen_height - 250, 400, 250, go_to_game_select, sound=button_sound),
+                ImageButton("./image/btn_main_menu.png", screen_width//2 + 300, screen_height - 250, 400, 250, go_to_menu, sound=button_sound)]
     }
 
-    video = cv2.VideoCapture("../image/game_thumbnail.mp4")
-    info_bg = pygame.image.load("../image/info/info_back2.jpg").convert()
+    video = cv2.VideoCapture("./image/game_thumbnail.mp4")
+    info_bg = pygame.image.load("./image/info/info_back2.jpg").convert()
     info_bg = pygame.transform.scale(info_bg, (screen_width, screen_height))
     clock = pygame.time.Clock()
     loop_counter, gif_frame = 0, None
@@ -216,13 +215,6 @@ def main():
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE): running = False
-            
-            # 스페이스바 이벤트 처리 로직
-            if screen_state["current"] == "webcam_view" and waiting_for_start:
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    countdown_start_time = pygame.time.get_ticks()
-                    waiting_for_start = False
-
             if not (fading_in or fading_out):
                 for button in buttons.get(screen_state["current"], []): button.handle_event(event)
         
@@ -293,18 +285,7 @@ def main():
                         cell_w = half_width / 5
                         for i in range(1, 5): pygame.draw.line(screen, GRID_COLOR, (i * cell_w, 0), (i * cell_w, screen_height), 2)
                         
-                        # 대기 상태 또는 카운트다운 상태에 따라 분기
-                        if waiting_for_start:
-                            overlay = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
-                            overlay.fill((0, 0, 0, 128))
-                            screen.blit(overlay, (0,0))
-
-                            start_text_l1 = title_font.render("시작하시겠습니까?", True, WHITE)
-                            start_text_l2 = font.render("(Press Space Bar)", True, WHITE)
-                            screen.blit(start_text_l1, start_text_l1.get_rect(center=(screen_width/2, screen_height/2 - 60)))
-                            screen.blit(start_text_l2, start_text_l2.get_rect(center=(screen_width/2, screen_height/2 + 40)))
-
-                        elif countdown_start_time:
+                        if countdown_start_time:
                             elapsed = pygame.time.get_ticks() - countdown_start_time
                             if elapsed < 5000:
                                 hsv = cv2.cvtColor(frame_cam, cv2.COLOR_BGR2HSV)
@@ -376,12 +357,12 @@ def main():
         elif screen_state["current"] == "info":
             screen.blit(info_bg, (0, 0))
             title_surf = title_font.render("게임 방법", True, WHITE)
-            screen.blit(title_surf, (screen_width/2 - title_surf.get_width()/2, 200))
-            text_1p = ["[1인 플레이]", "", "1. 스페이스 바를 누르면 5초 카운트 다운이 시작됩니다.", "", "2. 5개의 영역 중 한 곳을 선택합니다.", "", "3. 5번의 기회동안 최대한 많은 공을 막으세요!"]
-            text_2p = ["[2인 플레이]", "", "1. 스페이스 바를 누르면 5초 카운트 다운이 시작됩니다.", "", "2. 공격수와 골키퍼로 나뉩니다.", "", "3. 공격수는 공을 찰 방향을 정합니다.", "", "4. 골키퍼는 공을 막을 방향을 정합니다.", "", "5. 5번의 기회동안 더 많은 득점을 한 쪽이 승리합니다!"]
-            for i, line in enumerate(text_1p): screen.blit(description_font.render(line, True, WHITE), (screen_width/4 - 550, 475 + i*75))
-            for i, line in enumerate(text_2p): screen.blit(description_font.render(line, True, WHITE), (screen_width*3/4 - 500, 475 + i*75))
-
+            screen.blit(title_surf, (screen_width/2 - title_surf.get_width()/2, 150))
+            text_1p = ["[1인 플레이]", "1. 5초의 카운트 다운이 시작됩니다.", "2. 카메라에 비치는 빨간색 물체를 인식하여", "   공을 막을 위치를 선택합니다.", "3. 5번의 기회 동안 최대한 많은 공을 막으세요!"]
+            text_2p = ["[2인 플레이]", "1. 공격수(카메라)와 골키퍼(Basys3)로 나뉩니다.", "2. 공격수는 몸으로 찰 방향을 정합니다.", "3. 골키퍼는 스위치로 막을 방향을 정합니다.", "4. 5번의 기회 후 더 많은 득점을 한 쪽이 승리합니다."]
+            for i, line in enumerate(text_1p): screen.blit(description_font.render(line, True, WHITE), (screen_width/4 - 150, 400 + i*75))
+            for i, line in enumerate(text_2p): screen.blit(description_font.render(line, True, WHITE), (screen_width*3/4 - 300, 400 + i*75))
+        
         elif screen_state["current"] == "end":
             if end_video_to_play:
                 read_new_frame = not (end_video_to_play == defeat_video and loop_counter % 2 != 0)
