@@ -6,7 +6,6 @@ import random
 import os
 import serial  # pyserial 라이브러리 추가
 
-
 from button import ImageButton
 
 pygame.init()
