@@ -92,6 +92,16 @@ def main():
         "videos": {}
     }
 
+    # 웹캠 초기화 (외부캠 1번, QVGA 해상도로 설정)
+    resources["cap"] = cv2.VideoCapture(1, cv2.CAP_DSHOW) 
+    if resources["cap"].isOpened():
+        resources["cap"].set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+        resources["cap"].set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+        print("외부 카메라(1번)를 QVGA(320x240)로 열었습니다.")
+    else:
+        print("오류: 외부 카메라(1번)를 열 수 없습니다.")
+        resources["cap"] = None
+
     try:
         resources["ser"] = serial.Serial('COM11', 9600, timeout=0)
         print("Basys3 보드가 성공적으로 연결되었습니다.")
@@ -222,7 +232,8 @@ def main():
 
         frame_cam = cv2.flip(frame_cam, 1)
         frame_cam_rgb = cv2.cvtColor(frame_cam, cv2.COLOR_BGR2RGB)
-        frame_cam_resized = cv2.resize(frame_cam_rgb, (half_width, screen_height))
+         # [수정] interpolation 옵션을 추가하여 픽셀을 복제하는 방식으로 확대합니다.
+        frame_cam_resized = cv2.resize(frame_cam_rgb, (half_width, screen_height), interpolation=cv2.INTER_NEAREST)
         screen.blit(pygame.surfarray.make_surface(frame_cam_resized.swapaxes(0, 1)), (0, 0))
 
         cell_w = half_width / 5
