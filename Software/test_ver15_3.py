@@ -6,7 +6,6 @@ import random
 import os
 
 pygame.init()
-# pygame.mixer.init() 
 
 # 자동 전체 화면 설정
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -50,20 +49,15 @@ except FileNotFoundError:
 # 최고 기록 관리 함수
 # =========================================
 def load_highscore():
-    if not os.path.exists("highscore.txt"):
-        return 0
+    if not os.path.exists("highscore.txt"): return 0
     try:
-        with open("highscore.txt", "r") as f:
-            return int(f.read())
-    except (IOError, ValueError):
-        return 0
+        with open("highscore.txt", "r") as f: return int(f.read())
+    except (IOError, ValueError): return 0
 
 def save_highscore(new_score):
     try:
-        with open("highscore.txt", "w") as f:
-            f.write(str(new_score))
-    except IOError as e:
-        print(f"최고 기록 저장 오류: {e}")
+        with open("highscore.txt", "w") as f: f.write(str(new_score))
+    except IOError as e: print(f"최고 기록 저장 오류: {e}")
 
 # =========================================
 # ImageButton 클래스
@@ -123,7 +117,7 @@ def main():
     try:
         button_sound = pygame.mixer.Sound("./sound/button_click.wav")
         siu_sound = pygame.mixer.Sound("./sound/SIUUUUU.wav")
-        success_sound = siu_sound # 성공 효과음을 siu_sound로 변경
+        success_sound = siu_sound
     except pygame.error as e:
         print(f"효과음 로드 오류: {e}"); button_sound=siu_sound=success_sound=None
     
@@ -138,9 +132,9 @@ def main():
     except Exception as e: print(f"GIF 로드 오류: siuuu.gif - {e}"); failure_gif = None
     try: success_gif = cv2.VideoCapture("./image/final_ronaldo/pk.gif")
     except Exception as e: print(f"GIF 로드 오류: pk.gif - {e}"); success_gif = None
-    try: victory_video = cv2.VideoCapture("./image/victory.gif") # 승리 영상
+    try: victory_video = cv2.VideoCapture("./image/victory.gif")
     except Exception as e: print(f"영상 로드 오류: victory.gif - {e}"); victory_video = None
-    try: defeat_video = cv2.VideoCapture("./image/defeat.gif") # 패배 영상
+    try: defeat_video = cv2.VideoCapture("./image/defeat.gif")
     except Exception as e: print(f"영상 로드 오류: defeat.gif - {e}"); defeat_video = None
 
     # ==========================
@@ -151,7 +145,9 @@ def main():
         if not fading_out and not fading_in: transition_target, fading_out = target_state, True
 
     def reset_game_state(full_reset=True):
-        nonlocal countdown_start_time, selected_grid_col, final_selected_col, ball_col, is_failure, is_success, result_display_time, gif_start_time, chances_left, score
+        nonlocal countdown_start_time, selected_grid_col, final_selected_col, ball_col
+        nonlocal is_failure, is_success, result_display_time, gif_start_time
+        nonlocal chances_left, score
         countdown_start_time, selected_grid_col, final_selected_col, ball_col = None, None, None, None
         is_failure, is_success, result_display_time, gif_start_time = False, False, None, None
         if full_reset:
@@ -230,7 +226,6 @@ def main():
                 if chances_left > 0:
                     start_new_round()
                 else: # 5번 기회 모두 소진, 게임 종료
-                    # nonlocal highscore, final_rank, end_video_to_play # 이 줄은 필요 없으므로 삭제합니다.
                     if score > highscore:
                         highscore = score
                         save_highscore(highscore)
@@ -243,9 +238,12 @@ def main():
                     if end_video_to_play: end_video_to_play.set(cv2.CAP_PROP_POS_FRAMES, 0)
                     start_transition("end")
 
+            should_play_gif = (is_failure or is_success) and result_display_time and (pygame.time.get_ticks() - result_display_time > 1000)
+            
             active_gif = None
-            if is_failure: active_gif = failure_gif
-            elif is_success: active_gif = success_gif
+            if should_play_gif:
+                if is_failure: active_gif = failure_gif
+                elif is_success: active_gif = success_gif
             
             if active_gif and not gif_start_time:
                 gif_start_time = pygame.time.get_ticks()
@@ -299,7 +297,6 @@ def main():
                                     print("SUCCESS!")
                                 else:
                                     is_failure = True
-                                    # if fail_sound: fail_sound.play() # 실패 효과음 재생 코드 삭제
                                     print(f"FAILURE! Player: {final_selected_col}, Ball: {ball_col}")
                                 
                                 result_display_time = pygame.time.get_ticks()
@@ -317,12 +314,11 @@ def main():
                         ball_rect = ball_image.get_rect(center=(ball_col*cell_w + cell_w/2, screen_height/2))
                         screen.blit(ball_image, ball_rect)
             
-            # 스코어보드 그리기 (위치를 원본 test_ver15.py와 동일하게 수정)
+            # 스코어보드 그리기 (위치를 원본과 동일하게 수정)
             if scoreboard_ball_image:
                 for i in range(chances_left): screen.blit(scoreboard_ball_image, (screen_width - 100 - i*90, 50))
             score_text = score_font.render(f"SCORE: {score}", True, WHITE)
             screen.blit(score_text, (screen_width - 300, 150))
-
 
         elif screen_state["current"] == "info":
             screen.blit(info_bg, (0, 0))
@@ -379,10 +375,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
 
