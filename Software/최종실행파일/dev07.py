@@ -72,6 +72,10 @@ def main():
     chances_left, score = 5, 0
     highscore = load_highscore()
     final_rank, end_video_to_play = "", None
+
+    # [추가!] 마지막으로 렌더링된 종료 영상 프레임을 저장할 변수
+    last_end_frame = None
+
     countdown_start_time, selected_grid_col, final_selected_col, ball_col = None, None, None, None
     is_failure, is_success, result_display_time, gif_start_time = False, False, None, None
     uart_ball_col = None
