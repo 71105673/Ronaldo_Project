@@ -274,8 +274,7 @@ def main():
                     if ret: gif_frame = frame
                 
                 if gif_frame is not None:
-                    # [수정] 성공 GIF도 전체 화면으로 설정합니다.
-                    gif_display_size = (screen_width, screen_height)
+                    gif_display_size = (screen_width, screen_height) if is_failure else (screen_width // 3, screen_height // 3)
                     frame_resized = cv2.resize(gif_frame, gif_display_size, interpolation=cv2.INTER_AREA)
                     frame_rgb = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
                     gif_surface = pygame.surfarray.make_surface(frame_rgb.swapaxes(0, 1))
