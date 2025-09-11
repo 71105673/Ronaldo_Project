@@ -62,7 +62,7 @@ def main():
     # 시리얼 포트 초기화
     ser = None
     try:
-        ser = serial.Serial('COM11', 9600, timeout=0) 
+        ser = serial.Serial('COM13', 9600, timeout=0) 
         print("Basys3 보드가 성공적으로 연결되었습니다.")
     except serial.SerialException as e:
         print(f"오류: 시리얼 포트를 열 수 없습니다 - {e}")
