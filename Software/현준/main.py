@@ -1,171 +1,150 @@
-# main.py
-
 import pygame
 import sys
 import cv2
-import serial
-
-from score_manager import load_highscore
-import game_logic
+import serial  # pyserial 라이브러리
+from button import ImageButton
+import actions as game_actions # 분리된 actions.py 파일을 import
 
 pygame.init()
 pygame.mixer.init()
 
-# 화면 설정
+# 자동 전체 화면 설정
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 screen_width = screen.get_width()
 screen_height = screen.get_height()
+
 pygame.display.set_caption("Penalty Kick Challenge")
 
-# 색상 및 폰트
+# 색상 정의
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-BUTTON_COLOR = (100, 100, 100)
-GOLD_COLOR = (255, 215, 0)
-try:
-    font = pygame.font.Font("./fonts/netmarbleM.ttf", 40)
-    description_font = pygame.font.Font("./fonts/netmarbleM.ttf", 50)
-    title_font = pygame.font.Font("./fonts/netmarbleB.ttf", 120)
-except FileNotFoundError:
-    font = pygame.font.Font(None, 50)
-    description_font = pygame.font.Font(None, 60)
-    title_font = pygame.font.Font(None, 130)
-
-# =========================================
-# ImageButton 클래스
-# =========================================
-class ImageButton:
-    def __init__(self, image_path, x, y, width=None, height=None, action=None, sound=None):
-        self.action, self.sound, self.is_hovered = action, sound, False
-        try:
-            self.original_image = pygame.image.load(image_path).convert_alpha()
-            scale_factor = 1.05
-            self.image = pygame.transform.scale(self.original_image, (width, height)) if width and height else self.original_image
-            hover_width = int(self.image.get_width() * scale_factor)
-            hover_height = int(self.image.get_height() * scale_factor)
-            self.hover_image = pygame.transform.scale(self.original_image, (hover_width, hover_height))
-            self.rect = self.image.get_rect(center=(x, y))
-        except pygame.error as e:
-            print(f"이미지 로드 오류: {image_path} - {e}")
-            self.image = pygame.Surface((width or 100, height or 50)); self.image.fill(BUTTON_COLOR)
-            self.hover_image = pygame.Surface((width or 100, height or 50)); self.hover_image.fill((150,150,150))
-            self.rect = self.image.get_rect(center=(x, y))
-
-    def update(self):
-        self.is_hovered = self.rect.collidepoint(pygame.mouse.get_pos())
-
-    def draw(self, screen):
-        current_image = self.hover_image if self.is_hovered else self.image
-        screen.blit(current_image, current_image.get_rect(center=self.rect.center))
-
-    def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and self.is_hovered:
-            if self.sound: self.sound.play()
-            if self.action: self.action()
+GRID_COLOR = (0, 255, 0)
+HIGHLIGHT_COLOR = (255, 0, 0, 100)
 
 # ==========================
 # 메인 함수
 # ==========================
 def main():
-    clock = pygame.time.Clock()
-
-    screen_state = {
-        'current': 'menu', 'highscore': load_highscore(),
-        'final_rank': '', 'end_video_to_play': None, 'mode': None
+    # 게임 상태 및 리소스를 관리하는 딕셔너리
+    game_data = {
+        "screen": screen, "screen_width": screen_width, "screen_height": screen_height,
+        "clock": pygame.time.Clock(), "loop_counter": 0,
+        "screen_state": {"current": "menu"}, "game_mode": {"mode": None},
+        "chances_left": 5, "score": 0,
+        "countdown_start_time": None, "selected_grid_col": None, "final_selected_col": None,
+        "ball_col": None, "uart_ball_col": None, "is_failure": False, "is_success": False,
+        "result_display_time": None, "gif_start_time": None, "gif_frame": None,
+        "transition_surface": pygame.Surface((screen_width, screen_height)),
+        "transition_alpha": 0, "transition_target": None, "transition_speed": 15,
+        "fading_out": False, "fading_in": False,
+        "ser": None, "fonts": {}, "sounds": {}, "images": {}, "videos": {},
+        "colors": {'black': BLACK, 'white': WHITE, 'grid': GRID_COLOR, 'highlight': HIGHLIGHT_COLOR}
     }
-    game_logic.reset_game_state(screen_state, full_reset=True)
+    game_data["transition_surface"].fill(BLACK)
 
-    transition_surface = pygame.Surface((screen_width, screen_height)); transition_surface.fill(BLACK)
-    transition_alpha, transition_target, transition_speed = 0, None, 15
-    fading_out, fading_in = False, False
-
-    assets = {}
+    # 폰트 로드
     try:
-        assets['button_sound'] = pygame.mixer.Sound("./sound/button_click.wav")
-        assets['siu_sound'] = pygame.mixer.Sound("./sound/SIUUUUU.wav")
-        assets['success_sound'] = pygame.mixer.Sound("./sound/SIUUUUU.wav")
+        game_data['fonts']['default'] = pygame.font.Font("./fonts/netmarbleM.ttf", 40)
+        game_data['fonts']['description'] = pygame.font.Font("./fonts/netmarbleM.ttf", 50)
+        game_data['fonts']['title'] = pygame.font.Font("./fonts/netmarbleB.ttf", 120)
+        game_data['fonts']['countdown'] = pygame.font.Font("./fonts/netmarbleM.ttf", 200)
+        game_data['fonts']['score'] = pygame.font.Font("./fonts/netmarbleB.ttf", 60)
+    except FileNotFoundError:
+        print("폰트 파일을 찾을 수 없습니다. 기본 폰트를 사용합니다.")
+        game_data['fonts']['default'] = pygame.font.Font(None, 50)
+        # ... (다른 기본 폰트 설정)
+    
+    # 효과음 및 리소스 로드 (이하 생략된 부분은 기존 코드와 동일)
+    try:
+        game_data['sounds']['button'] = pygame.mixer.Sound("./sound/button_click.wav")
+        game_data['sounds']['siu'] = pygame.mixer.Sound("./sound/SIUUUUU.wav")
+        game_data['sounds']['success'] = pygame.mixer.Sound("./sound/야유.mp3")
+        game_data['sounds']['failed'] = pygame.mixer.Sound("./sound/SIUUUUU.wav")
+    except pygame.error as e: print(f"효과음 로드 오류: {e}")
+
+    try:
         ball_img = pygame.image.load("./image/final_ronaldo/Ball.png").convert_alpha()
-        assets['scoreboard_ball_image'] = pygame.transform.scale(ball_img, (80, 80))
-        assets['ball_image'] = pygame.transform.scale(ball_img, (200, 200))
-        assets['info_bg'] = pygame.transform.scale(pygame.image.load("./image/info/info_back2.jpg").convert(), (screen_width, screen_height))
-        assets['countdown_font'] = pygame.font.Font("./fonts/netmarbleM.ttf", 200)
-        assets['score_font'] = pygame.font.Font("./fonts/netmarbleB.ttf", 60)
-        assets['rank_font'] = pygame.font.Font("./fonts/netmarbleB.ttf", 100)
-        assets['main_video'] = cv2.VideoCapture("./image/game_thumbnail.mp4")
-        assets['failure_gif'] = cv2.VideoCapture("./image/G.O.A.T/siuuu.gif")
-        assets['success_gif'] = cv2.VideoCapture("./image/final_ronaldo/pk.gif")
-        assets['victory_video'] = cv2.VideoCapture("./image/victory.gif")
-        assets['defeat_video'] = cv2.VideoCapture("./image/defeat.gif")
-    except Exception as e:
-        print(f"리소스 로드 중 오류 발생: {e}"); pygame.quit(); sys.exit()
+        game_data['images']['scoreboard_ball'] = pygame.transform.scale(ball_img, (80, 80))
+        game_data['images']['ball'] = pygame.transform.scale(ball_img, (200, 200))
+        game_data['images']['info_bg'] = pygame.transform.scale(pygame.image.load("./image/info/info_back2.jpg").convert(), (screen_width, screen_height))
+    except pygame.error as e: print(f"이미지 로드 오류: {e}")
 
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened(): print("오류: 웹캠을 열 수 없습니다."); cap = None
-    ser = None
+    try: game_data['videos']['menu_bg'] = cv2.VideoCapture("./image/game_thumbnail.mp4")
+    except: pass
+    try: game_data['videos']['failure_gif'] = cv2.VideoCapture("./image/G.O.A.T/siuuu.gif")
+    except: pass
+    try: game_data['videos']['success_gif'] = cv2.VideoCapture("./image/final_ronaldo/pk.gif")
+    except: pass
+    try: game_data['videos']['end_video'] = cv2.VideoCapture("./video/ending.mp4")
+    except: pass
+    
+    game_data['videos']['webcam'] = cv2.VideoCapture(0)
+    if not game_data['videos']['webcam'].isOpened(): print("오류: 웹캠을 열 수 없습니다."); game_data['videos']['webcam'] = None
     try:
-        ser = serial.Serial('COM13', 9600, timeout=0)
+        game_data['ser'] = serial.Serial('COM13', 9600, timeout=0)
         print("Basys3 보드가 성공적으로 연결되었습니다.")
     except serial.SerialException as e: print(f"오류: 시리얼 포트를 열 수 없습니다 - {e}")
 
-    def start_transition(target_state):
-        nonlocal transition_target, fading_out
-        if not fading_out and not fading_in: transition_target, fading_out = target_state, True
-
+    # 버튼 생성 (람다 함수에서 game_actions의 함수를 호출)
     buttons = {
-        "menu": [ImageButton("./image/btn_start.png", screen_width - 300, screen_height - 175, 400, 250, lambda: start_transition("game"), sound=assets['button_sound']),
-                 ImageButton("./image/btn_desc.png", screen_width - 150, 150, 100, 100, lambda: start_transition("info"), sound=assets['button_sound'])],
-        "game": [ImageButton("./image/btn_single.png", screen_width//2 - 280, screen_height//2 + 200, 550, 600, lambda: game_logic.set_game_mode(screen_state, "single", assets['siu_sound'], start_transition)),
-                 ImageButton("./image/btn_multi.png", screen_width//2 + 430, screen_height//2 + 200, 550, 600, lambda: game_logic.set_game_mode(screen_state, "multi", assets['siu_sound'], start_transition)),
-                 ImageButton("./image/btn_back.png", 150, 150, 100, 100, lambda: game_logic.go_to_menu(screen_state, start_transition), sound=assets['button_sound'])],
-        "webcam_view": [ImageButton("./image/btn_back.png", 150, 150, 100, 100, lambda: game_logic.go_to_menu(screen_state, start_transition), sound=assets['button_sound'])],
-        "multi": [ImageButton("./image/btn_back.png", 150, 150, 100, 100, lambda: game_logic.go_to_menu(screen_state, start_transition), sound=assets['button_sound'])],
-        "info": [ImageButton("./image/btn_exit.png", screen_width - 150, 150, 100, 100, lambda: game_logic.go_to_menu(screen_state, start_transition), sound=assets['button_sound'])],
-        "end": [ImageButton("./image/btn_restart.png", screen_width//2 - 300, screen_height - 250, 400, 250, lambda: game_logic.restart_game(screen_state, start_transition), sound=assets['button_sound']),
-                ImageButton("./image/btn_main_menu.png", screen_width//2 + 300, screen_height - 250, 400, 250, lambda: game_logic.go_to_menu(screen_state, start_transition), sound=assets['button_sound'])]
+        "menu": [ImageButton("./image/btn_start.png", screen_width - 300, screen_height - 175, 400, 250, lambda: game_actions.start_transition(game_data, "game"), sound=game_data['sounds'].get('button')),
+                 ImageButton("./image/btn_desc.png", screen_width - 150, 150, 100, 100, lambda: game_actions.start_transition(game_data, "info"), sound=game_data['sounds'].get('button'))],
+        "game": [ImageButton("./image/btn_single.png", screen_width//2 - 280, screen_height//2 + 200, 550, 600, lambda: game_actions.set_game_mode(game_data, "single")),
+                 ImageButton("./image/btn_multi.png", screen_width//2 + 430, screen_height//2 + 200, 550, 600, lambda: game_actions.set_game_mode(game_data, "multi")),
+                 ImageButton("./image/btn_back.png", 150, 150, 100, 100, lambda: game_actions.go_back(game_data), sound=game_data['sounds'].get('button'))],
+        "webcam_view": [ImageButton("./image/btn_back.png", 150, 150, 100, 100, lambda: game_actions.go_back(game_data), sound=game_data['sounds'].get('button'))],
+        "multi": [ImageButton("./image/btn_back.png", 150, 150, 100, 100, lambda: game_actions.go_back(game_data), sound=game_data['sounds'].get('button'))],
+        "info": [ImageButton("./image/btn_exit.png", screen_width - 150, 150, 100, 100, lambda: game_actions.go_back(game_data), sound=game_data['sounds'].get('button'))],
+        "end": [ImageButton("./image/btn_exit.png", screen_width - 150, 150, 100, 100, lambda: game_actions.go_back(game_data), sound=game_data['sounds'].get('button'))]
     }
 
-    loop_counter = 0
     # ==========================
-    # 메인 루프 (사용자 요청 버전)
+    # 메인 루프
     # ==========================
     running = True
     while running:
+        # 이벤트 처리
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE): running = False
-            if not (fading_in or fading_out):
-                for button in buttons.get(screen_state["current"], []): button.handle_event(event)
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                running = False
+            if not (game_data['fading_in'] or game_data['fading_out']):
+                for button in buttons.get(game_data['screen_state']["current"], []):
+                    button.handle_event(event)
+        
+        if not (game_data['fading_in'] or game_data['fading_out']):
+            for button in buttons.get(game_data['screen_state']["current"], []):
+                button.update()
 
-        if not (fading_in or fading_out):
-            for button in buttons.get(screen_state["current"], []): button.update()
-
-        # 화면 그리기
-        if screen_state["current"] in ["menu", "game"]:
-            ret, frame = assets['main_video'].read()
-            if not ret: assets['main_video'].set(cv2.CAP_PROP_POS_FRAMES, 0); ret, frame = assets['main_video'].read()
+        # 화면 상태에 따른 그리기
+        current_screen = game_data['screen_state']['current']
+        
+        if current_screen in ["menu", "game"]:
+            video = game_data['videos']['menu_bg']
+            ret, frame = video.read()
+            if not ret: video.set(cv2.CAP_PROP_POS_FRAMES, 0); ret, frame = video.read()
             if ret:
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB); frame = cv2.resize(frame, (screen_width, screen_height))
                 screen.blit(pygame.surfarray.make_surface(frame.swapaxes(0, 1)), (0, 0))
+            if current_screen == "game":
+                text_surf = game_data['fonts']['default'].render("플레이어 수를 선택하세요", True, WHITE)
+                screen.blit(text_surf, (screen_width//2 - text_surf.get_width()//2, screen_height//2 - 200))
+        
+        elif current_screen in ["webcam_view", "multi"]:
+            game_actions.handle_game_logic(game_data)
 
-        if screen_state["current"] == "game":
-            text_surf = font.render("플레이어 수를 선택하세요", True, WHITE)
-            screen.blit(text_surf, (screen_width//2 - text_surf.get_width()//2, screen_height//2 - 200))
-
-        elif screen_state["current"] == "webcam_view" or screen_state["current"] == "multi":
-            # 분리된 함수 호출 (모든 필요한 인자 전달)
-            game_logic.handle_game_logic(screen, screen_state, assets, cap, ser, start_transition, loop_counter)
-
-        elif screen_state["current"] == "info":
-            screen.blit(assets['info_bg'], (0, 0))
-            title_surf = title_font.render("게임 방법", True, WHITE)
+        elif current_screen == "info":
+            screen.blit(game_data['images']['info_bg'], (0, 0))
+            title_surf = game_data['fonts']['title'].render("게임 방법", True, WHITE)
             screen.blit(title_surf, (screen_width / 2 - title_surf.get_width() / 2, 150))
             text_lines_1p = ["[1인 플레이]", "1. 5초의 카운트 다운이 시작됩니다.", "2. 카메라에 비치는 빨간색", "   물체를 인식합니다.", "3. 5개의 영역 중 하나를 선택합니다.", "4. 공을 막으면 성공!"]
-            text_lines_2p = ["[2인 플레이]", "1. COM과 번갈아가며 공격과", "   수비를 합니다.", "2. 5번의 기회가 주어집니다.", "3. 더 많은 득점을 한 플레이어가", "   승리합니다."] # 사용자 요청 텍스트
-            x_offset_1p, x_offset_2p, y_start = screen_width / 4 - 150, screen_width * 3 / 4 - 300, 400
-            for i, line in enumerate(text_lines_1p): screen.blit(description_font.render(line, True, WHITE), (x_offset_1p, y_start + i*75))
-            for i, line in enumerate(text_lines_2p): screen.blit(description_font.render(line, True, WHITE), (x_offset_2p, y_start + i*75))
-
-        elif screen_state["current"] == "end":
-            end_video = screen_state.get('end_video_to_play')
+            text_lines_2p = ["[2인 플레이]", "1. 플레이어는 공격수가 되어", "   몸으로 방향을 정합니다.", "2. 골키퍼(Basys3)는 스위치로", "   막을 방향을 정합니다.", "3. 더 많은 득점을 한 플레이어가", "   승리합니다."]
+            x1, x2, y_start = screen_width / 4 - 150, screen_width * 3 / 4 - 300, 400
+            desc_font = game_data['fonts']['description']
+            for i, line in enumerate(text_lines_1p): screen.blit(desc_font.render(line, True, WHITE), (x1, y_start + i*75))
+            for i, line in enumerate(text_lines_2p): screen.blit(desc_font.render(line, True, WHITE), (x2, y_start + i*75))
+            
+        elif current_screen == "end":
+            end_video = game_data['videos'].get('end_video')
             if end_video:
                 ret, frame = end_video.read()
                 if not ret: end_video.set(cv2.CAP_PROP_POS_FRAMES, 0); ret, frame = end_video.read()
@@ -174,40 +153,38 @@ def main():
                     screen.blit(pygame.surfarray.make_surface(frame.swapaxes(0, 1)), (0, 0))
             else:
                 screen.fill(BLACK)
+                end_text = game_data['fonts']['title'].render("GAME OVER", True, WHITE)
+                screen.blit(end_text, end_text.get_rect(center=(screen_width/2, screen_height/2)))
+        
+        for button in buttons.get(current_screen, []):
+            button.draw(screen)
+
+        # 화면 전환 효과
+        if game_data['fading_out'] or game_data['fading_in']:
+            if game_data['fading_out']: game_data['transition_alpha'] += game_data['transition_speed']
+            else: game_data['transition_alpha'] -= game_data['transition_speed']
             
-            # 랭크, 점수 등 표시
-            rank_surf = assets['rank_font'].render(screen_state['final_rank'], True, GOLD_COLOR)
-            screen.blit(rank_surf, rank_surf.get_rect(center=(screen_width/2, screen_height/2 - 150)))
-            score_surf = assets['score_font'].render(f"FINAL SCORE: {screen_state['score']}", True, WHITE)
-            screen.blit(score_surf, score_surf.get_rect(center=(screen_width/2, screen_height/2)))
-            highscore_surf = assets['score_font'].render(f"HIGH SCORE: {screen_state['highscore']}", True, GOLD_COLOR)
-            screen.blit(highscore_surf, highscore_surf.get_rect(center=(screen_width/2, screen_height/2 + 80)))
-
-
-        for button in buttons.get(screen_state["current"], []): button.draw(screen)
-
-        # 화면 전환 효과 (사용자 요청 버전)
-        if fading_out:
-            transition_alpha += transition_speed
-            if transition_alpha >= 255:
-                transition_alpha = 255; fading_out = False; fading_in = True
-                screen_state["current"] = transition_target; transition_target = None
-            transition_surface.set_alpha(transition_alpha); screen.blit(transition_surface, (0, 0))
-        elif fading_in:
-            transition_alpha -= transition_speed
-            if transition_alpha <= 0:
-                transition_alpha = 0; fading_in = False
-            transition_surface.set_alpha(transition_alpha); screen.blit(transition_surface, (0, 0))
+            game_data['transition_alpha'] = max(0, min(255, game_data['transition_alpha']))
+            
+            if game_data['transition_alpha'] == 255:
+                game_data.update({'fading_out': False, 'fading_in': True})
+                game_data['screen_state']["current"] = game_data['transition_target']
+                game_data['transition_target'] = None
+            elif game_data['transition_alpha'] == 0:
+                game_data['fading_in'] = False
+                
+            game_data['transition_surface'].set_alpha(game_data['transition_alpha'])
+            screen.blit(game_data['transition_surface'], (0, 0))
 
         pygame.display.flip()
-        clock.tick(60)
-        loop_counter += 1
+        game_data['clock'].tick(60)
+        game_data['loop_counter'] += 1
 
-    # 리소스 해제
-    if cap: cap.release()
-    for key, val in assets.items():
-        if isinstance(val, cv2.VideoCapture): val.release()
-    if ser and ser.is_open: ser.close()
+    # 종료 시 리소스 해제
+    for video in game_data['videos'].values():
+        if video: video.release()
+    if game_data['ser'] and game_data['ser'].is_open:
+        game_data['ser'].close()
     pygame.quit()
     sys.exit()
 
