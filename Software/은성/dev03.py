@@ -169,19 +169,23 @@ def main():
     # [추가] test_ver15_3의 재시작/메뉴 이동 함수
     def restart_game():
         reset_game_state(full_reset=True)
-        start_new_round()
-        target_screen = "webcam_view" if game_mode["mode"] == "single" else "multi"
-        start_transition(target_screen)
+        start_transition("game")
 
     def go_to_menu():
         reset_game_state(full_reset=True)
         start_transition("menu")
 
+    # [수정] 모드를 선택하면 해당 게임을 바로 시작하는 함수
     def set_game_mode(mode):
         nonlocal game_mode
         if siu_sound: siu_sound.play()
         game_mode["mode"] = mode
-        restart_game() # [수정] restart_game 함수로 통합하여 코드 간소화
+        
+        # 게임 시작에 필요한 로직을 이 함수에 직접 포함
+        reset_game_state(full_reset=True)
+        start_new_round() # 라운드를 시작하고 카운트다운을 개시
+        target_screen = "webcam_view" if game_mode["mode"] == "single" else "multi"
+        start_transition(target_screen)
 
     # [수정] 버튼 설정 변경
     game_mode = {"mode": None}
