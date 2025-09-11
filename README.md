@@ -29,6 +29,10 @@ FAILURE! Player: None, Ball: 2
 수신된 데이터가 유효하지 않습니다:
 **뭔가 되는 것 같긴함**
 ```
+```
+dev11.py
+- 게임 시작 버튼 없애고 키보드 입력으로 게임시작하도록 수정함
+```
 
 🚀 [TodaysUpdate](./TodaysUpdate)
 
