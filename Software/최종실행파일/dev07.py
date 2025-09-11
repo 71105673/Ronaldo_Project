@@ -323,14 +323,34 @@ def main():
             text_2p = ["[2인 플레이]", "1. 공격수(카메라)와 골키퍼(Basys3)로 나뉩니다.", "2. 공격수는 몸으로 찰 방향을 정합니다.", "3. 골키퍼는 스위치로 막을 방향을 정합니다.", "4. 5번의 기회 후 더 많은 득점을 한 쪽이 승리합니다."]
             for i, line in enumerate(text_1p): screen.blit(description_font.render(line, True, WHITE), (screen_width/4 - 150, 400 + i*75))
             for i, line in enumerate(text_2p): screen.blit(description_font.render(line, True, WHITE), (screen_width*3/4 - 300, 400 + i*75))
-        
+
+        # [수정] defeat.gif 속도 조절 및 화면 깜빡임 방지 로직
         elif screen_state["current"] == "end":
             if end_video_to_play:
-                ret, frame = end_video_to_play.read()
-                if not ret: end_video_to_play.set(cv2.CAP_PROP_POS_FRAMES, 0); ret, frame = end_video_to_play.read()
-                if ret:
-                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB); frame = cv2.resize(frame, (screen_width, screen_height))
-                    screen.blit(pygame.surfarray.make_surface(frame.swapaxes(0, 1)), (0, 0))
+                read_new_frame = True
+                # defeat_video일 경우 2프레임 당 1번만 새 프레임을 읽음 (속도 1/2)
+                # 이 숫자를 3으로 바꾸면 1/3 속도가 됩니다.
+                if end_video_to_play == defeat_video:
+                    if loop_counter % 2 != 0:
+                        read_new_frame = False
+
+                if read_new_frame:
+                    ret, frame = end_video_to_play.read()
+                    if not ret:
+                        end_video_to_play.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                        ret, frame = end_video_to_play.read()
+                    
+                    # 프레임을 성공적으로 읽었을 때만 last_end_frame을 업데이트
+                    if ret:
+                        last_end_frame = frame
+                
+                # 항상 마지막으로 성공한 프레임을 화면에 그림 (깜빡임 방지)
+                if last_end_frame is not None:
+                    frame_rgb = cv2.cvtColor(last_end_frame, cv2.COLOR_BGR2RGB)
+                    frame_resized = cv2.resize(frame_rgb, (screen_width, screen_height))
+                    video_surface = pygame.surfarray.make_surface(frame_resized.swapaxes(0, 1))
+                    screen.blit(video_surface, (0, 0))
+
             else:
                 screen.fill(BLACK)
             
