@@ -357,6 +357,7 @@ def main():
                         last_end_frame = frame
                 
                 if last_end_frame is not None:
+                    
                     frame_rgb = cv2.cvtColor(last_end_frame, cv2.COLOR_BGR2RGB)
                     frame_resized = cv2.resize(frame_rgb, (screen_width, screen_height))
                     video_surface = pygame.surfarray.make_surface(frame_resized.swapaxes(0, 1))

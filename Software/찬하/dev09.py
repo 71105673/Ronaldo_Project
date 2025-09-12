@@ -93,7 +93,7 @@ def main():
     countdown_start_time, selected_grid_col, final_selected_col, ball_col = None, None, None, None
     is_failure, is_success, result_display_time, gif_start_time = False, False, None, None
     uart_ball_col = None
-    waiting_for_start = False 
+    waiting_for_start = False
 
     # 화면 전환 변수
     transition_surface = pygame.Surface((screen_width, screen_height)); transition_surface.fill(BLACK)
@@ -101,7 +101,7 @@ def main():
     fading_out, fading_in = False, False
 
     # 웹캠 초기화
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened(): print("오류: 웹캠을 열 수 없습니다."); cap = None
 
     # 시리얼 포트 초기화
