@@ -85,7 +85,7 @@ def main():
 
     # 리소스 로드
     resources = {
-        "cap": cv2.VideoCapture(0),
+        "cap": cv2.VideoCapture(1),
         "ser": None,
         "sounds": {},
         "images": {},
@@ -103,7 +103,7 @@ def main():
         resources["cap"] = None
 
     try:
-        resources["ser"] = serial.Serial('COM11', 9600, timeout=0)
+        resources["ser"] = serial.Serial('COM13', 9600, timeout=0)
         print("Basys3 보드가 성공적으로 연결되었습니다.")
     except serial.SerialException as e:
         print(f"오류: 시리얼 포트를 열 수 없습니다 - {e}")
