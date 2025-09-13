@@ -109,7 +109,7 @@ def main():
         "cap": cv2.VideoCapture(1), "ser": None, "sounds": {}, "images": {}, "videos": {}
     }
     try:
-        resources["ser"] = serial.Serial('COM13', 9600, timeout=0)
+        resources["ser"] = serial.Serial('COM11', 9600, timeout=0)
         print("Basys3 보드가 성공적으로 연결되었습니다.")
     except serial.SerialException as e:
         print(f"오류: 시리얼 포트를 열 수 없습니다 - {e}")
@@ -228,19 +228,15 @@ def main():
                 frame_vid_rgb = cv2.cvtColor(frame_vid, cv2.COLOR_BGR2RGB)
                 frame_vid_resized = cv2.resize(frame_vid_rgb, (new_w, new_h))
                 screen.blit(pygame.surfarray.make_surface(frame_vid_resized.swapaxes(0, 1)), (pos_x, pos_y))
-        
         ret_cam, frame_cam = resources["cap"].read()
         if not ret_cam: return
-        
         frame_cam = cv2.flip(frame_cam, 1)
         frame_cam_rgb = cv2.cvtColor(frame_cam, cv2.COLOR_BGR2RGB)
         frame_cam_resized = cv2.resize(frame_cam_rgb, (sub_monitor_width, screen_height))
         screen.blit(pygame.surfarray.make_surface(frame_cam_resized.swapaxes(0, 1)), (main_monitor_width, 0))
-        
         cell_w = sub_monitor_width / 5
         for i in range(1, 5):
             pygame.draw.line(screen, GRID_COLOR, (main_monitor_width + i * cell_w, 0), (main_monitor_width + i * cell_w, screen_height), 2)
-        
         if game_state["waiting_for_start"]:
             overlay = pygame.Surface((sub_monitor_width, screen_height), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 128))
@@ -254,8 +250,11 @@ def main():
             elapsed = pygame.time.get_ticks() - game_state["countdown_start"]
             if elapsed < 5000:
                 
-                # --- 멀티플레이 모드일 때만 웹캠으로 골키퍼 조작 ---
+                # [수정] 게임 모드에 따라 입력 방식을 분기
+                
+                # --- 멀티플레이어 모드 ---
                 if game_state['game_mode'] == 'multi':
+                    # 골키퍼 입력 1: 웹캠으로 조준
                     hsv = cv2.cvtColor(frame_cam, cv2.COLOR_BGR2HSV)
                     mask = cv2.inRange(hsv, np.array([0,120,70]), np.array([10,255,255])) + cv2.inRange(hsv, np.array([170,120,70]), np.array([180,255,255]))
                     contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -264,31 +263,40 @@ def main():
                         x, _, w, _ = cv2.boundingRect(largest)
                         game_state["selected_col"] = int((x + w/2) / (frame_cam.shape[1]/5))
                     else:
-                        game_state["selected_col"] = None
+                        game_state["selected_col"] = None # 웹캠 감지 안되면 None으로 초기화
 
-                # --- UART 신호 통합 처리 ---
-                if resources["ser"] and resources["ser"].in_waiting > 0:
-                    try:
-                        uart_bytes = resources["ser"].read(resources["ser"].in_waiting)
-                        if uart_bytes:
-                            # 골키퍼 신호(1-5) 처리
-                            keeper_values = [b for b in uart_bytes if b in [1, 2, 3, 4, 5]]
-                            if keeper_values:
-                                # 좌우 반전 적용 (1 -> 4, 5 -> 0)
-                                game_state["selected_col"] = 5 - keeper_values[-1]
+                    # 골키퍼/공격수 입력: UART (Hex 값 처리)
+                    if resources["ser"] and resources["ser"].in_waiting > 0:
+                        try:
+                            uart_bytes = resources["ser"].read(resources["ser"].in_waiting)
+                            if uart_bytes:
+                                valid_values = [b for b in uart_bytes if b in [1, 2, 3, 4, 5]]
+                                if valid_values:
+                                    last_val = valid_values[-1] - 1
+                                    # [수정] 멀티모드에서 UART 입력은 골키퍼와 공격수 모두에게 적용될 수 있음
+                                    # 여기서는 공격수(ball_col)와 골키퍼(selected_col) 모두 업데이트
+                                    game_state["uart_ball_col"] = last_val
+                                    game_state["selected_col"] = last_val
+                        except Exception as e:
+                            print(f"UART(Multi) 데이터 수신 오류: {e}")
 
-                            # 공격수 신호(6-10) 처리 (멀티플레이 모드에서만 의미 있음)
-                            attacker_values = [b for b in uart_bytes if b in [6, 7, 8, 9, 10]]
-                            if attacker_values:
-                                # 6-10 값을 0-4 인덱스로 변환
-                                game_state["uart_ball_col"] = attacker_values[-1] - 6
-                    except Exception as e:
-                        print(f"UART 데이터 수신 오류: {e}")
+                # --- 싱글플레이어 모드 ---
+                elif game_state['game_mode'] == 'single':
+                    # 골키퍼: UART로만 조준 (Hex 값 처리)
+                    if resources["ser"] and resources["ser"].in_waiting > 0:
+                        try:
+                            uart_bytes = resources["ser"].read(resources["ser"].in_waiting)
+                            if uart_bytes:
+                                valid_values = [b for b in uart_bytes if b in [1, 2, 3, 4, 5]]
+                                if valid_values:
+                                    game_state["selected_col"] = 5 - valid_values[-1]
+                        except Exception as e: 
+                            print(f"UART(Single) 데이터 수신 오류: {e}")
                 
-                # [수정] 골키퍼 위치(`selected_col`)가 정해졌을 때만 그리드 표시
+                # [수정] 실시간 테두리 표시는 UART 입력이 있었을 때만 (모든 모드 공통)
                 if game_state["selected_col"] is not None:
                     pygame.draw.rect(screen, GOLD_COLOR, 
-                                     (main_monitor_width + game_state["selected_col"] * cell_w, 0, cell_w, screen_height), 6)
+                                        (main_monitor_width + game_state["selected_col"] * cell_w, 0, cell_w, screen_height), 10)
 
                 # 카운트다운 숫자 표시
                 num_str = str(5 - (elapsed // 1000))
