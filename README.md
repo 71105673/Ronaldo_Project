@@ -28,7 +28,7 @@ SW - Grid 생성을 H/W Uart에서 데이터를 받아 로직 변경 -> S/W 에�
 dev11.py
 - 게임 시작 버튼 없애고 키보드 입력으로 게임시작하도록 수정함
 ```
-![alt text](../image/uart.jpg)
+![alt text](./image/uart.jpg)
 🚀 [TodaysUpdate](./TodaysUpdate)
 
 
