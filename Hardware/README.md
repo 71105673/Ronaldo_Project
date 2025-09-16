@@ -179,8 +179,9 @@ endmodule
 이거 지금 우리 Grenn Filter의 MAX MIN 값 설정 안되어서 FAIL나오는듯 설정하면 ㄱㅊ아짐
 
 # UVM -> Flesh Color Filter
-<img width="305" height="455" alt="image" src="https://github.com/user-attachments/assets/64196045-54a3-4246-bca1-835f2a0aab8f" />
-<img width="392" height="66" alt="image" src="https://github.com/user-attachments/assets/2febc737-6e1a-4abb-882c-a5218a7b6216" />
+<img width="374" height="400" alt="image" src="https://github.com/user-attachments/assets/807eefcc-2194-43ed-b501-97b58b426c31" />
+<img width="466" height="506" alt="image" src="https://github.com/user-attachments/assets/d38532b6-2063-4320-adce-a263f28449ea" />
+
 
 # UVM -> Sobel Filter
 <img width="314" height="512" alt="image" src="https://github.com/user-attachments/assets/1156278d-b6f2-4368-ba13-a0049ffaf339" />
