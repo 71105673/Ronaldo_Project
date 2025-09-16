@@ -62,11 +62,44 @@ class PenaltyKickGame:
         except Exception as e:
             print(f"Mixer 초기화 실패: {e}")
 
+        # 1. 설정값 중앙 관리 (Data-Driven Design)
+        self.CONFIG = {
+            "screen": {"pos": "0,0"},
+            "colors": {
+                'BLACK': (0, 0, 0), 'WHITE': (255, 255, 255), 'GRID': (0, 255, 0),
+                'RED': (255, 0, 0), 'HIGHLIGHT': (255, 0, 0, 100), 'GOLD': (255, 215, 0)
+            },
+            "paths": {
+                "font_main": "../fonts/netmarbleM.ttf",
+                "font_bold": "../fonts/netmarbleB.ttf",
+                "img_ball": "../image/final_ronaldo/Ball.png",
+                "img_info_bg": "../image/info/info_back2.jpg",
+                "sound_button": "../sound/button_click.wav",
+                "sound_siu": "../sound/SIUUUUU.wav",
+                "sound_success": "../sound/야유.mp3",
+                "vid_failure": "../image/son.mp4",
+                "vid_success": "../image/final_ronaldo/pk.gif",
+                "vid_victory": "../image/victory.gif",
+                "vid_defeat": "../image/defeat.gif",
+                "vid_menu_bg": "../image/game_thumbnail.mp4",
+                "vid_bg": "../image/shoot.gif"
+            },
+            "serial": {
+                "goalkeeper_port": "COM17",
+                "attacker_port": "COM13",
+                "baudrate": 9600
+            },
+            "camera_indices": {
+                "goalkeeper": 2,
+                "attacker": 1
+            }
+        }
+        self.COLORS = self.CONFIG['colors']
+
         self._setup_screen()
-        self._define_constants()
         
         self.state = {}
-        self.resources = {"sounds": {}, "images": {}, "videos": {}, "last_cam_frame": None, "last_cam2_frame": None}
+        self.resources = {"sounds": {}, "images": {}, "videos": {}, "gif_frames": {}, "cached_surfaces": {}}
         
         self._load_fonts()
         self._load_images()
@@ -74,6 +107,7 @@ class PenaltyKickGame:
         self._load_videos()
         self._connect_hardware()
         self._create_buttons()
+        self._cache_static_surfaces()
         
         self._reset_game_state(full_reset=True, initial_screen="menu")
 
@@ -81,34 +115,9 @@ class PenaltyKickGame:
         self.is_running = True
         self.transition_surface = pygame.Surface((self.screen_width, self.screen_height))
         self.transition_surface.fill(self.COLORS['BLACK'])
-        self.gif_frame = None
-
-    def _load_gif_frames(self, video_path, size):
-        """비디오 파일의 모든 프레임을 Pygame Surface 객체로 미리 변환하여 리스트로 반환합니다."""
-        frames = []
-        cap = cv2.VideoCapture(video_path)
-        if not cap.isOpened():
-            print(f"경고: 비디오 파일을 열 수 없습니다: {video_path}")
-            return frames
-
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-            
-            # 모든 변환 작업을 여기서 미리 수행합니다.
-            frame_resized = cv2.resize(frame, size, interpolation=cv2.INTER_AREA)
-            frame_rgb = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
-            # OpenCV 이미지는 수직으로 뒤집혀 있으므로 swapaxes로 축을 바꿔줍니다.
-            frame_pygame = pygame.surfarray.make_surface(frame_rgb.swapaxes(0, 1))
-            frames.append(frame_pygame)
-        
-        cap.release()
-        print(f"{video_path}에서 {len(frames)}개의 프레임을 로드했습니다.")
-        return frames
 
     # ---------------------------------------------------------- #
-    # 1. 초기 설정 메서드들
+    # 1. 초기 설정 및 로딩 메서드들
     # ---------------------------------------------------------- #
     def _setup_screen(self):
         """모니터 해상도를 감지하고 Pygame 화면 및 레이아웃을 설정합니다."""
@@ -120,14 +129,13 @@ class PenaltyKickGame:
             info = pygame.display.Info()
             total_width, max_height = info.current_w, info.current_h
 
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
+        os.environ['SDL_VIDEO_WINDOW_POS'] = self.CONFIG['screen']['pos']
         self.screen = pygame.display.set_mode((total_width, max_height), pygame.NOFRAME)
         pygame.display.set_caption("Penalty Kick Challenge")
 
         self.screen_width = self.screen.get_width()
         self.screen_height = self.screen.get_height()
         
-        # 원본 코드 레이아웃: 왼쪽(공격수) | 중앙(메인) | 오른쪽(골키퍼)
         self.goalkeeper_monitor_width = self.screen_width // 3 
         self.main_monitor_width = self.screen_width // 3
         self.attacker_monitor_width = self.screen_width - self.goalkeeper_monitor_width - self.main_monitor_width
@@ -140,65 +148,55 @@ class PenaltyKickGame:
         self.main_monitor_center_x = self.main_start_x + (self.main_monitor_width // 2)
         self.attacker_monitor_center_x = self.attacker_start_x + (self.attacker_monitor_width // 2)
 
-    def _define_constants(self):
-        """색상 등 상수를 정의합니다."""
-        self.COLORS = {
-            'BLACK': (0, 0, 0), 'WHITE': (255, 255, 255), 'GRID': (0, 255, 0),
-            'RED': (255, 0, 0), 'HIGHLIGHT': (255, 0, 0, 100), 'GOLD': (255, 215, 0)
-        }
-    
     def _load_fonts(self):
         """폰트 파일을 로드합니다."""
         def load_font_safe(path, size, default_size):
             try: return pygame.font.Font(path, size)
             except: return pygame.font.Font(None, default_size)
+        
+        paths = self.CONFIG['paths']
         self.fonts = {
-            'font': load_font_safe("../fonts/netmarbleM.ttf", 40, 50),
-            'small_font': load_font_safe("../fonts/netmarbleM.ttf", 30, 40),
-            'description_font': load_font_safe("../fonts/netmarbleM.ttf", 50, 60),
-            'title_font': load_font_safe("../fonts/netmarbleB.ttf", 120, 130),
-            'countdown_font': load_font_safe("../fonts/netmarbleM.ttf", 200, 250),
-            'score_font': load_font_safe("../fonts/netmarbleB.ttf", 60, 70),
-            'rank_font': load_font_safe("../fonts/netmarbleB.ttf", 100, 110)
+            'font': load_font_safe(paths['font_main'], 40, 50),
+            'small_font': load_font_safe(paths['font_main'], 30, 40),
+            'description_font': load_font_safe(paths['font_main'], 50, 60),
+            'title_font': load_font_safe(paths['font_bold'], 120, 130),
+            'countdown_font': load_font_safe(paths['font_main'], 200, 250),
+            'score_font': load_font_safe(paths['font_bold'], 60, 70),
+            'rank_font': load_font_safe(paths['font_bold'], 100, 110)
         }
 
     def _load_images(self):
         try:
-            ball_img = pygame.image.load("../image/final_ronaldo/Ball.png").convert_alpha()
+            paths = self.CONFIG['paths']
+            ball_img = pygame.image.load(paths['img_ball']).convert_alpha()
             self.resources["images"]["scoreboard_ball"] = pygame.transform.scale(ball_img, (80, 80))
             self.resources["images"]["ball"] = pygame.transform.scale(ball_img, (200, 200))
-            self.resources["images"]["info_bg"] = pygame.transform.scale(pygame.image.load("../image/info/info_back2.jpg").convert(), (self.screen_width, self.screen_height))
+            self.resources["images"]["info_bg"] = pygame.transform.scale(pygame.image.load(paths['img_info_bg']).convert(), (self.screen_width, self.screen_height))
         except Exception as e:
             print(f"이미지 로딩 오류: {e}")
     
     def _load_sounds(self):
         try:
-            self.resources["sounds"]["button"] = pygame.mixer.Sound("../sound/button_click.wav")
-            self.resources["sounds"]["siu"] = pygame.mixer.Sound("../sound/SIUUUUU.wav")
-            self.resources["sounds"]["success"] = pygame.mixer.Sound("../sound/야유.mp3")
+            paths = self.CONFIG['paths']
+            self.resources["sounds"]["button"] = pygame.mixer.Sound(paths['sound_button'])
+            self.resources["sounds"]["siu"] = pygame.mixer.Sound(paths['sound_siu'])
+            self.resources["sounds"]["success"] = pygame.mixer.Sound(paths['sound_success'])
             self.resources["sounds"]["failed"] = self.resources["sounds"]["siu"]
         except Exception as e:
             print(f"사운드 로딩 오류: {e}")
 
     def _load_videos(self):
-        # 기존 비디오 로딩
+        paths = self.CONFIG['paths']
         self.resources["videos"] = {
-            "failure_gif": cv2.VideoCapture("../image/son.mp4"),
-            "success_gif": cv2.VideoCapture("../image/final_ronaldo/pk.gif"),
-            "victory": cv2.VideoCapture("../image/victory.gif"),
-            "defeat": cv2.VideoCapture("../image/defeat.gif"),
-            "menu_bg": cv2.VideoCapture("../image/game_thumbnail.mp4"),
-            "attacker_win": cv2.VideoCapture("../image/final_ronaldo/attacker_win.gif"),
-            "goalkeeper_win": cv2.VideoCapture("../image/final_ronaldo/goalkeeper_win.gif"),
-            "bg_video": cv2.VideoCapture("../image/shoot.gif")
+            "victory": cv2.VideoCapture(paths['vid_victory']),
+            "defeat": cv2.VideoCapture(paths['vid_defeat']),
+            "menu_bg": cv2.VideoCapture(paths['vid_menu_bg']),
+            "bg_video": cv2.VideoCapture(paths['vid_bg'])
         }
         
-        # *** GIF 프레임 미리 로딩 ***
         gif_size = (self.main_monitor_width, self.screen_height)
-        self.resources['gif_frames'] = {
-            'success': self._load_gif_frames("../image/final_ronaldo/pk.gif", gif_size),
-            'failure': self._load_gif_frames("../image/son.mp4", gif_size)
-        }
+        self.resources['gif_frames']['success'] = self._load_gif_frames(paths['vid_success'], gif_size)
+        self.resources['gif_frames']['failure'] = self._load_gif_frames(paths['vid_failure'], gif_size)
 
         bg_video = self.resources["videos"]["bg_video"]
         if bg_video and bg_video.isOpened():
@@ -209,26 +207,49 @@ class PenaltyKickGame:
         else:
             self.resources["videos"]["bg_video"] = None
 
+    def _load_gif_frames(self, video_path, size):
+        """비디오 파일의 모든 프레임을 Pygame Surface 객체로 미리 변환합니다."""
+        frames = []
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            print(f"경고: 비디오 파일을 열 수 없습니다: {video_path}")
+            return frames
+        while True:
+            ret, frame = cap.read()
+            if not ret: break
+            
+            frame_resized = cv2.resize(frame, size, interpolation=cv2.INTER_AREA)
+            frame_rgb = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
+            frame_pygame = pygame.surfarray.make_surface(frame_rgb.swapaxes(0, 1))
+            frames.append(frame_pygame)
+        
+        cap.release()
+        print(f"{video_path}에서 {len(frames)}개의 프레임을 로드했습니다.")
+        return frames
+
     def _connect_hardware(self):
         """카메라와 시리얼 포트를 연결합니다."""
-        self.resources['cap_goalkeeper'] = cv2.VideoCapture(2)
-        self.resources['cap_attacker'] = cv2.VideoCapture(1)
+        indices = self.CONFIG['camera_indices']
+        serial_conf = self.CONFIG['serial']
+        
+        self.resources['cap_goalkeeper'] = cv2.VideoCapture(indices['goalkeeper'])
+        self.resources['cap_attacker'] = cv2.VideoCapture(indices['attacker'])
         if not self.resources['cap_attacker'].isOpened():
-            print("경고: 카메라 1(공격수용)를 열 수 없습니다.")
+            print(f"경고: 카메라 {indices['attacker']}(공격수용)를 열 수 없습니다.")
         
         try:
-            self.resources["ser_goalkeeper"] = serial.Serial('COM17', 9600, timeout=0)
-            print("골키퍼 보드(COM17)가 성공적으로 연결되었습니다.")
+            self.resources["ser_goalkeeper"] = serial.Serial(serial_conf['goalkeeper_port'], serial_conf['baudrate'], timeout=0)
+            print(f"골키퍼 보드({serial_conf['goalkeeper_port']})가 성공적으로 연결되었습니다.")
         except serial.SerialException as e:
             self.resources["ser_goalkeeper"] = None
-            print(f"오류: 골키퍼 보드(COM17)를 열 수 없습니다 - {e}")
+            print(f"오류: 골키퍼 보드({serial_conf['goalkeeper_port']}) - {e}")
 
         try:
-            self.resources["ser_attacker"] = serial.Serial('COM13', 9600, timeout=0)
-            print("공격수 보드(COM13)가 성공적으로 연결되었습니다.")
+            self.resources["ser_attacker"] = serial.Serial(serial_conf['attacker_port'], serial_conf['baudrate'], timeout=0)
+            print(f"공격수 보드({serial_conf['attacker_port']})가 성공적으로 연결되었습니다.")
         except serial.SerialException as e:
             self.resources["ser_attacker"] = None
-            print(f"오류: 공격수 보드(COM13)를 열 수 없습니다 - {e}")
+            print(f"오류: 공격수 보드({serial_conf['attacker_port']}) - {e}")
     
     def _create_buttons(self):
         """게임 화면별 버튼들을 생성합니다."""
@@ -245,9 +266,15 @@ class PenaltyKickGame:
                     ImageButton("../image/btn_main_menu.png", self.main_monitor_center_x + 300, self.screen_height - 250, 400, 250, self._go_to_menu, sound=sound)]
         }
 
-    # ---------------------------------------------------------- #
-    # 2. 게임 상태 관리 메서드
-    # ---------------------------------------------------------- #
+    def _cache_static_surfaces(self):
+        """변하지 않는 UI 요소들을 미리 Surface 객체로 만들어 캐싱합니다."""
+        overlay = pygame.Surface((self.goalkeeper_monitor_width, self.screen_height), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 100))
+        self.resources['cached_surfaces']['player_overlay'] = overlay
+        
+        chances_text = self.fonts['font'].render("CHANCES", True, self.COLORS['WHITE'])
+        self.resources['cached_surfaces']['chances_text'] = chances_text
+
     def _reset_game_state(self, full_reset=True, initial_screen=""):
         """게임 상태를 초기화합니다."""
         round_reset_state = {
