@@ -153,7 +153,7 @@ def main():
         "synthesized_frames": [],                  # 합성된 GIF 프레임들을 저장하는 리스트
         "synthesized_frame_index": 0,              # 합성된 GIF의 현재 프레임 인덱스
         "synthesized_last_update": 0,              # 합성된 GIF의 마지막 업데이트 시간
-        "synthesis_info": None,                    # 합성에 필요한 정보(얼굴, GIF 경로) 임시 저장
+        "synthesis_info": None                     # 합성에 필요한 정보(얼굴, GIF 경로) 임시 저장
     }
 
     # 화면 전환 효과에 사용될 Surface 및 변수
@@ -197,7 +197,7 @@ def main():
         resources["sounds"]["button"] = pygame.mixer.Sound("../sound/button_click.wav")
         resources["sounds"]["siu"] = pygame.mixer.Sound("../sound/SIUUUUU.wav")
         resources["sounds"]["success"] = pygame.mixer.Sound("../sound/야유.mp3")
-        #resources["sounds"]["bg_thumbnail"] = pygame.mixer.Sound("../sound/bg_thumbnail.mp3")
+        resources["sounds"]["bg_thumbnail"] = pygame.mixer.Sound("../sound/Time_Bomb.mp3")
         resources["sounds"]["failed"] = resources["sounds"]["siu"]
     except: pass
     try:
@@ -206,6 +206,9 @@ def main():
         resources["images"]["ball"] = pygame.transform.scale(ball_img, (200, 200))
         resources["images"]["info_bg"] = pygame.transform.scale(pygame.image.load("../image/info/info_back2.jpg").convert(), (screen_width, screen_height))
     except: pass
+
+    if resources["sounds"].get("bg_thumbnail"):
+        resources["sounds"]["bg_thumbnail"].play(-1)
     
     # 게임 결과에 따른 GIF 프레임 미리 로딩
     resources["gif_frames"] = {
@@ -214,6 +217,7 @@ def main():
     }
     
     # 배경 비디오 파일 로딩
+    resources["videos"]["lose"] = cv2.VideoCapture("../image/lose_keeper.gif")
     resources["videos"]["victory"] = cv2.VideoCapture("../image/victory.gif")
     resources["videos"]["defeat"] = cv2.VideoCapture("../image/defeat.gif")
     resources["videos"]["game_bg"] = cv2.VideoCapture("../image/Ground1.mp4")
@@ -783,13 +787,17 @@ def main():
                             game_state["highscore"] = game_state["score"]
                             save_highscore(game_state["score"])
                         score = game_state["score"]
-                        if score == 5: game_state.update({"final_rank": "THE WALL", "end_video": resources["videos"]["victory"]})
-                        elif score >= 3: game_state.update({"final_rank": "Pro Keeper", "end_video": resources["videos"]["victory"]})
-                        elif score >= 1: game_state.update({"final_rank": "Rookie Keeper", "end_video": resources["videos"]["defeat"]})
-                        else: game_state.update({"final_rank": "Human Sieve", "end_video": resources["videos"]["defeat"]})
+                        if score >= 3: 
+                            game_state.update({"final_rank": "Pro Keeper", "end_video": resources["videos"]["victory"]})
+                            gif_path = "../image/final_ronaldo/goalkeeper_win.gif"
+                        elif score >= 1: 
+                            game_state.update({"final_rank": "Rookie Keeper", "end_video": resources["videos"]["defeat"]})
+                            gif_path = "../image/lose_keeper.gif"
+                        else: 
+                            game_state.update({"final_rank": "Human Sieve", "end_video": resources["videos"]["defeat"]})
+                            gif_path = "../image/lose_keeper.gif"
                         
                         face_path = game_state["captured_goalkeeper_face_filename"]
-                        gif_path = "../image/final_ronaldo/goalkeeper_win.gif"
                         monitor_size = (goalkeeper_monitor_width, screen_height)
 
                     # 합성할 정보가 있다면 '합성 중' 화면으로 전환

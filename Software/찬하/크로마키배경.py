@@ -6,7 +6,7 @@ def nothing(x):
     pass
 
 # 웹캠 열기
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 if not cap.isOpened():
     print("오류: 웹캠을 열 수 없습니다.")
     exit()
@@ -30,6 +30,7 @@ cv2.createTrackbar('H_lower', 'Chroma Key Settings', 40, 179, nothing)
 cv2.createTrackbar('H_upper', 'Chroma Key Settings', 80, 179, nothing)
 cv2.createTrackbar('S_lower', 'Chroma Key Settings', 70, 255, nothing)
 cv2.createTrackbar('V_lower', 'Chroma Key Settings', 50, 255, nothing)
+
 # ★★★ 1. 테두리 보정 강도 조절용 트랙바 추가 ★★★
 cv2.createTrackbar('Spill_Strength', 'Chroma Key Settings', 50, 100, nothing)
 
