@@ -673,8 +673,8 @@ def main():
         
         if game_state["game_mode"] == "multi":
             score_str = f"{game_state['score']} : {game_state['attacker_score']}"
-            goalkeeper_text, attacker_text = score_font.render("Goalkeeper", True, WHITE), score_font.render("Attacker", True, WHITE)
-            score_surf = score_font.render(score_str, True, WHITE)
+            goalkeeper_text, attacker_text = score_font.render("Goalkeeper", True, BLACK), score_font.render("Attacker", True, BLACK)
+            score_surf = score_font.render(score_str, True, BLACK)
             
             total_width = goalkeeper_text.get_width() + score_surf.get_width() + attacker_text.get_width() + 100
             start_x = main_monitor_center_x - total_width / 2
@@ -683,7 +683,7 @@ def main():
             screen.blit(score_surf, (start_x + goalkeeper_text.get_width() + 50, score_y_pos))
             screen.blit(attacker_text, (start_x + goalkeeper_text.get_width() + score_surf.get_width() + 100, score_y_pos))
         else:
-            score_surf = score_font.render(f"FINAL SCORE: {game_state['score']}", True, WHITE)
+            score_surf = score_font.render(f"FINAL SCORE: {game_state['score']}", True, BLACK)
             screen.blit(score_surf, score_surf.get_rect(center=(main_monitor_center_x, score_y_pos)))
             
             highscore_surf = score_font.render(f"HIGH SCORE: {game_state['highscore']}", True, GOLD_COLOR)
@@ -792,10 +792,11 @@ def main():
                             gif_path = "../image/final_ronaldo/goalkeeper_win.gif"
                         elif score >= 1: 
                             game_state.update({"final_rank": "Rookie Keeper", "end_video": resources["videos"]["defeat"]})
-                            gif_path = "../image/lose_keeper.gif"
+                            gif_path = "../image/lose_goalkeeper.gif"
+                            
                         else: 
                             game_state.update({"final_rank": "Human Sieve", "end_video": resources["videos"]["defeat"]})
-                            gif_path = "../image/lose_keeper.gif"
+                            gif_path = "../image/lose_goalkeeper.gif"
                         
                         face_path = game_state["captured_goalkeeper_face_filename"]
                         monitor_size = (goalkeeper_monitor_width, screen_height)
