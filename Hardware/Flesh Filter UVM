@@ -1,0 +1,365 @@
+////////////////////////////////////////////////////////////////
+/////////////////////flesh_color_filter_UVM/////////////////////
+////////////////////////////////////////////////////////////////
+
+/*
+/////////////////////////////코드 설명///////////////////////////
+
+============================데이터 처리==========================
+
+입력 : den, r_in/g_in/b_in(각 4b)
+
+처리 : 4b→8b 확장 → 정수형 YCbCr 근사 → Cb/Cr 범위 + (r>g,b) 규칙으로 살색 판정
+
+출력 : 살색이면 r_out/g_out/b_out = 4'hF(흰색), 아니면 4'h0(검정)
+
+
+=========================UVM 블록 구성 및 역할=====================
+
+interface   : TB & DUT 신호 묶음, TB 내부 공유 신호 집합
+            : virtual interface로 driver/monitor가 같은 핸들을 사용
+
+transaction : 1픽셀 transaction할 데이터 선언 (den,r,g,b + 관찰된 out)
+
+generator   : 랜덤 패턴 생성
+            : randomize() 사용하여 랜덤 생성
+            : gent_cnt만큼 tr 생성
+
+driver      : 인터페이스에 구동
+            : non-blocking 할당 후 다음 posedge까지 유지
+
+monitor     : 결과 샘플링
+            : scoreboard로 den,r,g,b,out 전달
+
+scoreboard  : 참조모델(Ref) = DUT와 완전히 동일 수식으로 판정 → PASS/FAIL 집계
+            : DUT가 FFF → detect, 000 → no-detect
+            : 다른 값(X/Z 등) 나오면 스킵
+            : DUT 수식과 Ref 수식이 바이트 정확히 동일한지 판단
+
+environment : 위 블록들을 묶어 실행/종료 제어
+            : scoreboard가 gen_count만큼 처리하면 종료
+
+tb_sobel    : 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)
+
+
+======================1transaction 당 데이터 흐름도=====================
+
+generator -> (transaction) -> driver --[den,r,g,b]--> DUT(flesh_color)
+                                                \                 |
+                                                 \                v
+                                                  -> monitor <----+
+                                                         |
+                                                         v
+                                                   scoreboard
+                                         (Ref 판정 ↔ DUT 결과 비교, 로깅/집계)
+
+//////////////////////////////끝////////////////////////////////
+*/
+
+`timescale 1ns / 1ps
+
+//============================================================
+// Interface
+//============================================================
+interface flesh_if;
+    logic clk;
+    logic den;
+    logic [3:0] r_in, g_in, b_in;
+    logic [3:0] r_out, g_out, b_out;
+endinterface
+
+//============================================================
+// Transaction
+//============================================================
+class transaction;
+    rand bit       den;
+    rand bit [3:0] r_data, g_data, b_data;
+    bit      [3:0] r_out,  g_out,  b_out;  // observed
+endclass
+
+//============================================================
+// Generator
+//============================================================
+class generator;
+    mailbox #(transaction) gen2drv_mbox;
+
+    function new(mailbox#(transaction) gen2drv_mbox);
+        this.gen2drv_mbox = gen2drv_mbox;
+    endfunction
+
+    task run(int gen_cnt);
+        transaction tr;
+        repeat (gen_cnt) begin
+            tr = new();
+            tr.randomize();
+            gen2drv_mbox.put(tr);
+            #10;                 // 트래픽 간격
+        end
+    endtask
+endclass
+
+//============================================================
+// Driver
+//============================================================
+class driver;
+    mailbox #(transaction) gen2drv_mbox;
+    virtual flesh_if vif;
+
+    function new(mailbox#(transaction) gen2drv_mbox, virtual flesh_if vif);
+        this.gen2drv_mbox = gen2drv_mbox;
+        this.vif = vif;
+    endfunction
+
+    task run();
+        transaction tr;
+        forever begin
+            gen2drv_mbox.get(tr);
+            vif.den  <= tr.den;
+            vif.r_in <= tr.r_data;
+            vif.g_in <= tr.g_data;
+            vif.b_in <= tr.b_data;
+            @(posedge vif.clk);
+        end
+    endtask
+endclass
+
+//============================================================
+// Monitor
+//============================================================
+class monitor;
+    mailbox #(transaction) mon2scb_mbox;
+    virtual flesh_if vif;
+
+    function new(mailbox#(transaction) mon2scb_mbox, virtual flesh_if vif);
+        this.mon2scb_mbox = mon2scb_mbox;
+        this.vif = vif;
+    endfunction
+
+    task run();
+        transaction tr;
+        forever begin
+            @(posedge vif.clk);
+            #1; // 델타 지연으로 레이스 방지
+            tr = new();
+            tr.den = vif.den;
+            tr.r_data = vif.r_in;
+            tr.g_data = vif.g_in;
+            tr.b_data = vif.b_in;
+            tr.r_out = vif.r_out;
+            tr.g_out = vif.g_out;
+            tr.b_out = vif.b_out;
+            mon2scb_mbox.put(tr);
+        end
+    endtask
+endclass
+
+//============================================================
+// Scoreboard
+//   - 예측이 흰색(FFF)이면 skin detect
+//   - 흑색(000)이면 no-skin
+//============================================================
+class scoreboard;
+    mailbox #(transaction) mon2scb_mbox;
+
+    // 통계
+    int unsigned total_count;
+    int unsigned total_correct_count, total_incorrect_count;
+    int unsigned detected_correct_count, no_detected_correct_count;
+    int unsigned detected_incorrect_count, no_detected_incorrect_count;
+
+    // 동일 상수
+    static const int unsigned CB_MIN = 77;
+    static const int unsigned CB_MAX = 127;
+    static const int unsigned CR_MIN = 133;
+    static const int unsigned CR_MAX = 173;
+
+    function new(mailbox#(transaction) mon2scb_mbox);
+        this.mon2scb_mbox           = mon2scb_mbox;
+        total_count                 = 0;
+        total_correct_count         = 0;
+        total_incorrect_count       = 0;
+        detected_correct_count      = 0;
+        no_detected_correct_count   = 0;
+        detected_incorrect_count    = 0;
+        no_detected_incorrect_count = 0;
+    endfunction
+
+    // 참조모델: DUT와 완전히 동일 계산
+    function bit ref_is_skin(bit den, bit [3:0] r, g, b);
+        int unsigned R8 = {r, r};
+        int unsigned G8 = {g, g};
+        int unsigned B8 = {b, b};
+
+        int signed cb_acc = -43 * $signed(
+            {1'b0, R8}
+        ) + -85 * $signed(
+            {1'b0, G8}
+        ) + 128 * $signed(
+            {1'b0, B8}
+        );
+        int signed cr_acc = 128 * $signed(
+            {1'b0, R8}
+        ) + -107 * $signed(
+            {1'b0, G8}
+        ) + -21 * $signed(
+            {1'b0, B8}
+        );
+
+        int Cb = 128 + (cb_acc >>> 8);
+        int Cr = 128 + (cr_acc >>> 8);
+
+        bit skin = den
+            && (Cb >= CB_MIN) && (Cb <= CB_MAX)
+            && (Cr >= CR_MIN) && (Cr <= CR_MAX)
+            && (r > g) && (r > b);
+        return skin;
+    endfunction
+    bit skin_ref;
+    bit dut_detect;
+    bit dut_no_detect;
+    bit [3:0] exp_nib;
+    bit match;
+    int unsigned flesh_count;
+
+    task run();
+        transaction tr;
+        forever begin
+            mon2scb_mbox.get(tr);
+
+            // 예측(REF)
+            skin_ref = ref_is_skin(tr.den, tr.r_data, tr.g_data, tr.b_data);
+
+            // DUT 판정
+            dut_detect   = (tr.r_out===4'hF) && (tr.g_out===4'hF) && (tr.b_out===4'hF);
+            dut_no_detect= (tr.r_out===4'h0) && (tr.g_out===4'h0) && (tr.b_out===4'h0);
+
+            // X/Z 방어
+            if (!(dut_detect || dut_no_detect)) begin
+                continue;
+            end
+            exp_nib = skin_ref ? 4'hF : 4'h0;
+            match = (tr.r_out===exp_nib) && (tr.g_out===exp_nib) && (tr.b_out===exp_nib);
+     
+            if (dut_detect) begin
+                if (skin_ref) begin
+                    detected_correct_count++;
+                    flesh_count++;
+                end
+                else detected_incorrect_count++;
+            end else begin
+                if (skin_ref) no_detected_incorrect_count++;
+                else no_detected_correct_count++;
+            end
+
+            total_correct_count   = detected_correct_count + no_detected_correct_count;
+            total_incorrect_count = detected_incorrect_count + no_detected_incorrect_count;
+            total_count++;
+
+            if (match) begin
+                $display("[%d] MATCH : den=%0d IN(R,G,B)=%1h,%1h,%1h  OUT=%1h%1h%1h  EXP=%1h%1h%1h",
+                          total_count,tr.den, tr.r_data, tr.g_data, tr.b_data,
+                          tr.r_out, tr.g_out, tr.b_out,
+                          exp_nib,  exp_nib,  exp_nib);
+            end else begin
+                $display("[%d] MISMATCH : den=%0d IN(R,G,B)=%1h,%1h,%1h  OUT=%1h%1h%1h  EXP=%1h%1h%1h",
+                          total_count,tr.den, tr.r_data, tr.g_data, tr.b_data,
+                          tr.r_out, tr.g_out, tr.b_out,
+                          exp_nib,  exp_nib,  exp_nib);
+            end
+
+        end
+    endtask
+
+    task print_score();
+        $display(
+            "\n---------------------------------------------------------------------------");
+        $display(
+            "| total count | total correct count | total incorrect count  | total flesh |");
+        $display("|   %8d  |      %8d       |      %8d         |     %8d     |",
+                 total_count, total_correct_count, total_incorrect_count,flesh_count);
+        $display(
+            "---------------------------------------------------------------------------\n");
+    endtask
+endclass
+
+//============================================================
+// Environment
+//============================================================
+class environment;
+    generator              gen;
+    driver                 drv;
+    monitor                mon;
+    scoreboard             scr;
+
+    mailbox #(transaction) gen2drv_mbox;
+    mailbox #(transaction) mon2scb_mbox;
+
+    virtual flesh_if       vif;
+    int                    expected;
+
+    function new(virtual flesh_if vif);
+        this.vif = vif;
+        gen2drv_mbox = new();
+        mon2scb_mbox = new();
+        gen = new(gen2drv_mbox);
+        drv = new(gen2drv_mbox, vif);
+        mon = new(mon2scb_mbox, vif);
+        scr = new(mon2scb_mbox);
+    endfunction
+
+    task run(int gen_count);
+        expected = gen_count;
+
+        fork
+            gen.run(gen_count);
+            drv.run();
+            mon.run();
+            scr.run();
+        join_none
+
+        // 모든 샘플 처리될 때까지 대기
+        wait (scr.total_count == expected);
+        scr.print_score();
+        $finish;
+    endtask
+endclass
+
+//============================================================
+// TB 
+//============================================================
+
+module tb_sobel;
+    flesh_if fif ();
+    environment env;
+    // 25 MHz
+    initial begin
+        fif.clk = 1'b0;
+        forever #20 fif.clk = ~fif.clk;
+    end
+
+    // DUT
+    flesh_color dut (
+        .den  (fif.den),
+        .r_in (fif.r_in),
+        .g_in (fif.g_in),
+        .b_in (fif.b_in),
+        .r_out(fif.r_out),
+        .g_out(fif.g_out),
+        .b_out(fif.b_out)
+    );
+
+    initial begin
+        // 초기화
+        fif.den  = 1'b0;
+        fif.r_in = '0;
+        fif.g_in = '0;
+        fif.b_in = '0;
+        repeat (5) @(posedge fif.clk);
+
+        env = new(fif);
+        env.run(100000); 
+    end
+endmodule
+
+
+
