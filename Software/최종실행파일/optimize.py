@@ -90,8 +90,8 @@ class PenaltyKickGame:
                 "baudrate": 9600
             },
             "camera_indices": {
-                "goalkeeper": 2,
-                "attacker": 1
+                "goalkeeper": 0,
+                "attacker": 2
             }
         }
         self.COLORS = self.CONFIG['colors']
