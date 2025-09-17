@@ -4,9 +4,9 @@ import cv2
 import numpy as np
 import random
 import os
-import serial  # pyserial 라이브러리 추가
+import serial
 
-from button import ImageButton
+from Button import ImageButton, MenuButton
 
 # ========================================================== #
 # UART 통신 함수
@@ -14,10 +14,10 @@ from button import ImageButton
 def send_uart_command(serial_port, command):
 
     commands = {
-        'grid': 225,  # 8'b11100001 (골키퍼 위치 선택)
-        'face': 226,  # 8'b11100010 (얼굴 인식)
-        'kick': 227,  # 8'b11100011 (공격수 위치 선택)
-        'stop': 0     # 8'b00000000 (헤더가 111이 아니므로 중지 명령으로 인식됨)
+        'grid': 225, 
+        'face': 226,  
+        'kick': 227,  
+        'stop': 0     
     }
     byte_to_send = commands.get(command)
     if byte_to_send is not None and serial_port and serial_port.is_open:
@@ -142,7 +142,7 @@ def main():
         "final_rank": "", "end_video": None, "last_end_frame": None, "countdown_start": None,
         "selected_col": None, "final_col": None, "ball_col": None, "is_failure": False,
         "is_success": False, "result_time": None, "gif_start_time": None,
-        "gif_frame_index": 0, # <<< [수정됨] GIF 프레임 인덱스 추가 >>>
+        "gif_frame_index": 0, "gif_last_frame_time": 0,
         "waiting_for_start": False, "game_mode": None, "is_capturing_face": False,
         
         "goalkeeper_face_data_buffer": [],
@@ -195,12 +195,13 @@ def main():
         resources["images"]["scoreboard_ball"] = pygame.transform.scale(ball_img, (80, 80))
         resources["images"]["ball"] = pygame.transform.scale(ball_img, (200, 200))
         resources["images"]["info_bg"] = pygame.transform.scale(pygame.image.load("../image/info/info_back2.jpg").convert(), (screen_width, screen_height))
+        resources["images"]["game_bg"] = pygame.transform.scale(pygame.image.load("../image/Ground.jpg").convert(), (screen_width, screen_height))
     except: pass
     
     # <<< [수정됨] GIF 파일을 프레임 단위로 미리 로드 >>>
     resources["gif_frames"] = {
         'success': load_gif_frames("../image/final_ronaldo/pk.gif", (main_monitor_width, screen_height)),
-        'failure': load_gif_frames("../image/son.mp4", (main_monitor_width, screen_height))
+        'failure': load_gif_frames("../image/G.O.A.T/siuuu.gif", (main_monitor_width, screen_height))
     }
     
     # 일반 비디오는 기존 방식대로 로드
@@ -261,13 +262,13 @@ def main():
         start_transition("game")
         
     buttons = {
-        "menu": [ImageButton("../image/btn_desc.png", main_monitor_center_x*2 - 150, 150, 100, 100, lambda: start_transition("info"), sound=resources["sounds"].get("button"))],
-        "game": [ImageButton("../image/btn_single.png", main_monitor_center_x - 300, screen_height//2 + 200, 550, 600, lambda: start_game("single")),
-                 ImageButton("../image/btn_multi.png", main_monitor_center_x + 300, screen_height//2 + 200, 550, 600, lambda: start_game("multi")),
+        "game": [MenuButton("1인 플레이", main_start_x + 50, 400, 350, 100, font, lambda: start_game("single"), sound=resources["sounds"].get("button")),
+                 MenuButton("2인 플레이", main_start_x + 50, 500, 350, 100, font, lambda: start_game("multi"), sound=resources["sounds"].get("button")),
+                 MenuButton("게임 설명", main_start_x + 50, 600, 350, 100, font, lambda: start_transition("info"), sound=resources["sounds"].get("button")),
                  ImageButton("../image/btn_back.png", 150, 150, 100, 100, go_to_menu, sound=resources["sounds"].get("button"))],
         "face_capture": [ImageButton("../image/btn_back.png", 150, 150, 100, 100, go_to_game_select, sound=resources["sounds"].get("button"))],
         "webcam_view": [ImageButton("../image/btn_back.png", 150, 150, 100, 100, go_to_game_select, sound=resources["sounds"].get("button"))],
-        "info": [ImageButton("../image/btn_exit.png", main_monitor_center_x*2 - 150, 150, 100, 100, go_to_menu, sound=resources["sounds"].get("button"))],
+        "info": [ImageButton("../image/btn_exit.png", main_monitor_center_x*2 - 150, 150, 100, 100, go_to_game_select, sound=resources["sounds"].get("button"))],
         "end": [ImageButton("../image/btn_restart.png", main_monitor_center_x - 300, screen_height - 250, 400, 250, go_to_game_select, sound=resources["sounds"].get("button")),
                 ImageButton("../image/btn_main_menu.png", main_monitor_center_x + 300, screen_height - 250, 400, 250, go_to_menu, sound=resources["sounds"].get("button"))]
     }
@@ -325,10 +326,7 @@ def main():
         else:
             pygame.draw.rect(screen, BLACK, (main_start_x, 0, main_monitor_width, screen_height))
 
-        if state == "game":
-            text_surf = font.render("플레이어 수를 선택하세요", True, WHITE)
-            screen.blit(text_surf, text_surf.get_rect(center=(main_monitor_center_x, screen_height//2 - 200)))
-        elif state == "menu":
+        if state == "menu":
             font.set_bold(True)
             start_text_l1 = font.render("게임을 시작하려면 아무 키나 누르세요", True, WHITE)
             font.set_bold(False)
@@ -596,6 +594,17 @@ def main():
             ball_rect_gk = resources["images"]["ball"].get_rect(center=(goalkeeper_start_x + game_state["ball_col"] * cell_w_gk + cell_w_gk / 2, screen_height / 2))
             screen.blit(resources["images"]["ball"], ball_rect_gk)
 
+    def draw_game_screen():
+        pygame.draw.rect(screen, BLACK, (goalkeeper_start_x, 0, goalkeeper_monitor_width, screen_height))
+        pygame.draw.rect(screen, BLACK, (attacker_start_x, 0, attacker_monitor_width, screen_height))
+
+        if resources["images"].get("game_bg"):
+            scaled_game_bg = pygame.transform.scale(resources["images"]["game_bg"], (main_monitor_width, screen_height))
+            screen.blit(scaled_game_bg, (main_start_x, 0))
+        
+        else:
+            # 이미지가 없는 경우를 대비해 검은색으로 채웁니다.
+            pygame.draw.rect(screen, BLACK, (main_start_x, 0, main_monitor_width, screen_height))
 
     def draw_info_screen():
         pygame.draw.rect(screen, BLACK, (goalkeeper_start_x, 0, goalkeeper_monitor_width, screen_height))
@@ -604,6 +613,7 @@ def main():
         if resources["images"].get("info_bg"):
             scaled_info_bg = pygame.transform.scale(resources["images"]["info_bg"], (main_monitor_width, screen_height))
             screen.blit(scaled_info_bg, (main_start_x, 0))
+        
         else:
             # 이미지가 없는 경우를 대비해 검은색으로 채웁니다.
             pygame.draw.rect(screen, BLACK, (main_start_x, 0, main_monitor_width, screen_height))
@@ -634,6 +644,46 @@ def main():
                 frame_rgb = cv2.cvtColor(game_state["last_end_frame"], cv2.COLOR_BGR2RGB)
                 frame_resized = cv2.resize(frame_rgb, (main_monitor_width, screen_height))
                 screen.blit(pygame.surfarray.make_surface(frame_resized.swapaxes(0, 1)), (main_start_x, 0))
+            
+                # --- 2. [추가된 부분] 골키퍼 및 공격수 모니터 배경 영상 ---
+        winner = game_state.get("winner")
+
+        # 기본적으로 양쪽 플레이어 화면을 검은색으로 채웁니다.
+        pygame.draw.rect(screen, BLACK, (attacker_start_x, 0, attacker_monitor_width, screen_height))
+        pygame.draw.rect(screen, BLACK, (goalkeeper_start_x, 0, goalkeeper_monitor_width, screen_height))
+
+        # 승리한 플레이어의 화면에 맞는 영상을 재생합니다.
+        video_to_play = None
+        target_monitor_width = 0
+
+        if winner == "attacker":
+            video_to_play = resources["videos"]["attacker_win"]
+            target_monitor_width = attacker_monitor_width
+            last_frame_key = "last_attacker_win_frame" # 프레임 저장을 위한 고유 키
+
+        elif winner == "goalkeeper":
+            video_to_play = resources["videos"]["goalkeeper_win"]
+            target_monitor_width = goalkeeper_monitor_width
+            last_frame_key = "last_goalkeeper_win_frame" # 프레임 저장을 위한 고유 키
+
+        # 재생할 영상이 있다면 화면에 그립니다.
+        if video_to_play:
+            ret, frame = video_to_play.read()
+            if not ret:
+                video_to_play.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                ret, frame = video_to_play.read()
+            if ret:
+                game_state[last_frame_key] = frame
+
+            if game_state.get(last_frame_key) is not None:
+                frame_rgb = cv2.cvtColor(game_state[last_frame_key], cv2.COLOR_BGR2RGB)
+                frame_resized = cv2.resize(frame_rgb, (target_monitor_width, screen_height))
+                video_surface = pygame.surfarray.make_surface(frame_resized.swapaxes(0, 1))
+                screen.blit(video_surface, (goalkeeper_start_x, 0))
+                if game_state["game_mode"] == "multi":
+                    screen.blit(video_surface, (attacker_start_x, 0))
+                
+        
 
         # --- 2. 승자에 따라 표시할 정보 결정 ---
         winner = game_state.get("winner")
@@ -728,9 +778,6 @@ def main():
             if game_state["screen_state"] == "menu" and event.type == pygame.KEYDOWN:
                 start_transition("game")
 
-            # [수정] 스페이스바를 이용한 얼굴 캡처 로직이 제거되었습니다.
-            # 자동 캡처는 draw_face_capture_screen() 함수 내에서 처리됩니다.
-
             elif game_state["screen_state"] == "webcam_view" and game_state["waiting_for_start"]:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     game_state["countdown_start"] = pygame.time.get_ticks()
@@ -748,7 +795,7 @@ def main():
             
         current_screen = game_state["screen_state"]
         
-        if current_screen in ["menu", "game"]:
+        if current_screen in ["menu"]:
             draw_menu_or_game_screen(current_screen)
         elif current_screen == "face_capture":
             draw_face_capture_screen()
@@ -791,7 +838,8 @@ def main():
                     start_transition("end")
             
             # <<< [수정됨] 시작: 최적화된 GIF 재생 로직 >>>
-            should_play_gif = (game_state["is_failure"] or game_state["is_success"]) and game_state["result_time"] and (pygame.time.get_ticks() - game_state["result_time"] > 1000)
+            should_play_gif = (game_state["is_failure"] or game_state["is_success"]) and game_state["result_time"] and (pygame.time.get_ticks() - game_state["result_time"] > 2000)
+            GIF_FRAME_DURATION = 70
 
             gif_key = None
             if should_play_gif:
@@ -802,6 +850,7 @@ def main():
                 if not game_state["gif_start_time"]:
                     game_state["gif_start_time"] = pygame.time.get_ticks()
                     game_state["gif_frame_index"] = 0  # 인덱스 초기화
+                    game_state["gif_last_frame_time"] = pygame.time.get_ticks() 
                     if game_state["is_success"] and resources["sounds"].get("success"):
                         resources["sounds"]["success"].play()
                     elif game_state["is_failure"] and resources["sounds"].get("failed"):
@@ -813,19 +862,21 @@ def main():
 
                 if frame_list:
                     current_index = game_state['gif_frame_index']
-                    # 미리 로드된 Surface를 직접 가져와 그립니다 (매우 빠름).
                     frame_surface = frame_list[current_index]
-                    
                     screen.blit(frame_surface, (goalkeeper_start_x, 0))
+
                     if game_state["game_mode"] == "multi":
                         screen.blit(frame_surface, (attacker_start_x, 0))
 
-                    # 다음 프레임 인덱스로 업데이트합니다.
-                    game_state['gif_frame_index'] = (current_index + 1) % len(frame_list)
-            # <<< [수정됨] 끝: 최적화된 GIF 재생 로직 >>>
+                    current_time = pygame.time.get_ticks()
+                    if current_time - game_state["gif_last_frame_time"] > GIF_FRAME_DURATION:
+                        game_state['gif_frame_index'] = (current_index + 1) % len(frame_list)
+                        game_state["gif_last_frame_time"] = current_time # 마지막 업데이트 시간 갱신
 
         elif current_screen == "info":
             draw_info_screen()
+        elif current_screen == "game":
+            draw_game_screen()
         elif current_screen == "end":
             draw_end_screen()
 
