@@ -184,5 +184,5 @@ endmodule
 
 
 # UVM -> Sobel Filter
-<img width="314" height="512" alt="image" src="https://github.com/user-attachments/assets/1156278d-b6f2-4368-ba13-a0049ffaf339" />
-<img width="385" height="395" alt="image" src="https://github.com/user-attachments/assets/beef4669-1112-44f7-b52d-cca94b469414" />
+<img width="1347" height="547" alt="image" src="https://github.com/user-attachments/assets/b031d82b-b505-4785-a509-3d840cff20ea" />
+
