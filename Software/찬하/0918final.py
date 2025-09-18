@@ -29,8 +29,7 @@ def send_uart_command(serial_port, command):
     commands = {
         'grid': 225, 
         'face': 226,  
-        'kick': 227,  
-        'stop': 0     
+        'kick': 227
     }
     byte_to_send = commands.get(command)
     if byte_to_send is not None and serial_port and serial_port.is_open:
@@ -38,6 +37,19 @@ def send_uart_command(serial_port, command):
             serial_port.write(bytes([byte_to_send]))
         except Exception as e:
             print(f"UART({command}) 데이터 송신 오류: {e}")
+
+def parse_uart_data(byte_data):
+    """8비트 UART 데이터를 헤더와 값으로 분리합니다."""
+    header = byte_data >> 5  # 상위 3비트 추출
+    value = byte_data & 31   # 하위 5비트 추출 (0b00011111)
+    
+    if header == 0b001: # 2 (Grid 데이터)
+        return 'grid', value
+    elif header == 0b011: # 6 (Kick 데이터)
+        return 'kick', value
+    elif header == 0b010: # 4 (Face 데이터)
+        return 'face', value
+    return None, None
 
 # ===================================================================
 # 3. GIF 처리 및 얼굴 합성 함수
@@ -392,8 +404,8 @@ def main():
     # 얼굴 캡처 화면을 그리는 함수
     def draw_face_capture_screen():
         screen.fill(BLACK)
-    
-        # 캡처 UI(안내 문구, 사각형 등)를 그리는 내부 함수
+
+        # 캡처 UI(안내 문구, 사각형 등)를 그리는 내부 함수 (내용 동일)
         def draw_capture_ui(surface, start_x, width, center_x, captured_filename, player_name):
             overlay = pygame.Surface((width, screen_height), pygame.SRCALPHA)
             surface.blit(overlay, (start_x, 0))
@@ -410,7 +422,7 @@ def main():
                 captured_text = title_font.render("캡처 완료!", True, GOLD_COLOR)
                 surface.blit(captured_text, captured_text.get_rect(center=(center_x, screen_height / 2)))
 
-        # 2인 플레이 시 공격수 카메라 화면 표시
+        # 2인 플레이 시 공격수 카메라 화면 표시 (내용 동일)
         if game_state["game_mode"] == "multi":
             if resources["cap2"].isOpened():
                 ret_cam2, frame_cam2 = resources["cap2"].read()
@@ -433,7 +445,7 @@ def main():
         else:
             pygame.draw.rect(screen, BLACK, (attacker_start_x, 0, attacker_monitor_width, screen_height))
 
-        # 골키퍼 카메라 화면 표시
+        # 골키퍼 카메라 화면 표시 (내용 동일)
         ret_cam, frame_cam = resources["cap"].read()
         if ret_cam:
             resources["last_cam_frame"] = frame_cam
@@ -444,7 +456,6 @@ def main():
             screen.blit(cam_surf_scaled, (goalkeeper_start_x, 0))
         draw_capture_ui(screen, goalkeeper_start_x, goalkeeper_monitor_width, goalkeeper_monitor_center_x, game_state["captured_goalkeeper_face_filename"], "골키퍼")
 
-        # 시리얼 통신을 통해 얼굴 좌표를 받고, 조건에 맞으면 얼굴 캡처
         if not game_state["is_capturing_face"]:
             send_uart_command(resources["ser_goalkeeper"], 'face')
             game_state["is_capturing_face"] = True
@@ -452,38 +463,51 @@ def main():
         if not game_state["captured_goalkeeper_face_filename"]:
             if resources["ser_goalkeeper"] and resources["ser_goalkeeper"].in_waiting > 0:
                 uart_bytes = resources["ser_goalkeeper"].read(resources["ser_goalkeeper"].in_waiting)
-                for byte in uart_bytes: game_state["goalkeeper_face_data_buffer"].append(byte & 31)
+                for byte in uart_bytes:
+                    header = byte >> 5
+                    if header == 2:
+                        game_state["goalkeeper_face_data_buffer"].append(byte & 31)
 
             if len(game_state["goalkeeper_face_data_buffer"]) >= 4:
                 chunks = game_state["goalkeeper_face_data_buffer"]
                 full_data = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
-                x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
-                game_state["last_goalkeeper_face_coords"] = {"raw": (x_coord_raw, y_coord_raw),"scaled": (goalkeeper_start_x + (goalkeeper_monitor_width - int(x_coord_raw * (goalkeeper_monitor_width / 640))), int(y_coord_raw * (screen_height / 480)))}
 
+
+                x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
+
+                game_state["last_goalkeeper_face_coords"] = {
+                    "raw": (x_coord_raw, y_coord_raw),
+                    "scaled": (goalkeeper_start_x + (goalkeeper_monitor_width - int(x_coord_raw * (goalkeeper_monitor_width / 640))), int(y_coord_raw * (screen_height / 480)))
+                }
                 coords = game_state["last_goalkeeper_face_coords"]
                 capture_area = pygame.Rect(goalkeeper_monitor_center_x - 100, screen_height // 2 - 350, 200, 200)
                 if capture_area.collidepoint(coords["scaled"]):
                     filename = capture_and_save_face(resources["last_cam_frame"], coords["raw"], "captured_goalkeeper_face.png")
                     if filename:
                         game_state["captured_goalkeeper_face_filename"] = filename
-                        send_uart_command(resources["ser_goalkeeper"], 'stop')
                         if game_state["game_mode"] == "multi":
                             send_uart_command(resources["ser_attacker"], 'face')
                         else:
                             game_state["is_capturing_face"] = False
                             start_new_round()
-                            start_transition("webcam_view")
+                            start_transition("webcam_view")      
                 game_state["goalkeeper_face_data_buffer"] = chunks[4:]
 
         elif game_state["game_mode"] == "multi" and not game_state["captured_attacker_face_filename"]:
             if resources["ser_attacker"] and resources["ser_attacker"].in_waiting > 0:
                 uart_bytes = resources["ser_attacker"].read(resources["ser_attacker"].in_waiting)
-                for byte in uart_bytes: game_state["attacker_face_data_buffer"].append(byte & 31)
+                for byte in uart_bytes:
+                    header = byte >> 5
+                    if header == 2:
+                        game_state["attacker_face_data_buffer"].append(byte & 31)
 
             if len(game_state["attacker_face_data_buffer"]) >= 4:
                 chunks = game_state["attacker_face_data_buffer"]
                 full_data = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
+
+                # 여기도 동일하게 수정했습니다: X, Y 좌표 순서 변경
                 x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
+
                 game_state["last_attacker_face_coords"] = {"raw": (x_coord_raw, y_coord_raw), "scaled": (attacker_start_x + int(x_coord_raw * (attacker_monitor_width / 640)), int(y_coord_raw * (screen_height / 480)))}
 
                 coords = game_state["last_attacker_face_coords"]
@@ -492,7 +516,6 @@ def main():
                     filename = capture_and_save_face(resources["last_cam2_frame"], coords["raw"], "captured_attacker_face.png")
                     if filename:
                         game_state["captured_attacker_face_filename"] = filename
-                        send_uart_command(resources["ser_attacker"], 'stop')
                         game_state["is_capturing_face"] = False
                         start_new_round()
                         start_transition("webcam_view")
@@ -502,11 +525,12 @@ def main():
             pygame.draw.circle(screen, RED, game_state["last_goalkeeper_face_coords"]["scaled"], 20, 4)
         if game_state["last_attacker_face_coords"]:
             pygame.draw.circle(screen, RED, game_state["last_attacker_face_coords"]["scaled"], 20, 4)
-
+    
     # 메인 게임 플레이 화면을 그리는 함수
     def draw_webcam_view():
         screen.fill(BLACK)
-        
+    
+        # ... (함수 상단 비디오 재생 및 UI 표시 부분은 동일) ...
         # 슈팅 모션 비디오 재생
         if bg_video and (game_state["waiting_for_start"] or game_state["countdown_start"]):
             if game_state["waiting_for_start"]: bg_video.set(cv2.CAP_PROP_POS_FRAMES, 0)
@@ -521,7 +545,7 @@ def main():
                 frame_vid_rgb = cv2.cvtColor(frame_vid, cv2.COLOR_BGR2RGB)
                 frame_vid_resized = cv2.resize(frame_vid_rgb, (new_w, new_h))
                 screen.blit(pygame.surfarray.make_surface(frame_vid_resized.swapaxes(0, 1)), (pos_x, pos_y))
-        
+
         # 골키퍼 카메라 화면 및 UI 표시
         ret_cam, frame_cam = resources["cap"].read()
         if ret_cam:
@@ -545,7 +569,7 @@ def main():
                     cam2_surf = pygame.surfarray.make_surface(frame_cam2_rgb.swapaxes(0, 1))
                     cam2_surf_scaled = pygame.transform.scale(cam2_surf, (attacker_monitor_width, screen_height))
                     screen.blit(cam2_surf_scaled, (attacker_start_x, 0))
-            
+
             for i in range(1, 5): pygame.draw.line(screen, GRID_COLOR, (attacker_start_x + i * cell_w_atk, 0), (attacker_start_x + i * cell_w_atk, screen_height), 2)
             if game_state["attacker_selected_col"] is not None: pygame.draw.rect(screen, RED, (attacker_start_x + game_state["attacker_selected_col"] * cell_w_atk, 0, cell_w_atk, screen_height), 10)
             if game_state["ball_col"] is not None and resources["images"]["ball"]:
@@ -563,7 +587,7 @@ def main():
             start_text_l1, start_text_l2 = title_font.render("시작하시겠습니까?", True, WHITE), font.render("(Press Space Bar)", True, WHITE)
             screen.blit(start_text_l1, start_text_l1.get_rect(center=(main_monitor_center_x, screen_height/2 - 60)))
             screen.blit(start_text_l2, start_text_l2.get_rect(center=(main_monitor_center_x, screen_height/2 + 40)))
-        
+
         # 카운트다운 진행 및 입력 처리
         elif game_state["countdown_start"]:
             elapsed = pygame.time.get_ticks() - game_state["countdown_start"]
@@ -572,32 +596,40 @@ def main():
                 if resources["ser_goalkeeper"] and resources["ser_goalkeeper"].in_waiting > 0:
                     try:
                         uart_bytes = resources["ser_goalkeeper"].read(resources["ser_goalkeeper"].in_waiting)
-                        if uart_bytes:
-                            valid_values = [b for b in uart_bytes if b in [1, 2, 3, 4, 5]]
-                            if valid_values: game_state["selected_col"] = 5 - valid_values[-1]
-                    except Exception as e: print(f"UART(Grid) 데이터 수신 오류: {e}")
+                        for byte in uart_bytes:
+                            header = byte >> 5
+                            if header == 1:
+                                value = byte & 31
+                                if 1 <= value <= 5:
+                                    game_state["selected_col"] = 5 - value
+                    except Exception as e:
+                        print(f"UART(Grid) 데이터 수신 오류: {e}")
 
                 if game_state["game_mode"] == "multi":
                     send_uart_command(resources["ser_attacker"], 'kick')
                     if resources["ser_attacker"] and resources["ser_attacker"].in_waiting > 0:
                         try:
                             uart_bytes_attacker = resources["ser_attacker"].read(resources["ser_attacker"].in_waiting)
-                            if uart_bytes_attacker:
-                                valid_values_attacker = [b for b in uart_bytes_attacker if b in [1, 2, 3, 4, 5]]
-                                if valid_values_attacker: game_state["attacker_selected_col"] = 5 - valid_values_attacker[-1]
-                        except Exception as e: print(f"UART(Attacker Kick) 데이터 수신 오류: {e}")
+                            for byte in uart_bytes_attacker:
+                                header = byte >> 5
+                                if header == 3: # Kick 헤더(3)는 정상이므로 그대로 둠
+                                    value = byte & 31
+                                    if 1 <= value <= 5:
+                                        game_state["attacker_selected_col"] = 5 - value
+                        except Exception as e:
+                            print(f"UART(Attacker Kick) 데이터 수신 오류: {e}")
 
-                if game_state["selected_col"] is not None: pygame.draw.rect(screen, GOLD_COLOR, (goalkeeper_start_x + game_state["selected_col"] * cell_w_gk, 0, cell_w_gk, screen_height), 10)
-                
+                if game_state["selected_col"] is not None:
+                    pygame.draw.rect(screen, GOLD_COLOR, (goalkeeper_start_x + game_state["selected_col"] * cell_w_gk, 0, cell_w_gk, screen_height), 10)
+
                 num_str = str(5 - (elapsed // 1000))
                 text_surf = countdown_font.render(num_str, True, WHITE)
                 screen.blit(text_surf, text_surf.get_rect(center=(goalkeeper_monitor_center_x, screen_height/2)))
-                if game_state["game_mode"] == "multi": screen.blit(text_surf, text_surf.get_rect(center=(attacker_monitor_center_x, screen_height/2)))
+                if game_state["game_mode"] == "multi":
+                    screen.blit(text_surf, text_surf.get_rect(center=(attacker_monitor_center_x, screen_height/2)))
             else:
-                # 카운트다운 종료 후 결과 판정
+                # ... (함수 하단 결과 판정 부분은 동일) ...
                 if game_state["final_col"] is None:
-                    send_uart_command(resources["ser_goalkeeper"], 'stop')
-                    if game_state["game_mode"] == "multi": send_uart_command(resources["ser_attacker"], 'stop')
                     game_state["final_col"], game_state["chances_left"] = game_state["selected_col"], game_state["chances_left"] - 1
                     game_state["ball_col"] = random.randint(0, 4) if game_state["game_mode"] == 'single' else (game_state["attacker_selected_col"] if game_state["attacker_selected_col"] is not None else random.randint(0, 4))
                     game_state["is_success"] = (game_state["final_col"] == game_state["ball_col"])
@@ -606,7 +638,7 @@ def main():
                     if game_state["is_success"]: game_state["score"] += 1
                     elif game_state["is_failure"] and game_state["game_mode"] == "multi": game_state["attacker_score"] += 1
                     game_state["result_time"], game_state["countdown_start"] = pygame.time.get_ticks(), None
-        
+
         # 최종 선택 영역 및 공 위치 표시
         if game_state["final_col"] is not None:
             highlight_surf = pygame.Surface((cell_w_gk, screen_height), pygame.SRCALPHA); highlight_surf.fill(HIGHLIGHT_COLOR)

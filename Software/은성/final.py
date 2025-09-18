@@ -457,8 +457,8 @@ def main():
             if len(game_state["goalkeeper_face_data_buffer"]) >= 4:
                 chunks = game_state["goalkeeper_face_data_buffer"]
                 full_data = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
-                x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
-                game_state["last_goalkeeper_face_coords"] = {"raw": (x_coord_raw, y_coord_raw),"scaled": (goalkeeper_start_x + (goalkeeper_monitor_width - int(x_coord_raw * (goalkeeper_monitor_width / 640))), int(y_coord_raw * (screen_height / 480)))}
+                y_coord_raw, x_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
+                game_state["last_goalkeeper_face_coords"] = {"raw": (x_coord_raw, y_coord_raw),"scaled": (goalkeeper_start_x + int(x_coord_raw * (goalkeeper_monitor_width / 640)), int(y_coord_raw * (screen_height / 480)))}
 
                 coords = game_state["last_goalkeeper_face_coords"]
                 capture_area = pygame.Rect(goalkeeper_monitor_center_x - 100, screen_height // 2 - 350, 200, 200)
@@ -472,9 +472,9 @@ def main():
                         else:
                             game_state["is_capturing_face"] = False
                             start_new_round()
-                            start_transition("webcam_view")
-                game_state["goalkeeper_face_data_buffer"] = chunks[4:]
-
+                            start_transition("webcam_view")      
+                game_state["goalkeeper_face_data_buffer "] = chunks[4:]
+ 
         elif game_state["game_mode"] == "multi" and not game_state["captured_attacker_face_filename"]:
             if resources["ser_attacker"] and resources["ser_attacker"].in_waiting > 0:
                 uart_bytes = resources["ser_attacker"].read(resources["ser_attacker"].in_waiting)
@@ -483,7 +483,7 @@ def main():
             if len(game_state["attacker_face_data_buffer"]) >= 4:
                 chunks = game_state["attacker_face_data_buffer"]
                 full_data = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
-                x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
+                y_coord_raw, x_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
                 game_state["last_attacker_face_coords"] = {"raw": (x_coord_raw, y_coord_raw), "scaled": (attacker_start_x + int(x_coord_raw * (attacker_monitor_width / 640)), int(y_coord_raw * (screen_height / 480)))}
 
                 coords = game_state["last_attacker_face_coords"]
@@ -793,6 +793,7 @@ def main():
                         elif score >= 1: 
                             game_state.update({"final_rank": "Rookie Keeper", "end_video": resources["videos"]["defeat"]})
                             gif_path = "../image/lose_keeper.gif"
+
                         else: 
                             game_state.update({"final_rank": "Human Sieve", "end_video": resources["videos"]["defeat"]})
                             gif_path = "../image/lose_keeper.gif"
