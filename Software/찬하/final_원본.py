@@ -472,9 +472,9 @@ def main():
                         else:
                             game_state["is_capturing_face"] = False
                             start_new_round()
-                            start_transition("webcam_view")      
-                game_state["goalkeeper_face_data_buffer "] = chunks[4:]
- 
+                            start_transition("webcam_view")
+                game_state["goalkeeper_face_data_buffer"] = chunks[4:]
+
         elif game_state["game_mode"] == "multi" and not game_state["captured_attacker_face_filename"]:
             if resources["ser_attacker"] and resources["ser_attacker"].in_waiting > 0:
                 uart_bytes = resources["ser_attacker"].read(resources["ser_attacker"].in_waiting)
@@ -793,7 +793,6 @@ def main():
                         elif score >= 1: 
                             game_state.update({"final_rank": "Rookie Keeper", "end_video": resources["videos"]["defeat"]})
                             gif_path = "../image/lose_keeper.gif"
-
                         else: 
                             game_state.update({"final_rank": "Human Sieve", "end_video": resources["videos"]["defeat"]})
                             gif_path = "../image/lose_keeper.gif"
