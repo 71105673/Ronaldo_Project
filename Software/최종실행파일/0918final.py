@@ -38,18 +38,6 @@ def send_uart_command(serial_port, command):
         except Exception as e:
             print(f"UART({command}) 데이터 송신 오류: {e}")
 
-def parse_uart_data(byte_data):
-    """8비트 UART 데이터를 헤더와 값으로 분리합니다."""
-    header = byte_data >> 5  # 상위 3비트 추출
-    value = byte_data & 31   # 하위 5비트 추출 (0b00011111)
-    
-    if header == 0b001: # 2 (Grid 데이터)
-        return 'grid', value
-    elif header == 0b011: # 6 (Kick 데이터)
-        return 'kick', value
-    elif header == 0b010: # 4 (Face 데이터)
-        return 'face', value
-    return None, None
 
 # ===================================================================
 # 3. GIF 처리 및 얼굴 합성 함수
