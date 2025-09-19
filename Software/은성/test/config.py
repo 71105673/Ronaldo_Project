@@ -1,111 +1,81 @@
+# config.py
 import pygame
 import os
-import cv2
 
+# --- 기본 경로 설정 ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "..") # assets 폴더가 프로젝트 루트에 있다고 가정
+
+FONT_PATH = os.path.join(ASSETS_DIR, "fonts", "netmarbleM.ttf")
+FONT_BOLD_PATH = os.path.join(ASSETS_DIR, "fonts", "netmarbleB.ttf")
+IMAGE_PATH = os.path.join(ASSETS_DIR, "image")
+SOUND_PATH = os.path.join(ASSETS_DIR, "sound")
+
+
+# --- 화면 설정 ---
 pygame.init()
-
 try:
+    # 여러 모니터를 합친 전체 크기 감지
     desktop_sizes = pygame.display.get_desktop_sizes()
-    total_width = sum(w for w, h in desktop_sizes)
-    max_height = max(h for w, h in desktop_sizes)
+    SCREEN_WIDTH = sum(w for w, h in desktop_sizes)
+    SCREEN_HEIGHT = max(h for w, h in desktop_sizes)
 except AttributeError:
-    # Older Pygame
     info = pygame.display.Info()
-    total_width = info.current_w
-    max_height = info.current_h
+    SCREEN_WIDTH = info.current_w
+    SCREEN_HEIGHT = info.current_h
 
-os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
-screen = pygame.display.set_mode((total_width, max_height), pygame.NOFRAME)
+# 모니터 분할 설정
+MAIN_MONITOR_WIDTH = SCREEN_WIDTH // 3
+GOALKEEPER_MONITOR_WIDTH = SCREEN_WIDTH // 3
+ATTACKER_MONITOR_WIDTH = SCREEN_WIDTH - MAIN_MONITOR_WIDTH - GOALKEEPER_MONITOR_WIDTH
 
-screen_width = screen.get_width()
-screen_height = screen.get_height()
-pygame.display.set_caption("Penalty Kick Challenge")
+MAIN_START_X = 0
+ATTACKER_START_X = ATTACKER_MONITOR_WIDTH
+GOALKEEPER_START_X = ATTACKER_MONITOR_WIDTH + MAIN_MONITOR_WIDTH
 
-goalkeeper_monitor_width = screen_width // 3
-main_monitor_width = screen_width // 3
-attacker_monitor_width = screen_width - goalkeeper_monitor_width - main_monitor_width
-
-main_start_x = 0
-attacker_start_x = attacker_monitor_width
-goalkeeper_start_x = goalkeeper_monitor_width + main_monitor_width
-
-goalkeeper_monitor_center_x = goalkeeper_start_x + (goalkeeper_monitor_width // 2)
-main_monitor_center_x = main_start_x + (main_monitor_width // 2)
-attacker_monitor_center_x = attacker_start_x + (attacker_monitor_width // 2)
-
-BLACK, WHITE, GRID_COLOR, RED = (0, 0, 0), (255, 255, 255), (0, 255, 0), (255, 0, 0)
-HIGHLIGHT_COLOR, GOLD_COLOR = (255, 0, 0, 100), (255, 215, 0)
-try:
-    pygame.mixer.init()
-except:
-    pass
-
-def load_font(path, size, default_size):
-    try:
-        return pygame.font.Font(path, size)
-    except:
-        return pygame.font.Font(None, default_size)
-
-font = load_font("../fonts/netmarbleM.ttf", 40, 50)
-small_font = load_font("../fonts/netmarbleM.ttf", 30, 40)
-description_font = load_font("../fonts/netmarbleM.ttf", 50, 60)
-title_font = load_font("../fonts/netmarbleB.ttf", 120, 130)
-countdown_font = load_font("../fonts/netmarbleM.ttf", 200, 250)
-score_font = load_font("../fonts/netmarbleB.ttf", 60, 70)
-rank_font = load_font("../fonts/netmarbleB.ttf", 100, 110)
+MAIN_MONITOR_CENTER_X = MAIN_START_X + (MAIN_MONITOR_WIDTH // 2)
+GOALKEEPER_MONITOR_CENTER_X = GOALKEEPER_START_X + (GOALKEEPER_MONITOR_WIDTH // 2)
+ATTACKER_MONITOR_CENTER_X = ATTACKER_START_X + (ATTACKER_MONITOR_WIDTH // 2)
 
 
-def load_highscore():
-    if not os.path.exists("highscore.txt"): return 0
-    try:
-        with open("highscore.txt", "r") as f: return int(f.read())
-    except: return 0
+# --- 색상 정의 ---
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GRID_COLOR = (0, 255, 0)
+RED = (255, 0, 0)
+GOLD_COLOR = (255, 215, 0)
+HOVER_COLOR = (200, 200, 200)
+HIGHLIGHT_COLOR = (255, 0, 0, 100) # (R, G, B, Alpha)
+BUTTON_COLOR = (100, 100, 100)
 
-def save_highscore(new_score):
-    try:
-        with open("highscore.txt", "w") as f: f.write(str(new_score))
-    except Exception as e: print(f"최고 기록 저장 오류: {e}")
 
-def get_scaled_rect(original_w, original_h, container_w, container_h):
-    if original_h == 0 or container_h == 0: return (0,0)
-    aspect_ratio = original_w / original_h
-    container_aspect_ratio = container_w / container_h
-    if aspect_ratio > container_aspect_ratio:
-        new_w, new_h = container_w, int(container_w / aspect_ratio)
-    else:
-        new_w, new_h = int(container_h * aspect_ratio), container_h
-    return new_w, new_h
+# --- 게임 상수 ---
+FPS = 60
+TOTAL_CHANCES = 5
+COUNTDOWN_SECONDS = 5
+TRANSITION_SPEED = 15
+GIF_FRAME_DURATION = 70
+SYNTHESIZED_GIF_FRAME_DURATION = 90
+RESULT_DELAY_MS = 2000 # 결과 판정 후 GIF 재생까지 딜레이
+GIF_PLAY_DURATION_MS = 3000 # 결과 GIF 재생 시간
 
-def load_gif_frames(video_path, size):
-    frames = []
-    cap = cv2.VideoCapture(video_path)
-    if not cap.isOpened():
-        print(f"Warning: Could not open video file: {video_path}")
-        return frames
 
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
+# --- 시리얼 포트 설정 ---
+GOALKEEPER_SERIAL_PORT = 'COM17'
+ATTACKER_SERIAL_PORT = 'COM13'
+BAUD_RATE = 9600
 
-        frame_resized = cv2.resize(frame, size, interpolation=cv2.INTER_AREA)
-        frame_rgb = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
-        frame_pygame = pygame.surfarray.make_surface(frame_rgb.swapaxes(0, 1))
-        frames.append(frame_pygame)
 
-    cap.release()
-    print(f"Loaded {len(frames)} frames from {video_path}.")
-    return frames
+# --- 카메라 설정 ---
+GOALKEEPER_CAM_INDEX = 0
+ATTACKER_CAM_INDEX = 2
 
-def send_uart_command(serial_port, command):
-    commands = {
-        'grid': 225, 
-        'face': 226,  
-        'kick': 227
-    }
-    byte_to_send = commands.get(command)
-    if byte_to_send is not None and serial_port and serial_port.is_open:
-        try:
-            serial_port.write(bytes([byte_to_send]))
-        except Exception as e:
-            print(f"UART({command}) 데이터 송신 오류: {e}")
+# --- 파일 경로 ---
+HIGHSCORE_FILE = "highscore.txt"
+
+# UART 명령어 바이트
+UART_COMMANDS = {
+    'grid': 225,
+    'face': 226,
+    'kick': 227
+}
