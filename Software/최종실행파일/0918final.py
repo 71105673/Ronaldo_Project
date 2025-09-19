@@ -11,24 +11,6 @@ from Config import *
 
 
 # ===================================================================
-# 2. 하드웨어 통신 함수
-# ===================================================================
-
-def send_uart_command(serial_port, command):
-    commands = {
-        'grid': 225, 
-        'face': 226,  
-        'kick': 227
-    }
-    byte_to_send = commands.get(command)
-    if byte_to_send is not None and serial_port and serial_port.is_open:
-        try:
-            serial_port.write(bytes([byte_to_send]))
-        except Exception as e:
-            print(f"UART({command}) 데이터 송신 오류: {e}")
-
-
-# ===================================================================
 # 4. 메인 게임 함수
 # ===================================================================
 def main():

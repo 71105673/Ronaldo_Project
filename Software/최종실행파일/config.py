@@ -2,14 +2,9 @@ import pygame
 import os
 import cv2
 
-# =========================================
-# 초기 설정 및 상수
-# =========================================
 pygame.init()
 
-# 전체 화면 크기 감지
 try:
-    # Pygame 2.0.2+
     desktop_sizes = pygame.display.get_desktop_sizes()
     total_width = sum(w for w, h in desktop_sizes)
     max_height = max(h for w, h in desktop_sizes)
@@ -26,9 +21,6 @@ screen_width = screen.get_width()
 screen_height = screen.get_height()
 pygame.display.set_caption("Penalty Kick Challenge")
 
-# ================================================================= #
-# *** 3-모니터 레이아웃 설정 (왼쪽 골키퍼 | 중앙 메인 | 오른쪽 공격수) *** #
-# ================================================================= #
 goalkeeper_monitor_width = screen_width // 3
 main_monitor_width = screen_width // 3
 attacker_monitor_width = screen_width - goalkeeper_monitor_width - main_monitor_width
@@ -41,7 +33,6 @@ goalkeeper_monitor_center_x = goalkeeper_start_x + (goalkeeper_monitor_width // 
 main_monitor_center_x = main_start_x + (main_monitor_width // 2)
 attacker_monitor_center_x = attacker_start_x + (attacker_monitor_width // 2)
 
-# 색상 및 폰트 등
 BLACK, WHITE, GRID_COLOR, RED = (0, 0, 0), (255, 255, 255), (0, 255, 0), (255, 0, 0)
 HIGHLIGHT_COLOR, GOLD_COLOR = (255, 0, 0, 100), (255, 215, 0)
 try:
@@ -63,9 +54,7 @@ countdown_font = load_font("../fonts/netmarbleM.ttf", 200, 250)
 score_font = load_font("../fonts/netmarbleB.ttf", 60, 70)
 rank_font = load_font("../fonts/netmarbleB.ttf", 100, 110)
 
-# =========================================
-# 유틸리티 함수
-# =========================================
+
 def load_highscore():
     if not os.path.exists("highscore.txt"): return 0
     try:
@@ -88,9 +77,6 @@ def get_scaled_rect(original_w, original_h, container_w, container_h):
     return new_w, new_h
 
 def load_gif_frames(video_path, size):
-    """
-    비디오 파일의 모든 프레임을 Pygame Surface 객체로 미리 변환하여 리스트로 반환합니다.
-    """
     frames = []
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
@@ -110,3 +96,16 @@ def load_gif_frames(video_path, size):
     cap.release()
     print(f"Loaded {len(frames)} frames from {video_path}.")
     return frames
+
+def send_uart_command(serial_port, command):
+    commands = {
+        'grid': 225, 
+        'face': 226,  
+        'kick': 227
+    }
+    byte_to_send = commands.get(command)
+    if byte_to_send is not None and serial_port and serial_port.is_open:
+        try:
+            serial_port.write(bytes([byte_to_send]))
+        except Exception as e:
+            print(f"UART({command}) 데이터 송신 오류: {e}")
