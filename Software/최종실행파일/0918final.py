@@ -9,12 +9,7 @@ import Photofunia
 from Button import ImageButton, MenuButton
 from Config import *
 
-
-# ===================================================================
-# 4. 메인 게임 함수
-# ===================================================================
 def main():
-    # 게임의 모든 상태 변수를 저장하는 딕셔너리
     game_state = {
         "screen_state": "menu",                    # 현재 화면 상태 (e.g., "menu", "game", "end")
         "chances_left": 5,                         # 남은 기회
@@ -59,10 +54,6 @@ def main():
         "last_cam2_frame": None                                     # 마지막으로 읽은 공격수 카메라 프레임
     }
     
-    # -------------------------------------------------------------------
-    # 리소스 로딩 및 초기 설정
-    # -------------------------------------------------------------------
-
     # 카메라 및 시리얼 포트 연결 시도 및 예외 처리
     if not resources["cap2"].isOpened():
         print("경고: 카메라 2(공격수용)를 열 수 없습니다. 오른쪽 모니터는 검은색으로 표시됩니다.")
@@ -129,10 +120,6 @@ def main():
     game_bg_last_update_time = 0
     current_game_bg_surface = None
 
-    # -------------------------------------------------------------------
-    # 게임 상태 관리 및 화면 전환 함수
-    # -------------------------------------------------------------------
-
     # 화면을 부드럽게 전환(페이드인/아웃)시키는 함수
     def start_transition(target_state):
         nonlocal transition_target, fading_out, fading_in
@@ -198,10 +185,6 @@ def main():
     
     # Pygame의 시계 객체 생성 (FPS 제어용)
     clock = pygame.time.Clock()
-
-    # -------------------------------------------------------------------
-    # 각 화면을 그리는 함수들
-    # -------------------------------------------------------------------
 
     # 플레이어의 점수와 남은 기회를 화면에 그리는 함수
     def draw_player_info(surface, start_x, width, player_type):
@@ -379,12 +362,8 @@ def main():
             if len(game_state["attacker_face_data_buffer"]) >= 4:
                 chunks = game_state["attacker_face_data_buffer"]
                 full_data = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
-
-                # 여기도 동일하게 수정했습니다: X, Y 좌표 순서 변경
                 x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
-
                 game_state["last_attacker_face_coords"] = {"raw": (x_coord_raw, y_coord_raw), "scaled": (attacker_start_x + int(x_coord_raw * (attacker_monitor_width / 640)), int(y_coord_raw * (screen_height / 480)))}
-
                 coords = game_state["last_attacker_face_coords"]
                 capture_area = pygame.Rect(attacker_monitor_center_x - 100, screen_height // 2 - 350, 200, 200)
                 if capture_area.collidepoint(coords["scaled"]):
@@ -405,7 +384,6 @@ def main():
     def draw_webcam_view():
         screen.fill(BLACK)
     
-        # ... (함수 상단 비디오 재생 및 UI 표시 부분은 동일) ...
         # 슈팅 모션 비디오 재생
         if bg_video and (game_state["waiting_for_start"] or game_state["countdown_start"]):
             if game_state["waiting_for_start"]: bg_video.set(cv2.CAP_PROP_POS_FRAMES, 0)
@@ -487,7 +465,7 @@ def main():
                             uart_bytes_attacker = resources["ser_attacker"].read(resources["ser_attacker"].in_waiting)
                             for byte in uart_bytes_attacker:
                                 header = byte >> 5
-                                if header == 3: # Kick 헤더(3)는 정상이므로 그대로 둠
+                                if header == 3:
                                     value = byte & 31
                                     if 1 <= value <= 5:
                                         game_state["attacker_selected_col"] = 5 - value
@@ -503,7 +481,6 @@ def main():
                 if game_state["game_mode"] == "multi":
                     screen.blit(text_surf, text_surf.get_rect(center=(attacker_monitor_center_x, screen_height/2)))
             else:
-                # ... (함수 하단 결과 판정 부분은 동일) ...
                 if game_state["final_col"] is None:
                     game_state["final_col"], game_state["chances_left"] = game_state["selected_col"], game_state["chances_left"] - 1
                     game_state["ball_col"] = random.randint(0, 4) if game_state["game_mode"] == 'single' else (game_state["attacker_selected_col"] if game_state["attacker_selected_col"] is not None else random.randint(0, 4))
@@ -743,14 +720,11 @@ def main():
             draw_info_screen()
         elif current_screen == "game":
             draw_game_screen()
-        
-        # '합성 중' 상태일 때의 로직
         elif current_screen == "synthesizing":
             draw_synthesizing_screen()
             
-            # 합성이 아직 수행되지 않았다면, 단 한 번만 수행
             if not game_state["synthesized_frames"] and game_state["synthesis_info"]:
-                # 중요: "합성 중" 화면을 먼저 표시한 후, 무거운 합성 작업을 시작
+            
                 pygame.display.flip()
 
                 info = game_state["synthesis_info"]
@@ -758,7 +732,6 @@ def main():
                     info["face_path"], info["gif_path"], info["monitor_size"]
                 )
                 
-                # 합성이 끝나면 최종 화면으로 전환
                 if game_state["end_video"]: 
                     game_state["end_video"].set(cv2.CAP_PROP_POS_FRAMES, 0)
                 start_transition("end")
@@ -779,10 +752,7 @@ def main():
                 if transition_alpha == 0: fading_in = False
             transition_surface.set_alpha(transition_alpha); screen.blit(transition_surface, (0, 0))
 
-        # 6. 지금까지 그린 모든 것을 실제 화면에 업데이트
         pygame.display.flip()
-
-        # 7. FPS를 60으로 제한
         clock.tick(60)
 
     # -------------------------------------------------------------------
