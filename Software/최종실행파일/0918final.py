@@ -565,7 +565,7 @@ def main():
 
             screen.blit(goalkeeper_text, (start_x, score_y_pos))
             screen.blit(score_surf, (start_x + goalkeeper_text.get_width() + 50, score_y_pos))
-            screen.blit(attacker_text, (start_x + goalkeeper_text.get_width() + score_surf.get_width() + 100, score_y_pos))
+            screen.blit(attacker_text, (start_x + goalkeeper_text.get_width() + score_surf.get_width() + 100, score_y_pos)) 
         else:
             score_surf = score_font.render(f"FINAL SCORE: {game_state['score']}", True, BLACK)
             screen.blit(score_surf, score_surf.get_rect(center=(main_monitor_center_x, score_y_pos)))
