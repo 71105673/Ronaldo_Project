@@ -3,12 +3,9 @@ import sys
 import cv2
 import numpy as np
 import random
-import os
 import serial
 import Photofunia
 
-from PIL import Image
-import imageio
 from Button import ImageButton, MenuButton
 from Config import *
 
@@ -720,10 +717,10 @@ def main():
                             gif_path = "../image/final_ronaldo/goalkeeper_win.gif"
                         elif score >= 1: 
                             game_state.update({"final_rank": "Rookie Keeper", "end_video": resources["videos"]["defeat"]})
-                            gif_path = "../image/lose_keeper.gif"
+                            gif_path = "../image/lose_goalkeeper.gif"
                         else: 
                             game_state.update({"final_rank": "Human Sieve", "end_video": resources["videos"]["defeat"]})
-                            gif_path = "../image/lose_keeper.gif"
+                            gif_path = "../image/lose_goalkeeper.gif"
                         
                         face_path = game_state["captured_goalkeeper_face_filename"]
                         monitor_size = (goalkeeper_monitor_width, screen_height)
