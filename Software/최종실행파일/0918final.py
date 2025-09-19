@@ -12,15 +12,6 @@ import imageio
 from Button import ImageButton, MenuButton
 from Config import *
 
-#(
-#    screen, screen_width, screen_height,
-#    main_monitor_width, main_start_x, main_monitor_center_x,
-#    goalkeeper_monitor_width, goalkeeper_start_x, goalkeeper_monitor_center_x,
-#    attacker_monitor_width, attacker_start_x, attacker_monitor_center_x,
-#    BLACK, WHITE, GRID_COLOR, RED, HIGHLIGHT_COLOR, GOLD_COLOR,
-#    font, small_font, description_font, title_font, countdown_font, score_font, rank_font,
-#    load_highscore, save_highscore, get_scaled_rect, load_gif_frames
-#)
 
 # ===================================================================
 # 2. 하드웨어 통신 함수
