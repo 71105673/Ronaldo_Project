@@ -1,10 +1,11 @@
-# config.py
 import pygame
 import os
 
 # --- 기본 경로 설정 ---
+# 이 파일(Config.py)이 있는 위치를 기준으로 경로를 설정합니다.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = os.path.join(BASE_DIR, "..") # assets 폴더가 프로젝트 루트에 있다고 가정
+# assets 폴더가 프로젝트 폴더 바로 아래에 있다고 가정합니다.
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 FONT_PATH = os.path.join(ASSETS_DIR, "fonts", "netmarbleM.ttf")
 FONT_BOLD_PATH = os.path.join(ASSETS_DIR, "fonts", "netmarbleB.ttf")

@@ -1,4 +1,3 @@
-# button.py
 import pygame
 from Config import WHITE, BUTTON_COLOR, HOVER_COLOR
 
@@ -25,10 +24,8 @@ class ImageButton:
             print(f"이미지 로드 오류: {image_path} - {e}")
             # 이미지가 없을 경우 대체 사각형 생성
             w, h = width or 100, height or 50
-            self.image = pygame.Surface((w, h))
-            self.image.fill(BUTTON_COLOR)
-            self.hover_image = pygame.Surface((w, h))
-            self.hover_image.fill(HOVER_COLOR)
+            self.image = pygame.Surface((w, h)); self.image.fill(BUTTON_COLOR)
+            self.hover_image = pygame.Surface((w, h)); self.hover_image.fill(HOVER_COLOR)
             self.rect = self.image.get_rect(center=(x, y))
 
     def update(self):
