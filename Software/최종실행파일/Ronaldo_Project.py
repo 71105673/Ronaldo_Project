@@ -23,16 +23,8 @@ def main():
         "final_col": None,                         # 최종 선택된 영역
         "ball_col": None,                          # 공이 날아갈 영역
         "is_failure": False,                       # 막기 실패 여부
-        "is_success": False,                       # 막기 성공 여부
-        "result_time": None,                       # 결과가 나온 시간
-        "gif_start_time": None,                    # 결과 GIF 재생 시작 시간
-        "gif_frame_index": 0,                      # 현재 GIF 프레임 인덱스
-        "waiting_for_start": False,                # 스페이스바 입력 대기 상태
-        "game_mode": None,                         # 게임 모드 ("single" or "multi")
-        "is_capturing_face": False,                # 얼굴 캡처 진행 중 여부
-        "captured_goalkeeper_face_filename": None, # 캡처된 골키퍼 얼굴 파일 경로
-        "captured_attacker_face_filename": None,   # 캡처된 공격수 얼굴 파일 경로
-        "synthesized_frames": [],                  # 합성된 GIF 프레임들을 저장하는 리스트
+        "is_success": False,                   
+                # 합성된 GIF 프레임들을 저장하는 리스트
         "synthesized_frame_index": 0,              # 합성된 GIF의 현재 프레임 인덱스
         "synthesized_last_update": 0,              # 합성된 GIF의 마지막 업데이트 시간
         "synthesis_info": None                     # 합성에 필요한 정보(얼굴, GIF 경로) 임시 저장
@@ -45,8 +37,8 @@ def main():
 
     # 게임 리소스(카메라, 시리얼 포트, 사운드, 이미지 등)를 저장하는 딕셔너리
     resources = {
-        "cap": cv2.VideoCapture(0),                                 # 골키퍼용 카메라
-        "cap2": cv2.VideoCapture(2),                                # 공격수용 카메라
+        "cap": cv2.VideoCapture(2),                                 # 골키퍼용 카메라
+        "cap2": cv2.VideoCapture(0),                                # 공격수용 카메라
         "ser_goalkeeper": None,                                     # 골키퍼용 시리얼 포트
         "ser_attacker": None,                                       # 공격수용 시리얼 포트
         "sounds": {}, "images": {}, "videos": {}, "gif_frames": {},
@@ -65,7 +57,7 @@ def main():
         print(f"오류: 골키퍼 보드(COM17)를 열 수 없습니다 - {e}")
 
     try:
-        resources["ser_attacker"] = serial.Serial('COM13', 9600, timeout=0)
+        resources["ser_attacker"] = serial.Serial('COM19', 9600, timeout=0)
         print("공격수 보드(COM13)가 성공적으로 연결되었습니다.")
     except serial.SerialException as e:
         print(f"오류: 공격수 보드(COM13)를 열 수 없습니다 - {e}")
@@ -363,7 +355,8 @@ def main():
                 chunks = game_state["attacker_face_data_buffer"]
                 full_data = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
                 x_coord_raw, y_coord_raw = (full_data >> 10) & 0x3FF, full_data & 0x3FF
-                game_state["last_attacker_face_coords"] = {"raw": (x_coord_raw, y_coord_raw), "scaled": (attacker_start_x + int(x_coord_raw * (attacker_monitor_width / 640)), int(y_coord_raw * (screen_height / 480)))}
+                game_state["last_attacker_face_coords"] = {"raw": (x_coord_raw, y_coord_raw), 
+                                                           "scaled": (attacker_start_x + (attacker_monitor_width - int(x_coord_raw * (attacker_monitor_width / 640))), int(y_coord_raw * (screen_height / 480)))}
                 coords = game_state["last_attacker_face_coords"]
                 capture_area = pygame.Rect(attacker_monitor_center_x - 100, screen_height // 2 - 350, 200, 200)
                 if capture_area.collidepoint(coords["scaled"]):
@@ -376,9 +369,19 @@ def main():
                 game_state["attacker_face_data_buffer"] = chunks[4:]
 
         if game_state["last_goalkeeper_face_coords"]:
-            pygame.draw.circle(screen, RED, game_state["last_goalkeeper_face_coords"]["scaled"], 20, 4)
+            # 원본 좌표를 변수에 저장
+            coords = game_state["last_goalkeeper_face_coords"]["scaled"]
+            # y축에 50을 더한 새로운 좌표로 원을 그림
+            new_center = (coords[0], coords[1] - 50)
+            pygame.draw.circle(screen, RED, new_center, 20, 4)
+        
+        # 공격수 얼굴 좌표
         if game_state["last_attacker_face_coords"]:
-            pygame.draw.circle(screen, RED, game_state["last_attacker_face_coords"]["scaled"], 20, 4)
+            # 원본 좌표를 변수에 저장
+            coords = game_state["last_attacker_face_coords"]["scaled"]
+            # y축에 50을 더한 새로운 좌표로 원을 그림
+            new_center = (coords[0], coords[1] - 50)
+            pygame.draw.circle(screen, RED, new_center, 20, 4)
     
     # 메인 게임 플레이 화면을 그리는 함수
     def draw_webcam_view():
