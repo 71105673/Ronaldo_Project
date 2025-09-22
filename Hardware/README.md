@@ -174,7 +174,7 @@ endmodule
 ---
 
 # UVM -> Chromakey
-![alt text](image.png)
+![alt text](./image/image.png)
 
 이거 지금 우리 Grenn Filter의 MAX MIN 값 설정 안되어서 FAIL나오는듯 설정하면 ㄱㅊ아짐
 
