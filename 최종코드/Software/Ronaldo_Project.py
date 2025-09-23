@@ -267,7 +267,7 @@ def main():
                 surface.blit(title_surf, title_surf.get_rect(center=(center_x, screen_height/2 - 80)))
                 surface.blit(desc_surf, desc_surf.get_rect(center=(center_x, screen_height/2 + 40)))
                 # 얼굴을 맞춰야 할 영역 표시
-                capture_area_rect = pygame.Rect(center_x - 100, screen_height // 2- 350, 200, 200)
+                capture_area_rect = pygame.Rect(center_x - 100, screen_height // 2- 300, 200, 200)
                 pygame.draw.rect(surface, GRID_COLOR, capture_area_rect, 3, border_radius=15)
             else: 
                 overlay.fill((0, 0, 0, 200)) 
@@ -333,7 +333,7 @@ def main():
                     "scaled": (goalkeeper_start_x + (goalkeeper_monitor_width - int(x_coord_raw * (goalkeeper_monitor_width / 640))), int(y_coord_raw * (screen_height / 480)))
                 }
                 coords = game_state["last_goalkeeper_face_coords"]
-                capture_area = pygame.Rect(goalkeeper_monitor_center_x - 100, screen_height // 2 - 350, 200, 200)
+                capture_area = pygame.Rect(goalkeeper_monitor_center_x - 100, screen_height // 2 - 300, 200, 200)
                 # 얼굴 좌표가 캡처 영역 안에 들어오면 캡처 실행
                 if capture_area.collidepoint(coords["scaled"]):
                     filename = capture_and_save_face(resources["last_cam_frame"], coords["raw"], "captured_goalkeeper_face.png")
@@ -363,7 +363,7 @@ def main():
                 game_state["last_attacker_face_coords"] = {"raw": (x_coord_raw, y_coord_raw), 
                                                            "scaled": (attacker_start_x + (attacker_monitor_width - int(x_coord_raw * (attacker_monitor_width / 640))), int(y_coord_raw * (screen_height / 480)))}
                 coords = game_state["last_attacker_face_coords"]
-                capture_area = pygame.Rect(attacker_monitor_center_x - 100, screen_height // 2 - 350, 200, 200)
+                capture_area = pygame.Rect(attacker_monitor_center_x - 100, screen_height // 2 - 300, 200, 200)
                 if capture_area.collidepoint(coords["scaled"]):
                     filename = capture_and_save_face(resources["last_cam2_frame"], coords["raw"], "captured_attacker_face.png")
                     if filename:
