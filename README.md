@@ -10,4 +10,4 @@
 **코드 변경이나 확인 사항이 있다면 꼭 적기**
 
 ### 😄 이모티콘 모음
-🚀 [Tips](./Software/markdown.md)
+🚀 [Tips](./markdown.md)
