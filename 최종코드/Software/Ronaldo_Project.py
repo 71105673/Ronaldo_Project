@@ -544,6 +544,7 @@ def main():
                         game_state["attacker_did_not_kick"] = True
                         game_state["is_success"] = False 
                         game_state["is_failure"] = False
+                        game_state["score"] += 1 
                     else: # 1인 플레이 또는 공격수가 킥을 선택한 경우
                         # 공 위치 결정 (1인플: 랜덤, 2인플: 공격수 선택)
                         game_state["ball_col"] = random.randint(0, 4) if game_state["game_mode"] == 'single' else game_state["attacker_selected_col"]
