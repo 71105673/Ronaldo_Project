@@ -571,7 +571,8 @@ def main():
                     else:
                         if game_state["end_video"]: game_state["end_video"].set(cv2.CAP_PROP_POS_FRAMES, 0)
                         start_transition("end")
-            should_play_gif = (game_state["is_failure"] or game_state["is_success"] or game_state["attacker_did_not_kick"]) and game_state["result_time"] and (pygame.time.get_ticks() - game_state["result_time"] > 2000)
+            should_play_gif = (game_state["is_failure"] or game_state["is_success"]) and game_state["result_time"] and (pygame.time.get_ticks() - game_state["result_time"] > 2000)
+            GIF_FRAME_DURATION = 70
             gif_key = None # ★ 변경: gif_key 초기화
             if game_state.get("attacker_did_not_kick", False): # ★ 추가: 공격수 未선택 상태를 가장 먼저 체크
                 gif_key = 'miss_kick'
@@ -592,7 +593,7 @@ def main():
                     screen.blit(frame_surface, (goalkeeper_start_x, 0))
                     if game_state["game_mode"] == "multi": screen.blit(frame_surface, (attacker_start_x, 0))
                     current_time = pygame.time.get_ticks()
-                    if current_time - game_state["gif_last_frame_time"] > 70:
+                    if current_time - game_state["gif_last_frame_time"] > GIF_FRAME_DURATION:
                         game_state['gif_frame_index'] = (current_index + 1) % len(frame_list)
                         game_state["gif_last_frame_time"] = current_time
         elif current_screen == "info":
