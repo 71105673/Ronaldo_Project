@@ -60,6 +60,8 @@ def main():
     except: pass
     try:
         ball_img = pygame.image.load("../image/final_ronaldo/Ball.png").convert_alpha()
+        glove_img = pygame.image.load("../image/glove.png").convert_alpha()
+        resources["images"]["glove"] = pygame.transform.scale(glove_img, (200, 200))
         resources["images"]["scoreboard_ball"] = pygame.transform.scale(ball_img, (80, 80))
         resources["images"]["ball"] = pygame.transform.scale(ball_img, (200, 200))
         resources["images"]["info_bg"] = pygame.transform.scale(pygame.image.load("../image/info/info_back2.jpg").convert(), (screen_width, screen_height))
@@ -343,9 +345,12 @@ def main():
                     screen.blit(cam2_surf_scaled, (attacker_start_x, 0))
             for i in range(1, 5): pygame.draw.line(screen, GRID_COLOR, (attacker_start_x + i * cell_w_atk, 0), (attacker_start_x + i * cell_w_atk, screen_height), 2)
             if game_state["attacker_selected_col"] is not None: pygame.draw.rect(screen, RED, (attacker_start_x + game_state["attacker_selected_col"] * cell_w_atk, 0, cell_w_atk, screen_height), 10)
-            if game_state["ball_col"] is not None and resources["images"]["ball"]:
-                ball_rect_atk = resources["images"]["ball"].get_rect(center=(attacker_start_x + game_state["ball_col"] * cell_w_atk + cell_w_atk / 2, screen_height / 2))
-                screen.blit(resources["images"]["ball"], ball_rect_atk)
+            #if game_state["ball_col"] is not None and resources["images"]["ball"]:
+            #    ball_rect_atk = resources["images"]["ball"].get_rect(center=(attacker_start_x + game_state["ball_col"] * cell_w_atk + cell_w_atk / 2, screen_height / 2))
+            #    screen.blit(resources["images"]["ball"], ball_rect_atk)
+            if game_state["final_col"] is not None and resources["images"].get("glove"):
+                glove_rect_atk = resources["images"]["glove"].get_rect(center=(attacker_start_x + game_state["final_col"] * cell_w_atk + cell_w_atk / 2, screen_height / 2))
+                screen.blit(resources["images"]["glove"], glove_rect_atk)
             draw_player_info(screen, attacker_start_x, attacker_monitor_width, "attacker")
         else:
             pygame.draw.rect(screen, BLACK, (attacker_start_x, 0, attacker_monitor_width, screen_height))
