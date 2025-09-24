@@ -1,4 +1,3 @@
-
 `timescale 1ns / 1ps
 
 interface red_glove_intf;
