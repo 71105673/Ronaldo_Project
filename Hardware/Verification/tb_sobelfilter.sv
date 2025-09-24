@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 interface sobel_intf;
     logic clk;
     logic reset;
