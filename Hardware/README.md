@@ -58,12 +58,12 @@ REG_GAIN : AGC(**빛 조절 증폭)는 COM8값에 따라 자동/수동 모드 �
 [5:0]→외부 입력 클럭(XCLK) pre-Scale 여부( 내부클럭 = 입력 클럭 / ( [5:0]값 + 1 ) )  )**
 - **REG_COM7** : **( [7]→모든 레지스터 리셋, [5]→출력 포멧 CIF 선택, [4]→출력 포멧 QVGA선택, [3]→출력 포멧 QCIF선택, [2]→ 출력 포멧  RGB선택, [1]→Colorbar 출력, [0]→ 출력 포멧   Raw RGB 선택 )**
 
-![image.png](attachment:682e3135-3380-487a-b7f8-b95e0a9b217d:image.png)
+![alt text](image/ov7670_reg1.png)
 
 - **REG_COM8** : **( [7]→fast AGC/AEC 알고리즘 en, [6]→AEC 범위(1은 모든 범), [5]→banding filter en(블링크 현상 제어), [2]→AGC en, [1]→AWB en, [0]→AEC en )**
 - **REG_COM9 : ( [6:4]→ AGC최대 게인값 조절, [0]→ AGC/AEC 멈춤)**
 
-![image.png](attachment:0d2ab21d-3bd9-4730-822b-28f5425ac2c0:image.png)
+![alt text](image/ov7670_reg2.png)
 
 - **REG_COM10** : **( [6]→HREF 에서 HSYNC변환, [5]→0 : PCLK 항상 토글, 1 : 수평공백 동안 PCLK 토글 x,
 [4]→ PCLK 신호 반전 (상승에서 하강엣지로 변환), [3]→ HRRF신호 반전, [2]→0 : VSYNC를 하강엣지 PCLK에 맞춤, 1 : VSYNC를 상승 엣지PCLK에 맞춤, [1]→VSYNC 반전, [0]→HSYNC 반전 )**
