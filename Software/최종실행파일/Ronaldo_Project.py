@@ -72,7 +72,7 @@ def main():
     resources["gif_frames"] = {
         'success': load_gif_frames("../image/final_ronaldo/pk.gif", (main_monitor_width, screen_height)),
         'failure': load_gif_frames("../image/G.O.A.T/siuuu.gif", (main_monitor_width, screen_height)),
-        'miss_kick': load_gif_frames("../image/lose_keeper.gif", (main_monitor_width, screen_height)) # ★ 추가: 공격수가 킥을 선택하지 않았을 때 재생할 GIF
+        'miss_kick': load_gif_frames("../image/missed_kick.gif", (main_monitor_width, screen_height)) # ★ 추가: 공격수가 킥을 선택하지 않았을 때 재생할 GIF
     
     }
     resources["videos"]["lose"] = cv2.VideoCapture("../image/lose_goalkeeper.gif")
