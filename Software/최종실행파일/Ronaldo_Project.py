@@ -592,9 +592,10 @@ def main():
                     screen.blit(frame_surface, (goalkeeper_start_x, 0))
                     if game_state["game_mode"] == "multi": screen.blit(frame_surface, (attacker_start_x, 0))
                     current_time = pygame.time.get_ticks()
-                    if current_time - game_state["gif_last_frame_time"] > 70:
+                    if current_time - game_state["gif_last_frame_time"] > 10:
                         game_state['gif_frame_index'] = (current_index + 1) % len(frame_list)
                         game_state["gif_last_frame_time"] = current_time
+                    
         elif current_screen == "info":
             draw_info_screen()
         elif current_screen == "game":
