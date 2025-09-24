@@ -542,7 +542,7 @@ def main():
                     # 공격수가 킥을 선택하지 않은 경우 (2인 플레이)
                     if game_state["game_mode"] == 'multi' and game_state["attacker_selected_col"] is None:
                         game_state["attacker_did_not_kick"] = True
-                        game_state["is_success"] = False 
+                        game_state["is_success"] = True 
                         game_state["is_failure"] = False
                     else: # 1인 플레이 또는 공격수가 킥을 선택한 경우
                         # 공 위치 결정 (1인플: 랜덤, 2인플: 공격수 선택)
