@@ -1,4 +1,4 @@
-# ⚽ Ronaldo_Project  
+# TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
 ### ⚠️ 주의사항
 - 원본이 훼손되지 않도록 버전을 늘려가며 수정 후 Push
@@ -12,6 +12,9 @@
 ### 😄 이모티콘 모음
 🚀 [Tips](./markdown.md)
 
+## 🚀프로젝트 개요
+
+
 ## 🙋‍♂️ 팀원
 
 |**최윤석**|**윤종민**|**이현수**|**정현태**|
@@ -22,4 +25,6 @@
 |:---:|:---:|:---:|:---:|
 | [<img src="./image/08.jpg" width=150 height=150> </br> @71105673](https://github.com/71105673/71105673) | [<img src="./image/07.png" width=150 height=150> </br> @SongYuGyeong](https://github.com/SongYuGyeong) | [<img src="./image/02.png" width=150 height=150> </br> @EunSeongL](https://github.com/EunSeongL) | [<img src="./image/05.png" width=150 height=150> </br> @Hjune01](https://github.com/Hjune01) |
 
+## 🖊️ 역할
 
+## 
