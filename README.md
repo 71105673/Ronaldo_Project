@@ -1,5 +1,7 @@
 # TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
+<img src="./image/game_thumbnail.png" width=900 height=500>
+
 ## 🚀프로젝트 개요
 
 
