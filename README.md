@@ -47,5 +47,9 @@
 ### ⚙️ 검증
 [⚒️[Flesh Filter]](\Hardware\Verification\Flesh_Filter_SystemVerilog_Verification.md)<br>
 [⚒️[Chromakey]](\Hardware\Verification\Chromakey_Verification.md)<br>
+[⚒️[RedGlove Filter]](\Hardware\Verification\Red_Glove_Filter.md)<br>
+[⚒️[Grid Select]](\Hardware\Verification\Red_Glove_Grid_Select.md)<br>
+[⚒️[Sobel Filter]](\Hardware\Verification\Sobel_Filter.md)<br>
+
 
 ## 🚀Trouble Shooting
