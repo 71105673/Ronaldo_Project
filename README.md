@@ -18,14 +18,14 @@
 
 | 이름 | 역할 |
 | :---: | :---: | 
-| **최윤석** | **Team Leader** <br> SCCB Protocol 구현 <br> AXI4_Lite 연결 <br> Embedded 코딩 |
-| **윤종민** | (RED,Grid Selection) Filter 설계 및 검증 <br> UART 통신 <br> AXI4_Lite 연결 <br> Embedded 코딩 |
+| **Team Leader** <br>**최윤석** | SCCB Protocol 구현, AXI4_Lite 연결, Embedded 코딩 |
+| **윤종민** | (RED,Grid Selection) Filter 설계 및 검증, UART 통신, AXI4_Lite 연결, Embedded 코딩 |
 | **이현수** | (Sobel, Flesh) Filter 설계 및 검증 |
 | **정현태** | (Sobel, Flesh) Filter 설계 및 검증 |
-| **엄찬하** | Chromakey 설계 및 검증 <br> VGA Sync 최적화 <br> GUI 구현 |
-| **송유결** | Chromakey 설계 및 검증 <br> GUI 구현 |
-| **이은성** | UART 통신 및 센서 설계 <br> 시스템 통합 및 디버깅 <br> GUI 구현 |
-| **양현준** | UART 통신 및 센서 설계 <br> 시스템 통합 및 디버깅 <br> GUI 구현 |
+| **엄찬하** | Chromakey 설계 및 검증, VGA Sync 최적화, GUI 구현 |
+| **송유경** | Chromakey 설계 및 검증, GUI 구현 |
+| **이은성** | UART 통신 및 센서 설계, 시스템 통합 및 디버깅, GUI 구현 |
+| **양현준** | UART 통신 및 센서 설계, 시스템 통합 및 디버깅, GUI 구현 |
 
 
 ## 🗓️ 개발 일정 <Gantt Chart>
