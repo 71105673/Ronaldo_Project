@@ -15,6 +15,7 @@
 | **tb_sobel**    | 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)                                  |
 
 
+
 =========================== <strong>데이터 처리</strong> ===========================
 
 <strong> 입력</strong> : den, r_in / g_in / b_in (각 4b)<br>
@@ -24,6 +25,9 @@
 <strong> 출력</strong> : 살색이면 r_out / g_out / b_out = 4'hF(흰색), 아니면 4'h0(검정)<br>
 
 </p>
+
+
+
 
 ```verilog
 
