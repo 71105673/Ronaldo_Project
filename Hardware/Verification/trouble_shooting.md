@@ -173,16 +173,16 @@ endmodule
 
 ---
 
-# UVM -> Chromakey
+# SystemVerilog Verification -> Chromakey
 ![alt text](./image/image.png)
 
 이거 지금 우리 Grenn Filter의 MAX MIN 값 설정 안되어서 FAIL나오는듯 설정하면 ㄱㅊ아짐
 
-# UVM -> Flesh Color Filter
+# SystemVerilog Verification -> Flesh Color Filter
 <img width="374" height="400" alt="image" src="https://github.com/user-attachments/assets/807eefcc-2194-43ed-b501-97b58b426c31" />
 <img width="466" height="506" alt="image" src="https://github.com/user-attachments/assets/d38532b6-2063-4320-adce-a263f28449ea" />
 
 
-# UVM -> Sobel Filter
+# SystemVerilog Verification -> Sobel Filter
 <img width="1347" height="547" alt="image" src="https://github.com/user-attachments/assets/b031d82b-b505-4785-a509-3d840cff20ea" />
 
