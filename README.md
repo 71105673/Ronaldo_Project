@@ -100,11 +100,11 @@ Uart, SCCB
 
 ### 🧑‍💻  SOC
 
-| **SoC 전체 구조** |
+| **SoC Structure** |
 | :---: |
 | <img src="./image/SoC_structure.png" width=1000 height=400>|
 | **Memory Map** |
-| <img src="./image/Memory_map.png" width=800 height=300>|
+| <img src="./image/Memory_map.png" width=700 height=200>|
 
 ---
 
