@@ -14,7 +14,6 @@
 | **environment** | 검증 환경의 모든 컴포넌트 통합 및 제어                                                     | - 각 컴포넌트(Gen, Drv, Mon, Scb) 객체 생성 및 Mailbox 연결<br>- **Scoreboard의 처리 횟수**를 기준으로 시뮬레이션 시작 및 종료 제어 |
 | **tb_top** | 시뮬레이션 최상위 모듈                                                                     | - 클럭(Clock) 생성<br>- DUT 및 `interface` 인스턴스화<br>- `environment` 실행 |
 
-Ref는 **'Reference Model' (참조 모델)**
 
 =========================== **데이터 처리 (Chromakey)** ===========================
 
