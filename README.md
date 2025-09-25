@@ -88,7 +88,7 @@ Software/
 설계
 ```
 
-[⚒️[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
+[🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
 
 ---
 
@@ -108,10 +108,10 @@ Uart, SCCB
 <img src="./image/verification_structure.png" width=800 height=400> 
 
 
-[⚒️[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
-[⚒️[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
-[⚒️[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
-[⚒️[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
-[⚒️[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
+[🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
+[🔗[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
+[🔗[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
+[🔗[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
+[🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
 
 ## 🚀 Trouble Shooting
