@@ -13,11 +13,12 @@
 🚀 [Tips](./markdown.md)
 
 ## 🚀프로젝트 개요
-||||
+
+| TOOL | H/W | Language |
 |:---:|:---:|:---:|
-|TOOL|||
-|H/W||
-|Language||
+| <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Xilinx_Vivado_logo.svg/1280px-Xilinx_Vivado_logo.svg.png" alt="Vivado" width="200"> | <img src="https://www.arducam.com/wp-content/uploads/2020/11/arducam-ov7670-vga-camera-module-socket-jetson-nano-raspberry-pi-b0033-01.jpg" alt="OV7670" width="120"> <br> OV7670 | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/1200px-C_Programming_Language.svg.png" alt="C" width="100"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python" width="100"> |
+| <img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/vitis-logo-lockup-16-9.jpg" alt="Vitis" width="200"> | <img src="https://components101.com/sites/default/files/inline-images/Push-Button.jpg" alt="Tact Switch" width="100"> <br> TACT SWITCH | <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/SystemVerilog_logo.svg" alt="SystemVerilog" width="250"> |
+| <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/Anaconda_Logo.png/1200px-Anaconda_Logo.png" alt="Anaconda" width="200"> | <img src="https://digilent.com/reference/_media/reference/programmable-logic/basys-3/basys-3-board-800.png" alt="Basys3" width="200"> <br> Basys3 | |
 
 ## 🙋‍♂️ 팀원
 
