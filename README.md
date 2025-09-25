@@ -56,9 +56,9 @@ SoC, System verilog Verification 캡처 다시 화질이 안좋음
 |:---:|:---:|:---:|
 | <img src="./image/개발환경/tool.png" width=250 height=150> | <img src="./image/개발환경/hw.png" width=250 height=150> | <img src="./image/개발환경/language.png" width=250 height=150>|
 
-## ⚙️ SoftWare
+## ⚙️ Software
 
-### 🏗️ SW Architecture
+### 🏗️ S/W Architecture
 
 ```
 Software/
@@ -86,7 +86,7 @@ Software/
 ### UART 
 
 
-## ⚙️ HardWare
+## ⚙️ Hardware
 
 ```
 어떤 내용으로 정리할 지 생각
