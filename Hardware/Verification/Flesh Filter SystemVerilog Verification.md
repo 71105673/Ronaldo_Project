@@ -2,10 +2,11 @@
 <img width="600" height="538" alt="tb" src="https://github.com/user-attachments/assets/89afa166-8761-4717-a3bf-70287fee1627" />    
 </p>
 <p>
-<strong> 입력 : den, r_in/g_in/b_in(각 4b)
-<strong> 처리 : 4b→8b 확장 → 정수형 YCbCr 근사 → Cb/Cr 범위 + (r>g,b) 규칙으로 살색 판정
-<strong> 출력 : 살색이면 r_out/g_out/b_out = 4'hF(흰색), 아니면 4'h0(검정)   
+<strong> 입력</strong>strong> : den, r_in/g_in/b_in(각 4b)
+<strong> 처리</strong> : 4b→8b 확장 → 정수형 YCbCr 근사 → Cb/Cr 범위 + (r>g,b) 규칙으로 살색 판정
+<strong> 출력</strong> : 살색이면 r_out/g_out/b_out = 4'hF(흰색), 아니면 4'h0(검정)   
 </p>
+
 ```verilog
 
 `timescale 1ns / 1ps
