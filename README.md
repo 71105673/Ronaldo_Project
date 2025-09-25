@@ -13,7 +13,11 @@
 🚀 [Tips](./markdown.md)
 
 ## 🚀프로젝트 개요
-
+||||
+|:---:|:---:|:---:|
+|TOOL|||
+|H/W||
+|Language||
 
 ## 🙋‍♂️ 팀원
 
@@ -33,9 +37,12 @@
 
 ## ⚙️ SofWware
 
-```
-게임 플로우차트, 유아트 통신
-```
+### SW Architecture
+
+### GAME FLOW CHART
+
+### UART 
+
 
 ## ⚙️ HardWare
 
