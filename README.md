@@ -16,10 +16,10 @@
 
 |**최윤석**|**윤종민**|**이현수**|**정현태**|
 |:---:|:---:|:---:|:---:|
-| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://github.com/stockfail) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
+| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://www.notion.so/26b3062cbbcd80669198c099ce6f1c09) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
 
 |**엄찬하**|**송유경**|**이은성**|**양현준**|
 |:---:|:---:|:---:|:---:|
-| [<img src="./image/08.jpg" width=150 height=150> </br> @stockfail](https://github.com/stockfail) | [<img src="./image/07.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/02.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/05.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
+| [<img src="./image/08.jpg" width=150 height=150> </br> @71105673](https://github.com/71105673?tab=repositories) | [<img src="./image/07.png" width=150 height=150> </br> @SongYuGyeong](https://github.com/SongYuGyeong) | [<img src="./image/02.png" width=150 height=150> </br> @EunSeongL](https://github.com/EunSeongL) | [<img src="./image/05.png" width=150 height=150> </br> @Hjune01](https://github.com/Hjune01) |
 
 
