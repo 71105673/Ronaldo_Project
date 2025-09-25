@@ -88,6 +88,10 @@ Software/
 설계
 ```
 
+[⚒️[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
+
+---
+
 ### Filter
 
 ### 통신
