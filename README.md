@@ -11,3 +11,15 @@
 
 ### 😄 이모티콘 모음
 🚀 [Tips](./markdown.md)
+
+## 🙋‍♂️ 팀원
+
+|**최윤석**|**윤종민**|**이현수**|**정현태**|
+|:---:|:---:|:---:|:---:|
+| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://github.com/stockfail) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
+
+|**엄찬하**|**송유경**|**이은성**|**양현준**|
+|:---:|:---:|:---:|:---:|
+| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://github.com/stockfail) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
+
+
