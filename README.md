@@ -14,9 +14,7 @@
 
 ## 🚀프로젝트 개요
 
-| TOOL | H/W | Language |
-|:---:|:---:|:---:|
-| <img src="./image/개발환경/tool.png" width=250 height=150> | <img src="./image/개발환경/hw.png" width=250 height=150> | <img src="./image/개발환경/language.png" width=250 height=150>|
+
 
 ## 🙋‍♂️ 팀원
 
@@ -33,6 +31,10 @@
 ## 🗓️ 개발 일정
 
 ## 💻 개발 환경
+
+| TOOL | H/W | Language |
+|:---:|:---:|:---:|
+| <img src="./image/개발환경/tool.png" width=250 height=150> | <img src="./image/개발환경/hw.png" width=250 height=150> | <img src="./image/개발환경/language.png" width=250 height=150>|
 
 ## ⚙️ SoftWare
 
