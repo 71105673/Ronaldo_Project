@@ -49,7 +49,7 @@ Software/
 └── Photofunia.py       # GIF 프레임 추출 및 얼굴 이미지 합성을 처리
 ```
 
-### 🔍 GAME FLOW CHART
+### 🔍 Flow Chart
 
 ![alt text](image/sw/game_flow_chart.png)
 
