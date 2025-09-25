@@ -16,7 +16,7 @@
 
 |**최윤석**|**윤종민**|**이현수**|**정현태**|
 |:---:|:---:|:---:|:---:|
-| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://www.notion.so/26b3062cbbcd80669198c099ce6f1c09) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
+| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://www.notion.so/26b3062cbbcd80669198c099ce6f1c09) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/yjm020500) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://github.com/Hyunsoo-654) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/hyeontae0327) |
 
 |**엄찬하**|**송유경**|**이은성**|**양현준**|
 |:---:|:---:|:---:|:---:|
