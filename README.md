@@ -49,6 +49,8 @@ Software/
 └── Photofunia.py       # GIF 프레임 추출 및 얼굴 이미지 합성을 처리
 ```
 
+---
+
 ### 🔍 Flow Chart
 
 <img src="./image/sw/game_flow_chart.png" width=800 height=400> 
@@ -58,6 +60,9 @@ Software/
 (웹캠 및 게임 로직) : 웹캠을 이용한 실질적인 게임 플레이와 점수 계산 등 핵심적인 상호작용 처리
 (프로그램 흐름) : 프로그램의 시작, 실행, 완전한 종료까지 애플리케이션의 전체적인 주기 제어
 ```
+
+---
+
 
 ### UART 
 
