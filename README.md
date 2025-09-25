@@ -51,7 +51,7 @@ Software/
 
 ### 🔍 Flow Chart
 
-![alt text](image/sw/game_flow_chart.png)
+<img src="./image/sw/game_flow_chart.png" width=800 height=400> 
 
 ```
 (화면 및 메뉴) : 게임의 전반적인 시스템 흐름과 사용자 인터페이스
