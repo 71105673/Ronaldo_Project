@@ -1,3 +1,17 @@
+<p>
+
+입력 : den, r_in/g_in/b_in(각 4b)
+
+처리 : 4b→8b 확장 → 정수형 YCbCr 근사 → Cb/Cr 범위 + (r>g,b) 규칙으로 살색 판정
+
+출력 : 살색이면 r_out/g_out/b_out = 4'hF(흰색), 아니면 4'h0(검정)   
+
+</p>
+
+<p>
+<img width="1003" height="941" alt="tb" src="https://github.com/user-attachments/assets/89afa166-8761-4717-a3bf-70287fee1627" />    
+</p>
+
 ```verilog
 
 `timescale 1ns / 1ps
