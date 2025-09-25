@@ -97,7 +97,9 @@ Uart, SCCB
 
 ### SOC
 
-### 📝 Verification
+---
+
+### 📝 System Verilog Verification
 
 <img src="./image/verification_structure.png" width=800 height=400> 
 
