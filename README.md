@@ -107,7 +107,7 @@ Uart, SCCB
 
 | **SoC Structure** |
 | :---: |
-| <img src="./image/SoC_structure.png" width=1000 height=400>|
+| <img src="./image/SoC_structure.png" width=800 height=400>|
 | **Memory Map** |
 | <img src="./image/Memory_map.png" width=700 height=300>|
 | **BTN_Detector** | **BTN_REG** |
