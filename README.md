@@ -39,7 +39,7 @@
 
 ## ⚙️ SoftWare
 
-### ⚒️ SW Architecture
+### 🏗️ SW Architecture
 
 ```
 Software/
