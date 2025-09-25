@@ -1,7 +1,8 @@
 # TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
 ```
-SoC 캡처 다시
+SoC, System verilog Verification 캡처 다시 화질이 안좋음
+
 ```
 
 <img src="./image/game_thumbnail.png" width=900 height=500>
