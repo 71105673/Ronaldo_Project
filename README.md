@@ -98,6 +98,9 @@ Uart, SCCB
 ### SOC
 
 ### 📝 Verification
+
+<img src="./image/verification_structure.png" width=800 height=400> 
+
 [⚒️[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
 [⚒️[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
 [⚒️[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
