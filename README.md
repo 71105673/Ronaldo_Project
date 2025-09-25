@@ -39,7 +39,15 @@
 
 ## ⚙️ SoftWare
 
-### SW Architecture
+### ⚒️ SW Architecture
+
+```
+Software/
+├── Ronaldo_Project.py  # 게임의 전체 흐름을 제어하는 메인 파일
+├── Button.py           # 이미지/텍스트 버튼 클래스를 정의하는 모듈
+├── Config.py           # 화면 크기, 색상, 폰트 등 게임 전반의 상수 및 설정값을 정의하는 모듈
+└── Photofunia.py       # GIF 프레임 추출 및 얼굴 이미지 합성을 처리하는 유틸리티 모듈
+```
 
 ### GAME FLOW CHART
 
@@ -69,4 +77,4 @@ Uart, SCCB
 [⚒️[Grid Select]](\Hardware\Verification\Red_Glove_Grid_Select.md)<br>
 [⚒️[Sobel Filter]](\Hardware\Verification\Sobel_Filter.md)<br>
 
-## 🚀Trouble Shooting
+## 🚀 Trouble Shooting
