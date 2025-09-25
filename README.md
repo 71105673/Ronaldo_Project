@@ -84,8 +84,7 @@ Software/
 ## ⚙️ HardWare
 
 ```
-어떤 내용으로 정리할 지
-설계
+어떤 내용으로 정리할 지 생각
 ```
 
 [🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
@@ -99,7 +98,13 @@ Software/
 Uart, SCCB
 ```
 
-### SOC
+### 🧑‍💻  SOC
+
+| **SoC 전체 구조** |
+| :---: |
+| <img src="./image/SoC_structure.png" width=1000 height=400>|
+| **Memory Map** |
+| <img src="./image/Memory_map.png" width=800 height=300>|
 
 ---
 
