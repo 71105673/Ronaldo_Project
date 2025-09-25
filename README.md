@@ -44,6 +44,7 @@
 설계
 ```
 
+### ⚙️ 검증
 [⚒️[Flesh Filter]](\Hardware\Verification\Flesh_Filter_SystemVerilog_Verification.md)<br>
 [⚒️[Chromakey]](\Hardware\Verification\Chromakey_Verification.md)<br>
 
