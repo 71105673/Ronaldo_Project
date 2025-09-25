@@ -20,6 +20,6 @@
 
 |**엄찬하**|**송유경**|**이은성**|**양현준**|
 |:---:|:---:|:---:|:---:|
-| [<img src="./image/01.png" width=150 height=150> </br> @stockfail](https://github.com/stockfail) | [<img src="./image/03.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/04.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/06.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
+| [<img src="./image/08.jpg" width=150 height=150> </br> @stockfail](https://github.com/stockfail) | [<img src="./image/07.png" width=150 height=150> </br> @yjm020500](https://github.com/sundaah) | [<img src="./image/02.png" width=150 height=150> </br> @Hyunsoo-654](https://eunseongl.github.io/) | [<img src="./image/05.png" width=150 height=150> </br> @hyeontae0327 ](https://github.com/drgn88) |
 
 
