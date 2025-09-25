@@ -2,38 +2,40 @@
 <img width="600" height="538" alt="tb" src="https://github.com/user-attachments/assets/89afa166-8761-4717-a3bf-70287fee1627" />    
 </p>
 <p>
-    
+
+<strong>interface</strong> : TB & DUT 신호 묶음, TB 내부 공유 신호 집합<br>
+            : virtual interface로 driver/monitor가 같은 핸들을 사용<br>
+
+<strong>transaction</strong> : 1픽셀 transaction할 데이터 선언 (den,r,g,b + 관찰된 out)<br>
+
+<strong>generator</strong>   : 랜덤 패턴 생성<br>
+            : randomize() 사용하여 랜덤 생성<br>
+            : gent_cnt만큼 tr 생성<br>
+
+<strong>driver</strong>      : 인터페이스에 구동<br>
+            : non-blocking 할당 후 다음 posedge까지 유지<br>
+
+<strong>monitor</strong>     : 결과 샘플링<br>
+            : scoreboard로 den,r,g,b,out 전달<br>
+
+<strong>scoreboard</strong>  : 참조모델(Ref) = DUT와 완전히 동일 수식으로 판정 → PASS/FAIL 집계<br>
+            : DUT가 FFF → detect, 000 → no-detect<br>
+            : 다른 값(X/Z 등) 나오면 스킵<br>
+            : DUT 수식과 Ref 수식이 바이트 정확히 동일한지 판단<br>
+
+<strong>environment</strong> : 위 블록들을 묶어 실행/종료 제어<br>
+            : scoreboard가 gen_count만큼 처리하면 종료<br>
+
+<strong>tb_sobel</strong>    : 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)<br>
+
+=========================== <strong>데이터 처리</strong> ===========================
+
 <strong> 입력</strong> : den, r_in / g_in / b_in (각 4b)<br>
 
 <strong> 처리</strong> : 4b → 8b 확장 → 정수형 YCbCr 근사 → Cb / Cr 범위 + (r > g, b) 규칙으로 살색 판정<br>
 
 <strong> 출력</strong> : 살색이면 r_out / g_out / b_out = 4'hF(흰색), 아니면 4'h0(검정)<br>
 
-<strong>interface</strong> : TB & DUT 신호 묶음, TB 내부 공유 신호 집합
-            : virtual interface로 driver/monitor가 같은 핸들을 사용
-
-<strong>transaction</strong> : 1픽셀 transaction할 데이터 선언 (den,r,g,b + 관찰된 out)
-
-<strong>generator</strong>   : 랜덤 패턴 생성
-            : randomize() 사용하여 랜덤 생성
-            : gent_cnt만큼 tr 생성
-
-<strong>driver</strong>      : 인터페이스에 구동
-            : non-blocking 할당 후 다음 posedge까지 유지
-
-<strong>monitor</strong>     : 결과 샘플링
-            : scoreboard로 den,r,g,b,out 전달
-
-<strong>scoreboard</strong>  : 참조모델(Ref) = DUT와 완전히 동일 수식으로 판정 → PASS/FAIL 집계
-            : DUT가 FFF → detect, 000 → no-detect
-            : 다른 값(X/Z 등) 나오면 스킵
-            : DUT 수식과 Ref 수식이 바이트 정확히 동일한지 판단
-
-<strong>environment</strong> : 위 블록들을 묶어 실행/종료 제어
-            : scoreboard가 gen_count만큼 처리하면 종료
-
-<strong>tb_sobel</strong>    : 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)
-    
 </p>
 
 ```verilog
