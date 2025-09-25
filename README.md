@@ -1,5 +1,9 @@
 # TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
+```
+SoC 캡처 다시
+```
+
 <img src="./image/game_thumbnail.png" width=900 height=500>
 
 ## 🚀프로젝트 개요
@@ -98,13 +102,15 @@ Software/
 Uart, SCCB
 ```
 
-### 🧑‍💻  SOC
+### 🧑‍💻  SoC
 
 | **SoC Structure** |
 | :---: |
 | <img src="./image/SoC_structure.png" width=1000 height=400>|
 | **Memory Map** |
 | <img src="./image/Memory_map.png" width=700 height=300>|
+| **BTN_Detector** | **BTN_REG** |
+|||
 
 ---
 
