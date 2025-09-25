@@ -21,10 +21,10 @@
 
 <strong> 처리</strong> : 4b → 8b 확장 → 정수형 YCbCr 근사 → Cb / Cr 범위 + (r > g, b) 규칙으로 살색 판정<br>
 
-<strong> 출력</strong> : 살색이면 r_out / g_out / b_out = 4'hF(흰색), 아니면 4'h0(검정)<br>
+<strong> 출력</strong> : 살색이면 r_out / g_out / b_out = 4'hF(흰색), 아니면 4'h0(검정)
 
 </p>
-
+===================================================================================<br>
 # SystemVerilog Verification Result
 <img width="374" height="400" alt="image" src="https://github.com/user-attachments/assets/807eefcc-2194-43ed-b501-97b58b426c31" />
 <img width="466" height="506" alt="image" src="https://github.com/user-attachments/assets/d38532b6-2063-4320-adce-a263f28449ea" /><br>
