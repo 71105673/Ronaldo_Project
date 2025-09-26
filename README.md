@@ -91,30 +91,39 @@ Software/
 
 ## ⚙️ Hardware
 
-### Sobel Module
-```
-Sobel Module 관련 내용 작성
-```
+### FIlter Design & Verification
 
-### Grid Selection
-```
-Grid Selection 관련 내용 작성
-```
+#### 📝 System Verilog Verification
 
-### Red Globe 
-```
-Red Globe 관련 내용 작성
-```
+<img src="./image/검증/System_Verilog_verification.png" width=900 height=500> 
 
-### Chroma Key 
-```
-크로마키 관련 내용 작성
-```
+#### Sobel Filter Design & Verification
 
-### SCCB
-```
-SCCB 관련 내용 작성
-```
+[🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
+[🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
+
+#### Flesh Filter Design & Verification
+
+[🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
+[🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
+
+#### Grid Selection Design & Verification
+
+[🔗[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
+[🔗[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
+
+#### Red Globe Design & Verification
+
+[🔗[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
+[🔗[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
+
+#### Chroma Key Design & Verification
+
+[🔗[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
+[🔗[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
+
+#### SCCB Design & Verification
+
 
 [🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
 
@@ -149,17 +158,6 @@ Uart, SCCB
 
 ---
 
-### 📝 System Verilog Verification
-
-<img src="./image/검증/System_Verilog_verification.png" width=900 height=500> 
-
-
-[🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
-[🔗[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
-[🔗[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
-[🔗[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
-[🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
-
 ## 🚀 Trouble Shooting
 [🚀[Trouble Shooting1]](/TroubleShooting/TroubleShooting1.md)<br>
 [🚀[Trouble Shooting2]](/TroubleShooting/TroubleShooting2.md)<br>
@@ -168,9 +166,9 @@ Uart, SCCB
 
 <details>
     <summary>여기를 클릭해서 내용을 펼쳐보세요.</summary>
-    
+
     이 부분이 바로 숨겨져 있던 내용입니다.
-    
+
     - 목록도 만들 수 있고
     - **굵은 글씨**나 *기울임*도 사용할 수 있습니다.
     - ```python
