@@ -174,9 +174,11 @@ Software/
 
 | **AXI_SCCB** |
 | :---: |
-| <img src="./image/SoC/axi_btn.png" width=800 height=400> |
-| **SCCB_REG** |
-| <img src="./image/SoC/btn_reg.png" width=800 height=200> |
+| <img src="./image/SoC/axi_sccb.png" width=800 height=400> |
+| **SCCB_REG_START** |
+| <img src="./image/SoC/sccb_start.png" width=800 height=200> |
+| **SCCB_REG_DONE** |
+| <img src="./image/SoC/sccb_done.png" width=800 height=200> |
 
 </details>
 
