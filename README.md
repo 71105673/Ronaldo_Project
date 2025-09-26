@@ -117,7 +117,7 @@ Software/
 [🔗[RedGlove Filter Design]](/Hardware/Design/Red_Glove_Filter_Design.md)<br>
 [🔗[RedGlove Filter Verification]](/Hardware/Verification/Red_Glove_Filter.md)<br>
 
-#### Chroma Key Design & Verification
+#### ChromaKey Design & Verification
 
 [🔗[Chromakey Design]](/Hardware/Design/Chromakey_Design.md)<br>
 [🔗[Chromakey Verification]](/Hardware/Verification/Chromakey_Verification.md)<br>
