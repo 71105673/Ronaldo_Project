@@ -33,6 +33,7 @@
 <details>
     <summary>Chromakey_Code</summary>
 
+    ```v
     `timescale 1ns / 1ps
 
     module Chromakey_Filter (
@@ -136,15 +137,15 @@
         assign addr = img_show ? ((y >> 1) * 320 + (x >> 1)) : 17'bz;
         assign {r_port, g_port, b_port} = img_show ? {data[15:12], data[10:7], data[4:1]} : 12'b0;
     endmodule
-
-    ////////////////////////////////////////////////////////////
+    ```
+    
 </details>
 
   
 <details>
     <summary>Chromakey_Verification</summary>
 
-    ```v
+    ```verilog
     `timescale 1ns / 1ps
 
     // 1. DUT와 Testbench를 연결하는 Interface (RGB565로 수정)
