@@ -144,9 +144,12 @@ Uart, SCCB
 
 ### 🧑‍💻  IP
 
-| **IP** | **Register** |
-| :---: | :---: |
-| **BTN_Detector** | **BTN_REG** |
+| **IP** |
+| :---: |
+| **BTN_Detector** |
+| <img src="./image/SoC/axi_btn.png" width=800 height=400> |
+| **BTN_REG** |
+| <img src="./image/SoC/btn_reg.png" width=800 height=200> |
 | **BTN IMG** | **BTN_REG_IMAGE** |
 | **UART IMG** | **UART_REG_IMAGE** |
 | **SCCB IMG** | **SCCB_REG_IMAGE** |
