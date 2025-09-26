@@ -108,14 +108,10 @@ Software/
 [🔗[Flesh Filter Design]](/Hardware/Design/Flesh_Filter_SystemVerilog_Design.md)<br>
 [🔗[Flesh Filter Verification]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
 
-#### Grid Selection Design & Verification
+#### Red Globe_Grid Selection Design & Verification
 
-[🔗[Grid Select Design]](/Hardware/Design/Red_Glove_Grid_Select_Design.md)<br>
+[🔗[Red_Glove_Grid Select Design]](/Hardware/Design/Red_Glove_Grid_Select_Design.md)<br>
 [🔗[Grid Select Verification]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
-
-#### Red Globe Design & Verification
-
-[🔗[RedGlove Filter Design]](/Hardware/Design/Red_Glove_Filter_Design.md)<br>
 [🔗[RedGlove Filter Verification]](/Hardware/Verification/Red_Glove_Filter.md)<br>
 
 #### ChromaKey Design & Verification
