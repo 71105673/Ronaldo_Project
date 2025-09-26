@@ -85,6 +85,10 @@ Software/
 
 ---
 
+### 📱 UART 통신
+
+---
+
 ## ⚙️ Hardware
 
 ### 🎨 FIlter Design & Verification
