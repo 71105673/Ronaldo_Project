@@ -14,6 +14,10 @@
   <img width="757" height="537" alt="image" src="https://github.com/user-attachments/assets/80e3eb82-fe2d-447b-b895-b8cc13cbc132" />
 </div>
 
+# Result Picture
+<img width="1200" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" />
+<img width="1200" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" />
+
 # 데이터 처리
 
 | 항목     | 내용                                                                                                 |
@@ -187,4 +191,5 @@ module SobelFilter #(
 endmodule
 
 ```
+
 
