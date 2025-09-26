@@ -1,4 +1,4 @@
-# Chroma Key
+# ChromaKey
 
 ![alt text](../../image/chromakey/chromakey_blockdiagram.png)
 
@@ -157,3 +157,4 @@ endmodule
 ```
 
 </details>
+
