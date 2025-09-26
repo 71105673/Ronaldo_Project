@@ -56,6 +56,7 @@
   </div>
 
   <br>
+## 5. 검증 Code
 <details>
     <summary>Red_Glove_Detector_Verification_Code</summary>
 
