@@ -139,15 +139,8 @@ Software/
 | :---: |
 | <img src="./image/SoC/soc.png" width=800 height=400>|
 
-
-<details>
-    <summary>Memory Map</summary>
-
-| **Memory Map** |
-| :---: |
-| <img src="./image/SoC/memory_map.png" width=400 height=400> |
-
-</details>
+#### Memory Map
+![Memory Map](image/SoC/memory_map.png)
 
 ### 🧑‍💻  IP
 
