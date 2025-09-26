@@ -30,8 +30,6 @@
 <img src="../image/sw/uart_fsm.png" width=700 height=400><br>
 
 
-<img src="../image/trouble_shooting/uart_v2.gif" width="600" height="500">
-
 ### 전이 조건
 - `IDLE → SEND_GRID`: `grid_flag && grid_data_reg != grid_data`
 - `IDLE → SEND_FACE`: `face_flag`
@@ -46,6 +44,8 @@
 - **데이터 패킷에 `헤더` 포함 → 연속 스트리밍 방식으로 통합**
 
 <img src="../image/trouble_shooting/uart_protocol.png" width=700 height=180>
+
+<img src="../image/trouble_shooting/uart_v2.gif" width="600" height="500">
 
 ---
 
