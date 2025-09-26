@@ -141,7 +141,7 @@ Software/
 
 <details>
     <summary>Memory Map</summary>
-![Memory Map](image/SoC/memory.png)
+<img src="./image/SoC/memory.png">
 </details>
 
 ### 🧑‍💻  IP
