@@ -162,3 +162,7 @@ Uart, SCCB
 [🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
 
 ## 🚀 Trouble Shooting
+[🚀[Trouble Shooting1]](/TroubleShooting/TroubleShooting1.md)<br>
+[🚀[Trouble Shooting2]](/TroubleShooting/TroubleShooting2.md)<br>
+[🚀[Trouble Shooting3]](/TroubleShooting/TroubleShooting3.md)<br>
+[🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
