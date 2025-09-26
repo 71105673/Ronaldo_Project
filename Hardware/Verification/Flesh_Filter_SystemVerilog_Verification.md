@@ -16,31 +16,28 @@
 | **tb_sobel**    | 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)                                  |
 
 
-<<<<<<< HEAD
 
 =========================== <strong>데이터 처리</strong> ===========================
-=======
 | 항목     | 내용                                                                                                 |
 |:-----:|------------------------------------------------------------------------------------------------------|
 | **입력** | `den`, `r_in` / `g_in` / `b_in` (각 4비트)                                                           |
 | **처리** | 4b → 8b 확장 → 정수형 YCbCr 근사 변환 → Cb/Cr 범위 + (r > g, b) 조건으로 살색 여부 판정             |
 | **출력** | 살색이면 `r_out`, `g_out`, `b_out` = `4'hF` (흰색), 아니면 `4'h0` (검정)                             |
->>>>>>> b514ebbf2147780b5fa2ab5f357ddedb78625c00
+
 
 
 </p>
 
-<<<<<<< HEAD
 
 
 
-=======
+
 # SystemVerilog Verification Result
 <img width="374" height="400" alt="image" src="https://github.com/user-attachments/assets/807eefcc-2194-43ed-b501-97b58b426c31" />
 <img width="466" height="506" alt="image" src="https://github.com/user-attachments/assets/d38532b6-2063-4320-adce-a263f28449ea" /><br><br>
 
 # Code
->>>>>>> b514ebbf2147780b5fa2ab5f357ddedb78625c00
+
 ```verilog
 
 `timescale 1ns / 1ps
