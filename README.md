@@ -144,7 +144,7 @@ Software/
 </details>
 
 ### 🧑‍💻  IP
-> AXI4-Lite 인터페이스를 기반으로 설계된 각 하드웨어 IP
+> **AXI4-Lite 인터페이스를 기반으로 설계된 각 하드웨어 IP(BTN, UART, SCCB, VGA)**
 
 <details>
     <summary> 🔖 BTN IP</summary>
