@@ -81,6 +81,8 @@ Software/
 (프로그램 흐름) : 프로그램의 시작, 실행, 완전한 종료까지 애플리케이션의 전체적인 주기 제어
 ```
 
+[🔗[Game Guide]](/Software/README.md)<br>
+
 ---
 
 
