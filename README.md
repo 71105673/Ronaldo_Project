@@ -140,7 +140,7 @@ Software/
 | <img src="./image/SoC/soc.png" width=800 height=400>|
 
 #### Memory Map
-![Memory Map](image/SoC/memory_map.png)
+![Memory Map](image/SoC/memory.png)
 
 ### 🧑‍💻  IP
 
