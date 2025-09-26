@@ -42,6 +42,12 @@ Red_Glove_Grid_Selector 모듈은 크게 세 개의 하위 블록으로 구성�
     - R 값이 최대값인지(G, B보다 큰지)
     - G 값이 R, B보다 충분히 큰지
     - 최대값과 최소값의 차이가 충분히 큰지
+    - 그 결과 빨간색만 감지
+        - Filtering
+        - 실제 모습
+  <img width="1295" height="448" alt="image" src="https://github.com/user-attachments/assets/97271ae2-3270-4e0d-a2d9-ac610cb6dd8c" />
+ <img width="1301" height="424" alt="image" src="https://github.com/user-attachments/assets/7b5cddcc-40ef-444b-87a2-0e9f5dc58f76" />
+  
 3. Grid_Partition이 붉은색이 가장 많은 영역을 선택한다.
 4. select_grid는 선택된 Grid에 따라 선택된 영역만 노란색으로 변경한다.
 5. 최종적으로, 선택된 영역만 노란색으로 칠해진 영상이 출력된다.
@@ -297,6 +303,7 @@ endmodule
 ```
 
 </details>
+
 
 
 
