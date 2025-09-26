@@ -27,7 +27,7 @@
   kick 데이터 전송.
   
 
-<img src="../image/sw/Uart_fsm.png" width=700 height=400><br>
+<img src="../image/sw/uart_fsm.png" width=700 height=400><br>
 
 
 <img src="../image/trouble_shooting/uart_v2.gif" width="600" height="500">
