@@ -110,7 +110,7 @@ Software/
 
 #### Red Globe_Grid Selection Design & Verification
 
-[🔗[Red_Glove_Grid Select Design]](/Hardware/Design/Red_Glove_Grid_Select_Design.md)<br>
+[🔗[Red Glove Grid Select Design]](/Hardware/Design/Red_Glove_Grid_Select_Design.md)<br>
 [🔗[Grid Select Verification]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
 [🔗[RedGlove Filter Verification]](/Hardware/Verification/Red_Glove_Filter.md)<br>
 
