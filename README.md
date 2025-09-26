@@ -145,14 +145,16 @@ Software/
 
 <details>
     <summary>Chromakey_Code</summary>
+
 | **AXI_BTN** |
 | :---: |
 | <img src="./image/SoC/axi_btn.png" width=800 height=400> |
 | **BTN_REG** |
 | <img src="./image/SoC/btn_reg.png" width=800 height=200> |
+
 </details>
 
-
+```
 | **AXI_UART** |
 |<img src="./image/SoC/axi_uart.png" width=800 height=350>|
 | **UART_REG_CSR** |
@@ -169,6 +171,7 @@ Software/
 ||
 | **VGA_REG** |
 ||
+```
 
 ---
 
