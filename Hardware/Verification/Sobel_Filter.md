@@ -4,6 +4,19 @@
 <img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
 </div>
 
+# 데이터 처리
+
+|     블록명      |                                    설명                                               |
+|:-----:|---------------------------------------------------------------------------------------|
+| **interface**   | TB & DUT 신호 묶음, TB 내부 공유 신호 집합<br>virtual interface로 driver/monitor가 같은 핸들을 사용 |
+| **transaction** | 1픽셀 transaction할 데이터 선언 (den,r,g,b + 관찰된 out)                               |
+| **generator**   | 랜덤 패턴 생성<br>randomize() 사용하여 랜덤 생성<br>gen_cnt만큼 tr 생성                |
+| **driver**      | 인터페이스에 구동<br>non-blocking 할당 후 다음 posedge까지 유지                       |
+| **monitor**     | 결과 샘플링<br>scoreboard로 den,r,g,b,out 전달                                       |
+| **scoreboard**  | 참조모델(Ref) = DUT와 완전히 동일 수식으로 판정 → PASS/FAIL 집계<br>DUT가 FFF → detect, 000 → no-detect<br>다른 값(X/Z 등) 나오면 스킵<br>DUT 수식과 Ref 수식이 바이트 정확히 동일한지 판단 |
+| **environment** | 위 블록들을 묶어 실행/종료 제어<br>scoreboard가 gen_count만큼 처리하면 종료          |
+| **tb_sobel**    | 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)                                  |
+
 # Code
 ```verilog
 `timescale 1ns / 1ps
