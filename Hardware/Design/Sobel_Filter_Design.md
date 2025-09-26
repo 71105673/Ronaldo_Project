@@ -15,8 +15,8 @@
 </div>
 
 # Result Picture
-<img width="1200" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" />
-<img width="1200" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" />
+<img width="1200" height="700" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" />
+<img width="1200" height="700" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" />
 
 # 데이터 처리
 
@@ -191,5 +191,6 @@ module SobelFilter #(
 endmodule
 
 ```
+
 
 
