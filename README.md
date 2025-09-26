@@ -185,9 +185,11 @@ Software/
 
 | **AXI_VGA** |
 | :---: |
-| <img src="./image/SoC/axi_btn.png" width=800 height=400> |
-| **VGA_REG** |
-| <img src="./image/SoC/vga_reg.png" width=800 height=200> |
+| <img src="./image/SoC/axi_vga.png" width=800 height=400> |
+| **VGA_REG_Cen_Data** |
+| <img src="./image/SoC/vga_cen_data.png" width=800 height=200> |
+| **VGA_REG_Grid_Data** |
+| <img src="./image/SoC/vga_grid_sel.png" width=800 height=200> |
 
 </details>
 
