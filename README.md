@@ -233,11 +233,11 @@ Software/
 
 ![alt text](<image/gif모음/골키퍼 뷰.gif>)
 
+![alt text](<image/gif모음/키커 공 차는 영상.gif>)
+
 ![alt text](image/gif모음/골키퍼선택화면녹화.gif)
 
 ![alt text](<image/gif모음/얼굴합성 및 인식.gif>)
-
-![alt text](<image/gif모음/키커 공 차는 영상.gif>)
 
 ---
 
