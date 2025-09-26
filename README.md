@@ -198,7 +198,7 @@ Software/
 </details>
 
 ### 🧑‍💻 Embedded
-- 직접 설계한 AXI4-Lite 기반 IP (BTN, UART, SCCB, VGA)들의 하드웨어 동작을 검증하고, 이를 통합 제어하여 간단한 임베디드 시스템을 구현
+- 직접 설계한 AXI4-Lite 기반 IP (BTN, UART, SCCB, VGA)를 기반으로, 간단한 임베디드 시스템을 구현
 #### ⚙️ CODE [[Embedded]](/최종코드/Software/main.c)<br>
 
 
