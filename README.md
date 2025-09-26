@@ -99,27 +99,27 @@ Software/
 
 #### Sobel Filter Design & Verification
 
-[🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
+[🔗[Sobel Filter]](/Hardware/Design/Sobel_Filter_Design.md)<br>
 [🔗[Sobel Filter]](/Hardware/Verification/Sobel_Filter.md)<br>
 
 #### Flesh Filter Design & Verification
 
-[🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
+[🔗[Flesh Filter]](/Hardware/Design/Flesh_Filter_SystemVerilog_Design.md)<br>
 [🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
 
 #### Grid Selection Design & Verification
 
-[🔗[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
+[🔗[Grid Select]](/Hardware/Design/Red_Glove_Grid_Select_Design.md)<br>
 [🔗[Grid Select]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
 
 #### Red Globe Design & Verification
 
-[🔗[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
+[🔗[RedGlove Filter]](/Hardware/Design/Red_Glove_Filter_Design.md)<br>
 [🔗[RedGlove Filter]](/Hardware/Verification/Red_Glove_Filter.md)<br>
 
 #### Chroma Key Design & Verification
 
-[🔗[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
+[🔗[Chromakey]](/Hardware/Design/Chromakey_Design.md)<br>
 [🔗[Chromakey]](/Hardware/Verification/Chromakey_Verification.md)<br>
 
 #### SCCB Design & Verification
