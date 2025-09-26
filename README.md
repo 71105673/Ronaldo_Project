@@ -149,7 +149,7 @@ Software/
 ### 🧑‍💻  IP
 
 <details>
-    <summary>BTN IP</summary>
+    <summary> 🚩 BTN IP</summary>
 
 | **AXI_BTN** |
 | :---: |
@@ -160,7 +160,7 @@ Software/
 </details>
 
 <details>
-    <summary>UART IP</summary>
+    <summary> 🚩 UART IP</summary>
 
 | **AXI_UART** |
 | :---: |
@@ -175,7 +175,7 @@ Software/
 </details>
 
 <details>
-    <summary>SCCB IP</summary>
+    <summary> 🚩 SCCB IP</summary>
 
 | **AXI_SCCB** |
 | :---: |
@@ -188,7 +188,7 @@ Software/
 </details>
 
 <details>
-    <summary>VGA IP</summary>
+    <summary> 🚩 VGA IP</summary>
 
 | **AXI_VGA** |
 | :---: |
