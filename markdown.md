@@ -69,3 +69,4 @@
 :eyes: 👀  
 :ear: 👂  
 :speech_balloon: 💬
+:camera : 📸

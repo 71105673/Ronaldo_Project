@@ -91,35 +91,35 @@ Software/
 
 ## ⚙️ Hardware
 
-### FIlter Design & Verification
+### 🎨 FIlter Design & Verification
 
 #### 📝 System Verilog Verification
 
 <img width="850" height="550" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
 
 
-#### Sobel Filter Design & Verification
+#### 🎨 Sobel Filter Design & Verification
 
 [🔗[Sobel Filter Design]](/Hardware/Design/Sobel_Filter_Design.md)<br>
 [🔗[Sobel Filter Verification]](/Hardware/Verification/Sobel_Filter.md)<br>
 
-#### Flesh Filter Design & Verification
+#### 🎨 Flesh Filter Design & Verification
 
 [🔗[Flesh Filter Design]](/Hardware/Design/Flesh_Filter_SystemVerilog_Design.md)<br>
 [🔗[Flesh Filter Verification]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
 
-#### Red Globe_Grid Selection Design & Verification
+#### 🎨 Red Globe_Grid Selection Design & Verification
 
 [🔗[Red Glove Grid Select Design]](/Hardware/Design/Red_Glove_Grid_Select_Design.md)<br>
 [🔗[Grid Select Verification]](/Hardware/Verification/Red_Glove_Grid_Select.md)<br>
 [🔗[RedGlove Filter Verification]](/Hardware/Verification/Red_Glove_Filter.md)<br>
 
-#### ChromaKey Design & Verification
+#### 🎨 ChromaKey Design & Verification
 
 [🔗[Chromakey Design]](/Hardware/Design/Chromakey_Design.md)<br>
 [🔗[Chromakey Verification]](/Hardware/Verification/Chromakey_Verification.md)<br>
 
-
+#### 📸 OV7670
 [🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
 
 ---
@@ -200,7 +200,7 @@ Software/
 
 ### 🧑‍💻 Embedded
 
->**직접 설계한 AXI4-Lite 기반 IP (BTN, UART, SCCB, VGA)를 기반으로, 간단한 임베디드 시스템을 구현**
+>**직접 설계한 AXI4-Lite 기반 IP (BTN, UART, SCCB, VGA)를 기반으로, 임베디드 시스템을 구현**
 
 #### ⚙️ CODE [[Embedded]](/최종코드/Software/main.c)<br>
 
