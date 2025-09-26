@@ -198,12 +198,11 @@ Software/
 
 </details>
 
-### 🧑‍💻 Embedded
+## ⚙️ Firmware
 
 >**직접 설계한 AXI4-Lite 기반 IP (BTN, UART, SCCB, VGA)를 기반으로, 임베디드 시스템을 구현**
 
-#### ⚙️ CODE [[Embedded]](/최종코드/Software/main.c)<br>
-
+#### ⚙️ CODE [[Embedded]](/Firmware/main.c)<br>
 
 ---
 
