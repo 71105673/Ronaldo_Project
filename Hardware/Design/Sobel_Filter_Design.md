@@ -2,23 +2,27 @@
 <div align="center">
 <img width="1258" height="902" alt="image" src="https://github.com/user-attachments/assets/bffad808-9cca-422f-bda8-c4b8c65d6e82" />
 </div>
+<br>
 
 # Difference of Gx, Gy  
 <div align="center">
 <img width="760" height="292" alt="img" src="https://github.com/user-attachments/assets/d52d404f-47e9-48a9-a1e2-0da477338030" />
 </div>
+<br>
 
  # Port Diagram
 
 <div align="center">
   <img width="757" height="537" alt="image" src="https://github.com/user-attachments/assets/80e3eb82-fe2d-447b-b895-b8cc13cbc132" />
 </div>
+<br>
 
 # Result Picture
 <div align="center">
 <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" />
 <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" />
 </div>
+<br>
 
 # 데이터 처리
 
@@ -27,6 +31,7 @@
 | **입력** | `den`, `r_in` / `g_in` / `b_in` (각 4비트)                                                           |
 | **처리** | 4b → 8b Nibble 복제 → 정수형 YCbCr 근사 변환 → Cb/Cr 범위 + (r > g, b) 조건으로 살색 여부 판정             |
 | **출력** | 살색이면 `r_out`, `g_out`, `b_out` = `4'hF` (흰색), 아니면 `4'h0` (검정)                             |
+<br>
 
 # Code
 
@@ -193,6 +198,7 @@ module SobelFilter #(
 endmodule
 
 ```
+
 
 
 
