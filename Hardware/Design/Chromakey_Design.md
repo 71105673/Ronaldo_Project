@@ -102,41 +102,41 @@ module Chromakey_Filter (
         .green(green)
     );
 endmodule
-////////////////////////////////////////////////////////////
+
 module BackgroundROM (
     input  logic [16:0] raddr,
     output logic [15:0] data
 );
     logic [15:0] mem[0:320*240-1];
     initial begin
-        $readmemh("background.mem", mem);  // QQVGA
+        $readmemh("background.mem", mem);
     end
     assign data = mem[raddr];
 endmodule
-////////////////////////////////////////////////////////////
+
 module GreenFilter_RGB (
     input  logic [4:0] i_r,
     input  logic [5:0] i_g,
     input  logic [4:0] i_b,
     output logic       green
 );
-    parameter G_THRESH           = 6'd18; // 최소 초록 인식 (검정 제외)
-    parameter DOMINANCE_OFFSET_R = 6'd7;  // R 대비 G 우위
-    parameter DOMINANCE_OFFSET_B = 6'd7;  // B 대비 G 우위
-    parameter R_MAX              = 5'd28; // R 최대 허용치
-    parameter B_MAX              = 5'd28; // B 최대 허용치
+    parameter G_THRESH           = 6'd18; 
+    parameter DOMINANCE_OFFSET_R = 6'd7;  
+    parameter DOMINANCE_OFFSET_B = 6'd7;  
+    parameter R_MAX              = 5'd28; 
+    parameter B_MAX              = 5'd28;
+
     logic [5:0] r_6bit, b_6bit;
-    // R/B를 6비트로 확장
+
     assign r_6bit = {i_r, i_r[4]};
     assign b_6bit = {i_b, i_b[4]};
-    // 녹색 판정
     assign green = (i_g >= G_THRESH) &&
                    (i_g > r_6bit + DOMINANCE_OFFSET_R) &&
                    (i_g > b_6bit + DOMINANCE_OFFSET_B) &&
                    (i_r < R_MAX) &&
                    (i_b < B_MAX);
 endmodule
-////////////////////////////////////////////////////////////
+
 module ImgReader (
     input  logic        DE,
     input  logic [ 9:0] x,
