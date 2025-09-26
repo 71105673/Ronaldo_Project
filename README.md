@@ -89,10 +89,8 @@ Software/
 
 ### 🎨 FIlter Design & Verification
 
-#### 📝 System Verilog Verification
-
 <details>
-    <summary> 🔖 SystemVerilog Verification Structure</summary>
+    <summary> 📝 SystemVerilog Verification Structure</summary>
 <img width="850" height="550" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
 </details>
 
