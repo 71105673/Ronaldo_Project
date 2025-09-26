@@ -1,7 +1,7 @@
 # TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
 ```
-⚠️ 주의 사항 : 항상 git pull 하고 git push 여기 윤석이 테스트도 해볼게
+⚠️ 주의 사항 : 항상 git pull 하고 git push 
 
 ```
 
