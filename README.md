@@ -128,7 +128,7 @@ Uart, SCCB
 
 ### 📝 System Verilog Verification
 
-<img src="./image/System_Verilog_verification.png" width=800 height=400> 
+<img src="./image/System_Verilog_verification.png" width=900 height=500> 
 
 
 [🔗[Flesh Filter]](/Hardware/Verification/Flesh_Filter_SystemVerilog_Verification.md)<br>
