@@ -153,7 +153,7 @@ Software/
 | **UART_REG** |
 ||
 | **AXI_SCCB** |
-||
+|<img src="./image/SoC/axi_sccb.png" width=800 height=200>|
 | **SCCB_REG** |
 ||
 | **AXI_VGA** |
