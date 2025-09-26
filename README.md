@@ -67,6 +67,7 @@ Software/
 ├── Config.py           # 화면 크기, 색상, 폰트 등 게임 전반의 상수 및 설정값을 정의
 └── Photofunia.py       # GIF 프레임 추출 및 얼굴 이미지 합성을 처리
 ```
+[🔗[Penalty Kick Game]](/Software/최종실행파일)<br>
 
 ---
 
