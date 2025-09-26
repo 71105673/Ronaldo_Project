@@ -149,7 +149,7 @@ Software/
 | **BTN_REG** |
 | <img src="./image/SoC/btn_reg.png" width=800 height=200> |
 | **AXI_UART** |
-||
+|<img src="./image/SoC/axi_uart.png" width=800 height=400>|
 | **UART_REG** |
 ||
 | **AXI_SCCB** |
