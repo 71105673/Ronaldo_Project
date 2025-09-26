@@ -57,3 +57,97 @@
 - **해상도 매칭**: 640×480 입력 영상과 320×240 배경 영상을 다운스케일링 매핑
 - **유연한 임계값 조정**: 파라미터(G_THRESH, R_MAX, B_MAX)를 통해 녹색 검출 민감도 조정 가능
 - **간단한 구조**: LUT 기반 ROM과 단순 비교 연산만 사용하여 FPGA에 적합
+
+<details>
+    <summary>Chromakey_Code</summary>
+
+```verilog
+`timescale 1ns / 1ps
+module Chromakey_Filter (
+    input  logic       DE,
+    input  logic [9:0] x,
+    input  logic [9:0] y,
+    input  logic [4:0] i_r,
+    input  logic [5:0] i_g,
+    input  logic [4:0] i_b,
+    output logic       green,
+    output logic [3:0] r_port,
+    output logic [3:0] g_port,
+    output logic [3:0] b_port
+);
+    logic [16:0] bg_addr;
+    logic [15:0] bg_data;
+    ImgReader U_Chromakey_Reader (
+        .DE    (DE),
+        .x     (x),
+        .y     (y),
+        .addr  (bg_addr),
+        .data  (bg_data),
+        .r_port(r_port),
+        .g_port(g_port),
+        .b_port(b_port)
+    );
+    BackgroundROM U_BACKROM (
+        .raddr(bg_addr),
+        .data (bg_data)
+    );
+    GreenFilter_RGB U_ChromakeyFilter_RGB(
+        .i_r(i_r),
+        .i_g(i_g),
+        .i_b(i_b),
+        .green(green)
+    );
+endmodule
+////////////////////////////////////////////////////////////
+module BackgroundROM (
+    input  logic [16:0] raddr,
+    output logic [15:0] data
+);
+    logic [15:0] mem[0:320*240-1];
+    initial begin
+        $readmemh("background.mem", mem);  // QQVGA
+    end
+    assign data = mem[raddr];
+endmodule
+////////////////////////////////////////////////////////////
+module GreenFilter_RGB (
+    input  logic [4:0] i_r,
+    input  logic [5:0] i_g,
+    input  logic [4:0] i_b,
+    output logic       green
+);
+    parameter G_THRESH           = 6'd18; // 최소 초록 인식 (검정 제외)
+    parameter DOMINANCE_OFFSET_R = 6'd7;  // R 대비 G 우위
+    parameter DOMINANCE_OFFSET_B = 6'd7;  // B 대비 G 우위
+    parameter R_MAX              = 5'd28; // R 최대 허용치
+    parameter B_MAX              = 5'd28; // B 최대 허용치
+    logic [5:0] r_6bit, b_6bit;
+    // R/B를 6비트로 확장
+    assign r_6bit = {i_r, i_r[4]};
+    assign b_6bit = {i_b, i_b[4]};
+    // 녹색 판정
+    assign green = (i_g >= G_THRESH) &&
+                   (i_g > r_6bit + DOMINANCE_OFFSET_R) &&
+                   (i_g > b_6bit + DOMINANCE_OFFSET_B) &&
+                   (i_r < R_MAX) &&
+                   (i_b < B_MAX);
+endmodule
+////////////////////////////////////////////////////////////
+module ImgReader (
+    input  logic        DE,
+    input  logic [ 9:0] x,
+    input  logic [ 9:0] y,
+    output logic [16:0] addr,
+    input  logic [15:0] data,
+    output logic [ 3:0] r_port,
+    output logic [ 3:0] g_port,
+    output logic [ 3:0] b_port
+);
+    logic img_show;
+    assign img_show = (DE && (x < 640) && (y < 480));
+    assign addr = img_show ? ((y >> 1) * 320 + (x >> 1)) : 17'bz;
+    assign {r_port, g_port, b_port} = img_show ? {data[15:12], data[10:7], data[4:1]} : 12'b0;
+endmodule
+```
+
+</details>
