@@ -149,7 +149,7 @@ Software/
 | <img src="./image/SoC/memory_map.png" width=400 height=400> |
 
 </details>
-
+<br>
 
 ### 🧑‍💻  IP
 
