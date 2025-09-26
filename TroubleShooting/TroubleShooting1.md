@@ -26,9 +26,10 @@
 - **SEND_KICK**  
   kick 데이터 전송.
   
-  <img src="./image/sw/Uart_fsm.png" width=700 height=400>
+<img src="../image/sw/Uart_fsm.png" width=700 height=400>
 
-  <img src="./image/trouble_shooting/uart_v2.gif" width="600" height="500">
+
+<img src="../image/trouble_shooting/uart_v2.gif" width="600" height="500">
 
 ### 전이 조건
 - `IDLE → SEND_GRID`: `grid_flag && grid_data_reg != grid_data`
@@ -43,7 +44,7 @@
 - **의견 종합 후 단일 프로토콜 확립**
 - **데이터 패킷에 `헤더` 포함 → 연속 스트리밍 방식으로 통합**
 
-<img src="./image/trouble_shooting/uart_protocol.png" width=700 height=300>
+<img src="../image/trouble_shooting/uart_protocol.png" width=700 height=300>
 
 ---
 
