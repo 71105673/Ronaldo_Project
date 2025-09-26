@@ -137,7 +137,6 @@ Uart, SCCB
 
 ### 🧑‍💻  IP
 
-| **IP** |
 | :---: |
 | **BTN_Detector** |
 | <img src="./image/SoC/axi_btn.png" width=800 height=400> |
