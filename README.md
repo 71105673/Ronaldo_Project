@@ -91,8 +91,36 @@ Software/
 
 ## ⚙️ Hardware
 
+### Sobel Module
 ```
-어떤 내용으로 정리할 지 생각
+Sobel Module 관련 내용 작성
+```
+
+### Grid Selection
+```
+Grid Selection 관련 내용 작성
+```
+
+### Red Globe 
+```
+Red Globe 관련 내용 작성
+```
+
+### Chroma Key 
+```
+크로마키 관련 내용 작성
+```
+
+### SCCB
+```
+SCCB 관련 내용 작성
+```
+
+### Verification
+![alt text](image/verification.png)
+
+```
+Verification 관련 내용 작성
 ```
 
 [🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
