@@ -139,7 +139,7 @@ Software/
 <img src="./image/SoC/memory.png">
 </details>
 
-### 🧑‍💻  IP
+### 🧑‍💻  IP & CODE
 > **AXI4-Lite 인터페이스를 기반으로 설계된 각 하드웨어 IP(BTN, UART, SCCB, VGA)**
 
 <details>
@@ -152,13 +152,6 @@ Software/
 | <img src="./image/SoC/btn_reg.png" width=800 height=200> |
 
 </details>
-
-<details>
-    <summary> ⚙️ BTN IP CODE</summary>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
-</details>
-
 
 <details>
     <summary> 🔖 UART IP</summary>
@@ -176,12 +169,6 @@ Software/
 </details>
 
 <details>
-    <summary> ⚙️ UART IP CODE</summary>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
-</details>
-
-<details>
     <summary> 🔖 SCCB IP</summary>
 
 | **AXI_SCCB** |
@@ -195,12 +182,6 @@ Software/
 </details>
 
 <details>
-    <summary> ⚙️ SCCB IP CODE</summary>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
-</details>
-
-<details>
     <summary> 🔖 VGA IP</summary>
 
 | **AXI_VGA** |
@@ -211,6 +192,24 @@ Software/
 | **VGA_REG_Grid_Data** |
 | <img src="./image/SoC/vga_grid_sel.png" width=800 height=200> |
 
+</details>
+
+<details>
+    <summary> ⚙️ BTN IP CODE</summary>
+    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
+    <a href="/Hardware/IP/hdl/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
+</details>
+
+<details>
+    <summary> ⚙️ UART IP CODE</summary>
+    <a href="/Hardware/IP/hdl/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
+    <a href="/Hardware/IP/hdl/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
+</details>
+
+<details>
+    <summary> ⚙️ SCCB IP CODE</summary>
+    <a href="/Hardware/IP/hdl/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
+    <a href="/Hardware/IP/hdl/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
 </details>
 
 <details>
