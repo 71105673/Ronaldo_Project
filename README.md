@@ -85,10 +85,6 @@ Software/
 
 ---
 
-
-### UART 
-
-
 ## ⚙️ Hardware
 
 ### 🎨 FIlter Design & Verification
@@ -197,6 +193,8 @@ Software/
 | <img src="./image/SoC/vga_grid_sel.png" width=800 height=200> |
 
 </details>
+
+---
 
 ## ⚙️ Firmware
 
