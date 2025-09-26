@@ -144,6 +144,7 @@ Software/
 </details>
 
 ### 🧑‍💻  IP
+> AXI4-Lite 인터페이스를 기반으로 설계된 각 하드웨어 IP
 
 <details>
     <summary> 🔖 BTN IP</summary>
