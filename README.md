@@ -94,9 +94,9 @@ Software/
 ### FIlter Design & Verification
 
 #### 📝 System Verilog Verification
-<center>
-<img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
-</center>
+
+<center><img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" /></center>
+
 
 #### Sobel Filter Design & Verification
 
