@@ -5,14 +5,15 @@
 </div>
 
 # 데이터 처리
-
+<div align="center">
 | 항목     | 내용                                                                                                 |
 |:-----:|------------------------------------------------------------------------------------------------------|
 | **입력** | `den`, `r_in` / `g_in` / `b_in` (각 4비트)                                                           |
 | **처리** | 4b → 8b Nibble 복제 → 정수형 YCbCr 근사 변환 → Cb/Cr 범위 + (r > g, b) 조건으로 살색 여부 판정             |
 | **출력** | 살색이면 `r_out`, `g_out`, `b_out` = `4'hF` (흰색), 아니면 `4'h0` (검정)                             |
-
+</div>
 # Code
+<div align="center">
 ```verilog
 `timescale 1ns/1ps
 
@@ -55,6 +56,7 @@ module flesh_color (
 
 endmodule
 ```
+</div>
 
 
 
