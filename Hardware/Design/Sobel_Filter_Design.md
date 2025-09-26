@@ -1,3 +1,13 @@
+# 3x3 Kernel 
+<div align="center">
+<img width="1258" height="902" alt="image" src="https://github.com/user-attachments/assets/bffad808-9cca-422f-bda8-c4b8c65d6e82" />
+</div>
+
+# Difference of Gx, Gy  
+<div align="center">
+<img width="760" height="292" alt="img" src="https://github.com/user-attachments/assets/d52d404f-47e9-48a9-a1e2-0da477338030" />
+</div>
+
  # Port Diagram
 
 <div align="center">
@@ -177,3 +187,4 @@ module SobelFilter #(
 endmodule
 
 ```
+
