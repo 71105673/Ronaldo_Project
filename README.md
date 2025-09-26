@@ -161,13 +161,4 @@ Software/
 [🚀[Trouble Shooting3]](/TroubleShooting/TroubleShooting3.md)<br>
 [🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
 
-<details>
-    <summary>여기를 클릭해서 내용을 펼쳐보세요.</summary>
 
-    이 부분이 바로 숨겨져 있던 내용입니다.
-
-    - 목록도 만들 수 있고
-    - **굵은 글씨**나 *기울임*도 사용할 수 있습니다.
-    - ```python
-      print("코드 블록도 넣을 수 있습니다.")
-</details>
