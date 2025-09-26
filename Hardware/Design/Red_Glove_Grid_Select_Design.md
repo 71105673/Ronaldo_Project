@@ -65,22 +65,24 @@ Red_Glove_Grid_Selector 모듈은 크게 세 개의 하위 블록으로 구성�
 `timescale 1ns / 1ps
 
 module Red_Glove_Grid_Selector (
-    input logic pclk,
-    input logic reset,
-    input logic [3:0] r_in,
-    input logic [3:0] g_in,
-    input logic [3:0] b_in,
-    input logic v_sync,
-    input logic DE,
-    input logic [9:0] x_pixel,
-    output logic [2:0] selected_grid,
-    output logic [3:0] r_out,
-    output logic [3:0] g_out,
-    output logic [3:0] b_out
+    input  logic        pclk,
+    input  logic        reset,
+    input  logic [3:0]  r_in,
+    input  logic [3:0]  g_in,
+    input  logic [3:0]  b_in,
+    input  logic        v_sync,
+    input  logic        DE,
+    input  logic [9:0]  x_pixel,
+    output logic [2:0]  selected_grid,
+    output logic [3:0]  r_out,
+    output logic [3:0]  g_out,
+    output logic [3:0]  b_out
 );
 
+    // internal signal
     logic red_glove_detect;
 
+    // Red glove detection
     RedGlove_Detector U_RedGlove_Detector (
         .r_data(r_in),
         .g_data(g_in),
@@ -88,6 +90,7 @@ module Red_Glove_Grid_Selector (
         .detect(red_glove_detect)
     );
 
+    // Grid partition logic
     Grid_Partition U_Grid_Partition (
         .clk             (pclk),
         .reset           (reset),
@@ -98,6 +101,7 @@ module Red_Glove_Grid_Selector (
         .selected_grid   (selected_grid)      // 0 = 없음, 1~5 = grid
     );
 
+    // Grid-based color selection
     select_grid U_Selected_Grid (
         .DE(DE),
         .selected_grid(selected_grid),  // 0 = 없음, 1~5 = Grid
@@ -129,8 +133,8 @@ module RedGlove_Detector (
     output logic       detect
 );
 
-    localparam SATURATION = 3;
-    localparam DIFFERENCE = 2;
+    localparam SATURATION = 7;
+    localparam DIFFERENCE = 6;
 
     logic [3:0] max_val, min_val, delta;
 
@@ -142,11 +146,11 @@ module RedGlove_Detector (
 
     assign delta = max_val - min_val;
 
-   
-    assign detect = (r_data == max_val) && (delta >= SATURATION) && 
-        ((r_data - g_data) >= DIFFERENCE) && ((r_data - b_data) >= DIFFERENCE);
+    assign detect = (r_data == max_val) && (delta >= SATURATION) &&
+                    ((r_data - g_data) >= DIFFERENCE) && ((r_data - b_data) >= DIFFERENCE);
 
 endmodule
+
 ```
 
 </details>
@@ -164,58 +168,55 @@ module Grid_Partition (
     input  logic       DE,
     input  logic       red_glove_detect,
     input  logic [9:0] x_pixel,
-    output logic [2:0] selected_grid      // 0 = 없음, 1~5 = grid
+    output logic  [2:0] selected_grid      // 0 = 없음, 1~5 = grid
 );
 
     localparam SELECT_GRID_MIN = 500;
 
-    logic [13:0] Grid[0:4];
-    logic [2:0] grid_pos;
-    logic [13:0] max01, max23, max0123;
-    logic [2:0] grid_final;
+    logic [13:0] Grid [0:4];
+    logic [13:0] max_val;
     logic v_sync_delay;
 
-    logic [13:0] max_val;
-
-    assign selected_grid = grid_final;
-
-    // v_sync delay
-    always_ff @(posedge clk, posedge reset) begin
-        if (reset) v_sync_delay <= 1'b0;
-        else v_sync_delay <= v_sync;
+    // delay v_sync
+    always_ff @(posedge clk or posedge reset) begin
+        if (reset)
+            v_sync_delay <= 1'b0;
+        else
+            v_sync_delay <= v_sync;
     end
 
-    always_ff @(posedge clk, posedge reset) begin
+    // grid_final 계산
+    always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
-            grid_final <= 3'd0;
+            selected_grid <= 3'd0;
         end else if (!v_sync && v_sync_delay) begin
-            // 최대값 계산
             max_val = Grid[0];
-            grid_final = 3'd1;  // 기본값: Grid 0
+            selected_grid = 3'd1;
 
             if (Grid[1] > max_val) begin
                 max_val = Grid[1];
-                grid_final = 3'd2;
+                selected_grid = 3'd2;
             end
             if (Grid[2] > max_val) begin
                 max_val = Grid[2];
-                grid_final = 3'd3;
+                selected_grid = 3'd3;
             end
             if (Grid[3] > max_val) begin
                 max_val = Grid[3];
-                grid_final = 3'd4;
+                selected_grid = 3'd4;
             end
             if (Grid[4] > max_val) begin
                 max_val = Grid[4];
-                grid_final = 3'd5;
+                selected_grid = 3'd5;
             end
 
-            // 모든 Grid가 0이면 장갑 없음
-            if (max_val <= SELECT_GRID_MIN) grid_final = 3'd0;
+            if (max_val <= SELECT_GRID_MIN)
+                selected_grid = 3'd0;
         end
     end
 
-    always_ff @(posedge clk, posedge reset) begin
+    // Grid 누적
+    always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
             Grid[0] <= 0;
             Grid[1] <= 0;
@@ -223,7 +224,6 @@ module Grid_Partition (
             Grid[3] <= 0;
             Grid[4] <= 0;
         end else if (v_sync && !v_sync_delay) begin
-            // 한 프레임 끝나면 초기화
             Grid[0] <= 0;
             Grid[1] <= 0;
             Grid[2] <= 0;
@@ -231,18 +231,18 @@ module Grid_Partition (
             Grid[4] <= 0;
         end else if (DE && red_glove_detect) begin
             case (x_pixel[9:7])
-                0: Grid[0] <= Grid[0] + 1;
-                1: Grid[1] <= Grid[1] + 1;
-                2: Grid[2] <= Grid[2] + 1;
-                3: Grid[3] <= Grid[3] + 1;
-                4: Grid[4] <= Grid[4] + 1;
+                3'd0: Grid[0] <= Grid[0] + 1;
+                3'd1: Grid[1] <= Grid[1] + 1;
+                3'd2: Grid[2] <= Grid[2] + 1;
+                3'd3: Grid[3] <= Grid[3] + 1;
+                3'd4: Grid[4] <= Grid[4] + 1;
+                default: ;
             endcase
         end
-
     end
 
-
 endmodule
+
 ```
 
 </details>
@@ -270,25 +270,24 @@ module select_grid (
         g_out = g_in;
         b_out = b_in;
 
-        //if (DE && selected_grid != 0) begin
-        if (DE) begin
-            // selected_grid에 맞춰 노란색 강조
+        if (DE && selected_grid != 0) begin
             case (selected_grid)
-                1:
-                if (x_pixel < 128) {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
-                2:
-                if (x_pixel >= 128 && x_pixel < 256)
-                    {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
-                3:
-                if (x_pixel >= 256 && x_pixel < 384)
-                    {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
-                4:
-                if (x_pixel >= 384 && x_pixel < 512)
-                    {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
-                5:
-                if (x_pixel >= 512 && x_pixel < 640)
-                    {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
-                    
+                3'd1:
+                    if (x_pixel < 128)
+                        {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
+                3'd2:
+                    if (x_pixel >= 128 && x_pixel < 256)
+                        {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
+                3'd3:
+                    if (x_pixel >= 256 && x_pixel < 384)
+                        {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
+                3'd4:
+                    if (x_pixel >= 384 && x_pixel < 512)
+                        {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
+                3'd5:
+                    if (x_pixel >= 512 && x_pixel < 640)
+                        {r_out, g_out, b_out} = {4'd15, 4'd15, 4'd0};
+                default: ;
             endcase
         end
     end
@@ -298,6 +297,7 @@ endmodule
 ```
 
 </details>
+
 
 
 
