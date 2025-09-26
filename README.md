@@ -142,7 +142,7 @@ Software/
 <details>
     <summary>Memory Map</summary>
 
-![alt text](image/SoC/memory_map.png)
+| <img src="./image/SoC/memory_map.png" width=800 height=400>|
 
 </details>
 
