@@ -122,19 +122,16 @@ Software/
 [🔗[Chromakey Design]](/Hardware/Design/Chromakey_Design.md)<br>
 [🔗[Chromakey Verification]](/Hardware/Verification/Chromakey_Verification.md)<br>
 
-#### SCCB Design & Verification
-
 
 [🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
 
 ---
 
-### Filter
-
 ### 통신
-```
-Uart, SCCB
-```
+
+#### UART
+
+#### SCCB Design & Verification
 
 ### 🧑‍💻  SoC
 
