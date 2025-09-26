@@ -29,6 +29,7 @@
 | **tb_top** | 시뮬레이션 최상위 모듈                                                                     | - 클럭(Clock) 생성<br>- DUT 및 `interface` 인스턴스화<br>- `environment` 실행 |
 
 ---
+<br>
 
 ## 3. 데이터 처리 (Red_Glove_Detector)
 
@@ -42,6 +43,7 @@
 **출력** : 붉은색이면 detect = 1, 아니면 detect = 0 
 
 </p>
+<br>
 
 ## 4. 검증 결과
 - 검증 중간 출력
