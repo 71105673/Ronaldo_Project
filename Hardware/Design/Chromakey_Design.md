@@ -58,6 +58,8 @@
 - **유연한 임계값 조정**: 파라미터(G_THRESH, R_MAX, B_MAX)를 통해 녹색 검출 민감도 조정 가능
 - **간단한 구조**: LUT 기반 ROM과 단순 비교 연산만 사용하여 FPGA에 적합
 
+## 5. Code
+
 <details>
     <summary>Chromakey_Code</summary>
 
