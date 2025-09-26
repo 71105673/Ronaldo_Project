@@ -166,7 +166,12 @@ Uart, SCCB
 [🚀[Trouble Shooting3]](/TroubleShooting/TroubleShooting3.md)<br>
 [🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
 
-> 안녕하세요. 마크다운 문법입니다.
-> 이렇게 줄을 바꿔도 인용문 안에 포함됩니다.
->
-> > `>>` 처럼 중첩해서 사용할 수도 있습니다.
+<details>
+<summary>여기를 클릭해서 내용을 펼쳐보세요.</summary>
+
+이 부분이 바로 숨겨져 있던 내용입니다.
+
+- 목록도 만들 수 있고
+- **굵은 글씨**나 *기울임*도 사용할 수 있습니다.
+- ```python
+  print("코드 블록도 넣을 수 있습니다.")
