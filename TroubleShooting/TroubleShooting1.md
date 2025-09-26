@@ -26,6 +26,7 @@
 - **SEND_KICK**  
   kick 데이터 전송.
   
+
 <img src="../image/sw/Uart_fsm.png" width=700 height=400><br>
 
 
