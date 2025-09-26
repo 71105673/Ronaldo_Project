@@ -1,3 +1,11 @@
+ # Block Diagram
+ 
+<div align="center">
+<img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
+</div>
+
+# Code
+```verilog
 `timescale 1ns / 1ps
 
 interface sobel_intf;
@@ -74,7 +82,7 @@ class driver;
     task run();
         forever begin
             gen2drv_mbox.get(tr);
-            @(negedge sobel_if.clk);  // ?�� ?���??���? ?��?�� ?��?��
+            @(negedge sobel_if.clk); 
             sobel_if.x_in <= tr.x_in;
             sobel_if.y_in <= tr.y_in;
             sobel_if.r_in <= tr.r_in;
@@ -118,13 +126,11 @@ endclass
 class scoreboard;
     mailbox #(transaction) mon2scr_mbox;
     int W;
-
-    // ?��?��버퍼 복제 + sel
+    
     byte unsigned lineA[];
     byte unsigned lineB[];
     bit sel;
 
-    // ?��?��?��(?��코어보드 �?)
     byte unsigned top_w0_tb, top_w1_tb, top_w2_tb;
     byte unsigned mid_w0_tb, mid_w1_tb, mid_w2_tb;
     byte unsigned cur_w0_tb, cur_w1_tb, cur_w2_tb;
@@ -157,15 +163,17 @@ class scoreboard;
 
     task run();
         transaction tr;
-        // 로컬 �??��
+        
         byte unsigned R8, G8, B8, Y8;
         int unsigned y_mul;
         byte unsigned top_rd, mid_rd;
         int xi;
+        
         // sobel
         logic signed [12:0] Gx, Gy, Gx_temp, Gy_temp;
         int unsigned Ax, Ay, mag, mag_temp, Ax_temp, Ay_temp;
         byte unsigned edge8, edge8_temp;
+        
         // a/b/c 매핑
         byte unsigned a0, a1, a2, b0, b1, b2, c0, c1, c2;
         bit
@@ -197,10 +205,8 @@ class scoreboard;
             B8          = {tr.b_in, tr.b_in};
             y_mul       = (R8 * 8'd77) + (G8 * 8'd150) + (B8 * 8'd29);
             Y8          = y_mul[15:8];
-
             xi          = int'(tr.x_in);
 
-            // ?�� DUT?? ?��?��: sel==0 ?�� top=B(y-2), mid=A(y-1)
             if (sel == 1'b0) begin
                 top_rd = lineB[xi];
                 mid_rd = lineA[xi];
@@ -209,13 +215,11 @@ class scoreboard;
                 mid_rd = lineB[xi];
             end
 
-            // ?��?�� ?��?�� ?���?
             if (den_now) begin
                 if (sel == 1'b0) lineB[xi] = Y8;
                 else lineA[xi] = Y8;
             end
 
-            // ?��?��?�� next ?�� ?���? 커밋
             if (den_now) begin
                 if (frame_start || line_start) begin
                     top_w0_tb = 0;
@@ -239,8 +243,7 @@ class scoreboard;
                     cur_w2_tb = Y8;
                 end
             end
-
-            // sel ?���??? ?��?? 처리 ?�� ?�� ?��?�� ?��??�??�� 반영
+            
             if (frame_start) sel = 1'b0;
             else if (line_start) sel = ~sel;
 
@@ -269,11 +272,7 @@ class scoreboard;
             Ay = (Gy_temp < 0) ? -Gy_temp : Gy_temp;
             mag = Ax_temp + Ay_temp;
             edge8 = (mag_temp[13] || (mag_temp>14'd255)) ? 8'hFF : mag_temp[7:0];
-
-            //valid_now = den_now && (((tr.x_in>=10'd8) && (tr.y_in==10'd2)) || ((tr.x_in>=10'd2) && (tr.y_in>10'd2)));
             valid_now = den_now && (((tr.x_in>=10'd2) && (tr.y_in>=10'd2)));
-
-
 
             valid_d6 = valid_d5;
             valid_d5 = valid_d4;
@@ -285,13 +284,8 @@ class scoreboard;
             r_data = valid_d6 ? r_data : 4'b0;
             g_data = valid_d6 ? g_data : 4'b0;
             b_data = valid_d6 ? b_data : 4'b0;
-
             total++;
-
-
-            /*if (valid_now &&
-                tr.r_out===edge8[7:4] && tr.g_out===edge8[7:4] && tr.b_out===edge8[7:4]) begin*/
-
+            
             if (
                 tr.r_out===r_data && tr.g_out===g_data && tr.b_out===b_data) begin
                 pass_cnt++;
@@ -371,9 +365,6 @@ class environment;
     endtask
 endclass
 
-//==============================
-// Testbench top
-//==============================
 module tb_sobelfilter;
     environment env;
     sobel_intf sobel_if ();
@@ -413,6 +404,7 @@ module tb_sobelfilter;
     initial begin
         env = new(sobel_if);
         #100;
-        env.run(10000);  // ?��?? ?��
+        env.run(10000); 
     end
 endmodule
+```
