@@ -10,14 +10,14 @@
 
 |     블록명      |                                    설명                                               |
 |:-----:|---------------------------------------------------------------------------------------|
-| **interface**   | TB & DUT 신호 묶음, TB 내부 공유 신호 집합<br>virtual interface로 driver/monitor가 같은 핸들을 사용 |
-| **transaction** | 1픽셀 transaction할 데이터 선언 (den,r,g,b + 관찰된 out)                               |
-| **generator**   | 랜덤 패턴 생성<br>randomize() 사용하여 랜덤 생성<br>gen_cnt만큼 tr 생성                |
-| **driver**      | 인터페이스에 구동<br>non-blocking 할당 후 다음 posedge까지 유지                       |
-| **monitor**     | 결과 샘플링<br>scoreboard로 den,r,g,b,out 전달                                       |
-| **scoreboard**  | 참조모델(Ref) = DUT와 완전히 동일 수식으로 판정 → PASS/FAIL 집계<br>DUT가 FFF → detect, 000 → no-detect<br>다른 값(X/Z 등) 나오면 스킵<br>DUT 수식과 Ref 수식이 바이트 정확히 동일한지 판단 |
-| **environment** | 위 블록들을 묶어 실행/종료 제어<br>scoreboard가 gen_count만큼 처리하면 종료          |
-| **tb_sobel**    | 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)                                  |
+| **interface**   | DUT와 Testbench 간 신호 집합을 정의. virtual interface로 공유하여 driver/monitor가 동일 핸들을 참조 가능 |
+| **transaction** | 한 픽셀 단위의 데이터를 담는 클래스. 입력(x,y 좌표, R/G/B, den)과 DUT 출력(R/G/B)을 모두 포함 |
+| **generator**   | 입력 픽셀 데이터를 랜덤 생성. randomize()를 사용해 R/G/B를 무작위로 생성하고, (x,y) 좌표와 함께 mailbox를 통해 driver로 전달. gen_cnt 개수만큼 생성 가능 |
+| **driver**      | generator가 만든 transaction을 받아 virtual interface에 구동. 픽셀 입력(x,y 좌표, R/G/B, den)을 DUT에 전달. 클럭 네거티브 엣지에서 동작|
+| **monitor**     | DUT의 입력 및 출력을 샘플링하여 transaction에 기록. 이를 mailbox를 통해 scoreboard로 전달|
+| **scoreboard**  | 참조 모델(Reference Model) 역할. DUT의 출력과 동일한 Sobel 연산을 소프트웨어적으로 수행하고 결과를 비교(PASS/FAIL)|
+| **environment** | generator, driver, monitor, scoreboard를 하나의 환경으로 묶음. 동시 실행(fork) 및 종료 조건 제어. generator가 끝나고 scoreboard가 모든 픽셀을 검사하면 결과를 출력하고 시뮬레이션 종료|
+| **tb_sobel**    | 최상위 테스트벤치 모듈. DUT(SobelFilter) 인스턴스, clock/reset 생성, environment 실행. 25 MHz 클럭으로 동작하며, 초기 reset 후 generator에서 10,000 픽셀을 구동|
 
 <br>
 <br>
