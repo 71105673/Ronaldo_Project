@@ -149,13 +149,13 @@ Software/
 | **BTN_REG** |
 | <img src="./image/SoC/btn_reg.png" width=800 height=200> |
 | **AXI_UART** |
-|<img src="./image/SoC/axi_uart.png" width=800 height=400>|
+|<img src="./image/SoC/axi_uart.png" width=800 height=350>|
 | **UART_REG_CSR** |
-|<img src="./image/SoC/uart_csr.png" width=800 height=200>|
+|<img src="./image/SoC/uart_csr.png" width=800 height=150>|
 | **UART_REG_RXD** |
-|<img src="./image/SoC/uart_rxd.png" width=800 height=200>|
+|<img src="./image/SoC/uart_rxd.png" width=800 height=150>|
 | **UART_REG_TXD** |
-|<img src="./image/SoC/uart_txd.png" width=800 height=200>|
+|<img src="./image/SoC/uart_txd.png" width=800 height=150>|
 | **AXI_SCCB** |
 |<img src="./image/SoC/axi_sccb.png" width=800 height=200>|
 | **SCCB_REG** |
