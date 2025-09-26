@@ -137,7 +137,7 @@ Software/
 
 | **SoC Structure** |
 | :---: |
-| <img src="./image/SoC/SoC_structure.png" width=800 height=400>|
+| <img src="./image/SoC/soc.png" width=800 height=400>|
 | **Memory Map** |
 | <img src="./image/SoC/Memory_map.png" width=700 height=300>|
 
@@ -187,7 +187,7 @@ Software/
 | :---: |
 | <img src="./image/SoC/axi_btn.png" width=800 height=400> |
 | **VGA_REG** |
-| <img src="./image/SoC/btn_reg.png" width=800 height=200> |
+| <img src="./image/SoC/vga_reg.png" width=800 height=200> |
 
 </details>
 
