@@ -116,13 +116,6 @@ Red Globe 관련 내용 작성
 SCCB 관련 내용 작성
 ```
 
-### Verification
-![alt text](image/verification.png)
-
-```
-Verification 관련 내용 작성
-```
-
 [🔗[OV7670 레지스터 정리]](/Hardware/OV7670.md)<br>
 
 ---
