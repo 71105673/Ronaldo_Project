@@ -1,7 +1,7 @@
 # TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
 ```
-SoC, System verilog Verification 캡처 다시 화질이 안좋음
+⚠️ 주의 사항 : 항상 git pull 하고 git push
 
 ```
 
