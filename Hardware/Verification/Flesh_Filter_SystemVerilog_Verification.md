@@ -1,7 +1,11 @@
+# Block Diagram
+
 <p>
 <img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
   
 </p>
+<br>
+<br>
 <p>
 
 |     블록명      |                                    설명                                               |
@@ -15,7 +19,8 @@
 | **environment** | 위 블록들을 묶어 실행/종료 제어<br>scoreboard가 gen_count만큼 처리하면 종료          |
 | **tb_sobel**    | 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)                                  |
 
-
+<br>
+<br>
 
 # 데이터 처리
 
