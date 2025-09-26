@@ -213,6 +213,12 @@ Software/
 
 </details>
 
+<details>
+    <summary> ⚙️ VGA IP CODE</summary>
+    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0.v">🔗 AXI_SCCB</a><br>
+    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
+</details>
+
 ---
 
 ## ⚙️ Firmware
