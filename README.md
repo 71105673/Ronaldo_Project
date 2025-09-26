@@ -119,6 +119,10 @@ Uart, SCCB
 | **IP** | **Register** |
 | :---: | :---: |
 | **BTN_Detector** | **BTN_REG** |
+| **BTN IMG** | **BTN_REG_IMAGE** |
+| **UART IMG** | **UART_REG_IMAGE** |
+| **SCCB IMG** | **SCCB_REG_IMAGE** |
+| **VGA IMG** | **VGA_REG_IMAGE** |
 
 ---
 
