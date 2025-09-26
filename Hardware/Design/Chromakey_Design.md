@@ -1,6 +1,6 @@
 # Chroma Key
 
-![alt text](<../../image/chromakey/스크린샷 2025-09-26 092443.png>)
+![alt text](../../image/chromakey/chromakey_blockdiagram.png)
 
 ## 1. 모듈 개요
 
