@@ -138,8 +138,13 @@ Software/
 | **SoC Structure** |
 | :---: |
 | <img src="./image/SoC/soc.png" width=800 height=400>|
-| **Memory Map** |
-| <img src="./image/SoC/Memory_map.png" width=700 height=300>|
+
+<details>
+    <summary>Memory Map</summary>
+
+![alt text](image/SoC/memory_map.png)
+
+</details>
 
 ### 🧑‍💻  IP
 
