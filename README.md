@@ -155,8 +155,8 @@ Software/
 
 <details>
     <summary> 🔖 BTN IP CODE</summary>
-[🔗 [AXI_BTN]](/Hardware/IP/hdl/Btn_detector_v1_0.v)<br>
-[🔗 [AXI_Slave_BTN]](/Hardware/IP/hdl/Btn_detector_v1_0.v)<br>
+    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
+    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_Slave_BTN</a>
 </details>
 
 
