@@ -133,6 +133,8 @@ Software/
 
 #### SCCB Design & Verification
 
+---
+
 ### 🧑‍💻  SoC
 
 | **SoC Structure** |
