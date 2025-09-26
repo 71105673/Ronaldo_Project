@@ -154,9 +154,9 @@ Software/
 </details>
 
 <details>
-    <summary> 🔖 BTN IP CODE</summary>
+    <summary> ⚙️ BTN IP CODE</summary>
     <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_Slave_BTN</a>
+    <a href="/Hardware/IP/hdl/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
 </details>
 
 
@@ -176,6 +176,12 @@ Software/
 </details>
 
 <details>
+    <summary> ⚙️ UART IP CODE</summary>
+    <a href="/Hardware/IP/hdl/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
+    <a href="/Hardware/IP/hdl/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
+</details>
+
+<details>
     <summary> 🔖 SCCB IP</summary>
 
 | **AXI_SCCB** |
@@ -186,6 +192,12 @@ Software/
 | **SCCB_REG_DONE** |
 | <img src="./image/SoC/sccb_done.png" width=800 height=200> |
 
+</details>
+
+<details>
+    <summary> ⚙️ SCCB IP CODE</summary>
+    <a href="/Hardware/IP/hdl/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
+    <a href="/Hardware/IP/hdl/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
 </details>
 
 <details>
