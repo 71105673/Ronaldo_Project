@@ -12,6 +12,8 @@
 
 # Class Introduction
 
+<div align="center">
+
 |     블록명      |                                    설명                                               |
 |:-----:|---------------------------------------------------------------------------------------|
 | **interface**   | TB & DUT 신호 묶음, TB 내부 공유 신호 집합<br>virtual interface로 driver/monitor가 같은 핸들을 사용 |
@@ -22,6 +24,8 @@
 | **scoreboard**  | 참조모델(Ref) = DUT와 완전히 동일 수식으로 판정 → PASS/FAIL 집계<br>DUT가 FFF → detect, 000 → no-detect<br>다른 값(X/Z 등) 나오면 스킵<br>DUT 수식과 Ref 수식이 바이트 정확히 동일한지 판단 |
 | **environment** | 위 블록들을 묶어 실행/종료 제어<br>scoreboard가 gen_count만큼 처리하면 종료          |
 | **tb_sobel**    | 최상위 TB (25 MHz 클럭 생성, DUT 인스턴스, env 실행)                                  |
+
+</div>
 
 </p>
 
