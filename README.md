@@ -113,9 +113,12 @@ Uart, SCCB
 | <img src="./image/SoC/SoC_structure.png" width=800 height=400>|
 | **Memory Map** |
 | <img src="./image/SoC/Memory_map.png" width=700 height=300>|
-| **BTN_Detector** | **BTN_REG** |
 
 ### 🧑‍💻  IP
+
+| **IP** | **Register** |
+| :---: | :---: |
+| **BTN_Detector** | **BTN_REG** |
 
 ---
 
