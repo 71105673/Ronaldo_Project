@@ -169,17 +169,27 @@ Software/
 
 </details>
 
-```
+<details>
+    <summary>SCCB IP</summary>
 
 | **AXI_SCCB** |
-|<img src="./image/SoC/axi_sccb.png" width=800 height=200>|
+| :---: |
+| <img src="./image/SoC/axi_btn.png" width=800 height=400> |
 | **SCCB_REG** |
-||
+| <img src="./image/SoC/btn_reg.png" width=800 height=200> |
+
+</details>
+
+<details>
+    <summary>VGA IP</summary>
+
 | **AXI_VGA** |
-||
+| :---: |
+| <img src="./image/SoC/axi_btn.png" width=800 height=400> |
 | **VGA_REG** |
-||
-```
+| <img src="./image/SoC/btn_reg.png" width=800 height=200> |
+
+</details>
 
 ---
 
