@@ -153,6 +153,9 @@ Software/
 
 </details>
 
+[🔗[AXI_BTN]](/Hardware/IP/hdl/Btn_detector_v1_0.v)<br>
+[🔗[AXI_SLAVE_BTN]](/Hardware/IP/hdl/Btn_detector_v1_0.v)<br>
+
 <details>
     <summary> 🔖 UART IP</summary>
 
