@@ -1,10 +1,11 @@
- # <center> Flesh Color Filter </center>
+ # Flesh Color Filter
 
 <p>
 <img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/2381fba9-30c7-4c09-a1db-ebb466f8e759" />
 </p>
 
-=============================== <strong>데이터 처리</strong> ===============================
+# 데이터 처리
+
 | 항목     | 내용                                                                                                 |
 |:-----:|------------------------------------------------------------------------------------------------------|
 | **입력** | `den`, `r_in` / `g_in` / `b_in` (각 4비트)                                                           |
@@ -53,6 +54,7 @@ module flesh_color (
 
 endmodule
 ```
+
 
 
 
