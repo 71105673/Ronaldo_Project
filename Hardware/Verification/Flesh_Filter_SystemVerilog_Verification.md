@@ -1,7 +1,9 @@
 # Block Diagram
 
 <p>
+<div align="center">
 <img width="600" height="538" alt="image" src="https://github.com/user-attachments/assets/327818fd-cf86-42df-936c-b162f222f28e" />
+</div>
   
 </p>
 <br>
