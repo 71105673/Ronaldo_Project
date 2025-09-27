@@ -24,7 +24,7 @@
 # Code
 
 <details>
-    <summary> 📝 SystemVerilog Verification Structure</summary>
+    <summary> 📝 Sobel Verification</summary>
 
 ```verilog
 `timescale 1ns / 1ps
