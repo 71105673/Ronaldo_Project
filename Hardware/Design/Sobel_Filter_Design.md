@@ -45,33 +45,35 @@ Sobel_Filter 모듈은 다음과 같이 구성된다.
 
 # 3x3 Kernel 
 <div align="center">
-<img width="1258" height="902" alt="image" src="https://github.com/user-attachments/assets/bffad808-9cca-422f-bda8-c4b8c65d6e82" />
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/bffad808-9cca-422f-bda8-c4b8c65d6e82" />
 </div>
 <br>
 
 # Difference of Gx, Gy  
 <div align="center">
-<img width="760" height="292" alt="img" src="https://github.com/user-attachments/assets/d52d404f-47e9-48a9-a1e2-0da477338030" />
+<img width="800" height="250" alt="img" src="https://github.com/user-attachments/assets/d52d404f-47e9-48a9-a1e2-0da477338030" />
 </div>
 <br>
 
  # Port Diagram
 
 <div align="center">
-  <img width="757" height="537" alt="image" src="https://github.com/user-attachments/assets/80e3eb82-fe2d-447b-b895-b8cc13cbc132" />
+  <img width="800" height="300" alt="image" src="https://github.com/user-attachments/assets/80e3eb82-fe2d-447b-b895-b8cc13cbc132" />
 </div>
 <br>
 
 # Result Picture
-<div align="center">
-<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" />
-<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" />
-</div>
-<br>
+
+| **Before** | **After** |
+| :---: | :---: |
+| <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" /> | <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" /> |
 
 
 ## 5. CODE
 
+<details>
+    <summary> 🎨 Sobel Filter </summary>
+    
 ```verilog
 `timescale 1ns / 1ps
 
@@ -292,6 +294,9 @@ module SobelFilter #(
 
 endmodule
 ```
+
+</details>
+
 
 
 
