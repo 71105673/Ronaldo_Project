@@ -1,5 +1,7 @@
 # UART 통신 & 프로토콜 (PK 시스템 PC-보드 연동)
 
+<img src="../../image/sw/uart.png" width=700 height=320>
+
 ## 1. 모듈 개요
 
 **PC(Python/Pygame) ↔ 보드(Arduino/FPGA)** 간 UART 통신 구조와 **바이트 프로토콜**<br>
