@@ -20,9 +20,12 @@
 | **tb_sobel**    | 최상위 테스트벤치 모듈. DUT(SobelFilter) 인스턴스, clock/reset 생성, environment 실행. 25 MHz 클럭으로 동작하며, 초기 reset 후 generator에서 10,000 픽셀을 구동|
 
 <br>
-<br>
 
 # Code
+
+<details>
+    <summary> 📝 SystemVerilog Verification Structure</summary>
+
 ```verilog
 `timescale 1ns / 1ps
 
@@ -426,3 +429,6 @@ module tb_sobelfilter;
     end
 endmodule
 ```
+
+</details>
+
