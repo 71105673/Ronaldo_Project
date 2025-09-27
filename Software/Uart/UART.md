@@ -2,7 +2,7 @@
 
 <img src="../../image/sw/uart.png" width=700 height=320>
 
-## 1. 모듈 개요
+## 1. 시스템 개요
 
 **PC(Python/Pygame) ↔ 보드(Arduino/FPGA)** 간 UART 통신 구조와 **바이트 프로토콜**<br>
 PC 애플리케이션은 Pygame 기반 게임 루프 안에서 **명령 송신**(grid/face/kick)과 **센싱 데이터 수신**(그리드 선택, 얼굴 좌표, 킥 선택)을 처리<br> 
@@ -10,7 +10,7 @@ PC 애플리케이션은 Pygame 기반 게임 루프 안에서 **명령 송신**
 
 ---
 
-## 2. 내부 블록 구성
+## 2. 구조 및 구성 요소
 
 1. **PC (Ronaldo_Project.py)**
    - Pygame 메인 루프 내에서 **시리얼 포트 오픈/읽기/쓰기**, **화면 상태 전환**, **UI 처리**를 수행
