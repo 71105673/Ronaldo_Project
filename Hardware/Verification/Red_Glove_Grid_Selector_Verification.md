@@ -37,7 +37,7 @@
 **입력** : r_in (4bit), g_in (4bit), b_in (4bit), DE, v_sync, x_pixel(10bit)
 
 
-**처리** : 붉은색으로 감지된 픽셀의 수를 세어서 각 Grid마다 값을 누적 -> v_sync가 falling edge일 때 가장 누적값이 큰 Grid를 선택하여 출력
+**처리** : 붉은색으로 감지된 픽셀의 수를 세어서 각 Grid마다 값을 누적 → v_sync가 falling edge일 때 가장 누적값이 큰 Grid를 선택하여 출력
 
 
 **출력** : 가장 붉은 색이 많은 영역을 선택하여 1~5까지 selected_grid 데이터 출력, 붉은색의 면적이 일정 수치 이하일 시 selected_grid 0 출력
