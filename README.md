@@ -201,26 +201,26 @@ Software/
 
 <details>
     <summary> ⚙️ BTN IP CODE</summary>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
+    <a href="/Hardware/IP/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
+    <a href="/Hardware/IP/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
 </details>
 
 <details>
     <summary> ⚙️ UART IP CODE</summary>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
+    <a href="/Hardware/IP/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
+    <a href="/Hardware/IP/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
 </details>
 
 <details>
     <summary> ⚙️ SCCB IP CODE</summary>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
+    <a href="/Hardware/IP/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
+    <a href="/Hardware/IP/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
 </details>
 
 <details>
     <summary> ⚙️ VGA IP CODE</summary>
-    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0.v">🔗 AXI_VGA</a><br>
-    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_VGA</a>
+    <a href="/Hardware/IP/VGA_IP_TOP_v1_0.v">🔗 AXI_VGA</a><br>
+    <a href="/Hardware/IP/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_VGA</a>
 </details>
 
 ---
