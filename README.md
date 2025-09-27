@@ -250,8 +250,8 @@ Software/
 ---
 
 ## 🚀 Trouble Shooting
-[🚀[UART_Protocol]](/TroubleShooting/uart_protocol.md)<br>
-[🚀[Trouble Shooting2]](/TroubleShooting/TroubleShooting2.md)<br>
+[🚀[UART_Protocol]](/TroubleShooting/TroubleShooting1.md)<br>
+[🚀[VGA Sync Timing Issue]](/TroubleShooting/TroubleShooting2.md)<br>
 [🚀[Trouble Shooting3]](/TroubleShooting/TroubleShooting3.md)<br>
 [🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
 
