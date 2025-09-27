@@ -68,7 +68,7 @@ int main()
 {
       SCCB->START = 1;             // start
        delay_ms(1);     //
-       SCCB->START = 0;             // tick
+       SCCB->START = 0;             // end
 
        UART_Init(UART);
 
