@@ -60,6 +60,7 @@ uint32_t vga_grid = 0;
 uint32_t vga_face = 0;
 uint32_t btn = 0;
 
+//for test
 //uint32_t grid_data = 0x3;
 //uint32_t face_data = 0x08864;
 //uint32_t btn_data = 0x5;
