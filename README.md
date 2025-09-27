@@ -87,6 +87,8 @@ Software/
 
 ### 📱 UART 통신
 
+[🔗[UART]](/Software/Uart/UART.md)<br>
+
 ---
 
 ## ⚙️ Hardware
