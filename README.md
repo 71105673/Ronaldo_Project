@@ -132,7 +132,7 @@ Software/
 
 #### UART
 
-#### SCCB
+#### ⚡ SCCB
 [🔗[SCCB Design]](/Hardware/Design/SCCB.md)<br>
 
 ---
