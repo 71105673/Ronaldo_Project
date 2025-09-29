@@ -132,8 +132,8 @@ Software/
 
 #### UART
 
-#### SCCB Design & Verification
-[🔗[SCCB]](/Hardware/Design/SCCB.md)<br>
+#### SCCB
+[🔗[SCCB Design]](/Hardware/Design/SCCB.md)<br>
 
 ---
 
