@@ -82,7 +82,9 @@
 
 ---
 
-## 6. CODE 예시
+## 6. CODE
+
+## ⚙️ Software(Python)
 
 ### 송신 매핑 (PC→FPGA)
 ```python
@@ -111,6 +113,10 @@ full = (chunks[0] << 15) | (chunks[1] << 10) | (chunks[2] << 5) | chunks[3]
 x = (full >> 10) & 0x3FF   # 10b
 y = full & 0x3FF           # 10b
 ```
+
+---
+
+## ⚙️ Firmware(C)
 
 ### Header가 Mode 변경인지 확인
 ```C
