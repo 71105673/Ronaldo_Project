@@ -126,7 +126,7 @@ Software/
 
 <img src="./image/sw/uart.png" width=700 height=320>
 
-#### [🔗[Detail UART Protocol]](/UART.md)<br>
+#### [🔗[Detail UART Protocol]](/Software/UART.md)<br>
 
 #### ⚡ SCCB 
 #### [🔗[SCCB Design]](/Hardware/Design/SCCB.md)<br>
@@ -229,7 +229,7 @@ Software/
 
 >**직접 설계한 AXI4-Lite 기반 IP (BTN, UART, SCCB, VGA)를 기반으로, 임베디드 시스템을 구현**
 
-#### ⚙️ CODE [[Embedded]](/Firmware/main.c)<br>
+#### ⚙️ CODE [[Embedded]](/Software/Vitis/main.c)<br>
 
 ---
 
