@@ -13,7 +13,7 @@
 ## SCCB Protocol
 <div align="center">
 
-<img src="../image/SCCB_Protocol.png" width=800 height=100>
+<img src="../image/SCCB_Protocol.png" width=800 height=150>
 
 
 </div>
@@ -31,7 +31,7 @@
 
 <details>
     <summary> SCCB CODE </summary>
-    
+
 ```v
 module i2c_ov7670_init
     #(
