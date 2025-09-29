@@ -96,6 +96,14 @@ Software/
 
 ---
 
+### 📱 UART 통신
+
+<img src="./image/sw/uart.png" width=700 height=320>
+
+#### [🔗[Detail UART Protocol]](/Software/Uart/UART.md)<br>
+
+---
+
 ## ⚙️ Hardware
 
 ### 🎨 FIlter Design & Verification
@@ -208,26 +216,26 @@ Software/
 
 <details>
     <summary> ⚙️ BTN IP CODE</summary>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
+    <a href="/Hardware/IP/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
+    <a href="/Hardware/IP/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
 </details>
 
 <details>
     <summary> ⚙️ UART IP CODE</summary>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
+    <a href="/Hardware/IP/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
+    <a href="/Hardware/IP/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
 </details>
 
 <details>
     <summary> ⚙️ SCCB IP CODE</summary>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
+    <a href="/Hardware/IP/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
+    <a href="/Hardware/IP/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
 </details>
 
 <details>
     <summary> ⚙️ VGA IP CODE</summary>
-    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0.v">🔗 AXI_VGA</a><br>
-    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_VGA</a>
+    <a href="/Hardware/IP/VGA_IP_TOP_v1_0.v">🔗 AXI_VGA</a><br>
+    <a href="/Hardware/IP/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_VGA</a>
 </details>
 
 ---
@@ -257,8 +265,8 @@ Software/
 ---
 
 ## 🚀 Trouble Shooting
-[🚀[uart_protocol]](/TroubleShooting/uart_protocol.md)<br>
-[🚀[Trouble Shooting2]](/TroubleShooting/TroubleShooting2.md)<br>
+[🚀[UART_Protocol]](/TroubleShooting/TroubleShooting1.md)<br>
+[🚀[VGA Sync Timing Issue]](/TroubleShooting/TroubleShooting2.md)<br>
 [🚀[Trouble Shooting3]](/TroubleShooting/TroubleShooting3.md)<br>
 [🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
 

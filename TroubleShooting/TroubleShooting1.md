@@ -29,6 +29,7 @@
 
 <img src="../image/sw/uart_fsm.png" width=700 height=400><br>
 
+<img src="../image/trouble_shooting/uart_v2.gif" width="600" height="500">
 
 ### 전이 조건
 - `IDLE → SEND_GRID`: `grid_flag && grid_data_reg != grid_data`
