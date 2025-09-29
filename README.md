@@ -84,14 +84,6 @@ Software/
 
 ---
 
-### 📱 UART 통신
-
-<img src="./image/sw/uart.png" width=700 height=320>
-
-#### [🔗[Detail UART Protocol]](/Software/Uart/UART.md)<br>
-
----
-
 ## ⚙️ Hardware
 
 ### 🎨 FIlter Design & Verification
@@ -130,7 +122,11 @@ Software/
 
 ### 통신
 
-#### UART
+#### 📱 UART 통신
+
+<img src="./image/sw/uart.png" width=700 height=320>
+
+#### [🔗[Detail UART Protocol]](/Software/Uart/UART.md)<br>
 
 #### ⚡ SCCB
 [🔗[SCCB Design]](/Hardware/Design/SCCB.md)<br>
