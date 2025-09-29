@@ -41,36 +41,36 @@ Sobel_Filter 모듈은 다음과 같이 구성된다.
 - **경량 연산(Sobel 핵심부 무곱셈)**: Sobel 가중치의 ±2는 시프트(<<1) 로 구현, 나머지는 덧셈·뺄셈만 사용해 멀티플라이어 없이 동작(루마 변환은 상수계수 곱).
 - **라인 버퍼 토글 구조**: 2개의 라인버퍼(lineA/B)를 라인 단위로 토글해 3라인(위/중/현재) 윈도우를 유지, 메모리 사용 최소화.
 
-
-
-# 3x3 Kernel 
+### 3x3 Kernel 
 <div align="center">
-<img width="1258" height="902" alt="image" src="https://github.com/user-attachments/assets/bffad808-9cca-422f-bda8-c4b8c65d6e82" />
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/bffad808-9cca-422f-bda8-c4b8c65d6e82" />
 </div>
 <br>
 
-# Difference of Gx, Gy  
+### Difference of Gx, Gy  
 <div align="center">
-<img width="760" height="292" alt="img" src="https://github.com/user-attachments/assets/d52d404f-47e9-48a9-a1e2-0da477338030" />
+<img width="800" height="250" alt="img" src="https://github.com/user-attachments/assets/d52d404f-47e9-48a9-a1e2-0da477338030" />
 </div>
 <br>
 
- # Port Diagram
+### Port Diagram
 
 <div align="center">
-  <img width="757" height="537" alt="image" src="https://github.com/user-attachments/assets/80e3eb82-fe2d-447b-b895-b8cc13cbc132" />
+  <img width="800" height="300" alt="image" src="https://github.com/user-attachments/assets/80e3eb82-fe2d-447b-b895-b8cc13cbc132" />
 </div>
 <br>
 
-# Result Picture
-<div align="center">
-<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" />
-<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" />
-</div>
-<br>
+### Result Picture
+
+| **Before** | **After** |
+| :---: | :---: |
+| <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/fab10ea6-704e-4fc1-a5ae-546145277391" /> | <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/7fca7a9f-b6a5-4ebe-b480-cca7d6aecf7f" /> |
 
 
 ## 5. CODE
+
+<details>
+    <summary> 🎨 Sobel Filter </summary>
 
 ```verilog
 `timescale 1ns / 1ps
@@ -292,6 +292,9 @@ module SobelFilter #(
 
 endmodule
 ```
+
+</details>
+
 
 
 

@@ -29,10 +29,7 @@
 
 <img src="../image/sw/uart_fsm.png" width=700 height=400><br>
 
-<<<<<<< HEAD:TroubleShooting/TroubleShooting1.md
 <img src="../image/trouble_shooting/uart_v2.gif" width="600" height="500">
-=======
->>>>>>> d63b09c840a8cb1a34d7bdf78fadb905640ed77d:TroubleShooting/uart_protocol.md
 
 ### 전이 조건
 - `IDLE → SEND_GRID`: `grid_flag && grid_data_reg != grid_data`

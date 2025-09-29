@@ -1,15 +1,14 @@
 # TEAM : 공공칠빵 ⚽ Ronaldo_Project  
 
-```
-⚠️ 주의 사항 : 항상 git pull 하고 git push 
-
-```
-
 <img src="./image/game_thumbnail.png" width=900 height=500>
 
-## 🚀프로젝트 개요
+## 🚀 프로젝트 개요
+![alt text](image/통계자료.png)
+축구는 전 세계에서 가장 많은 팬과 인기를 보유한 스포츠이자, 모두에게 특별한 추억을 남긴 종목입니다.
+하지만 현대 사회의 장시간 좌식 생활과 만성 스트레스는 우리의 몸을 약화시키고, 소화 장애와 심혈관계 질환 등 다양한 건강 문제를 유발합니다.
+저희가 기획한 게임은 이와 같은 기술을 통해 좁은 공간에서도 즐길 수 있는 축구의 재미를 제공하며, 동시에 건강한 생활 습관을 유도하고자 하였습니다.
 
-
+본 프로젝트는 **AXI4-Lite 인터페이스**를 기반으로 직접 설계한 **하드웨어 IP**[BTN, UART, SCCB, VGA]를 이용해 임베디드 시스템을 구축했습니다. 이를 통해 **카메라(SCCB)와 디스플레이(VGA)를 제어**하고, **UART 통신 프로토콜**을 구현하여 게임의 핵심 기능을 완성했습니다.
 
 ## 🙋‍♂️ 팀원
 
@@ -87,6 +86,10 @@ Software/
 
 ### 📱 UART 통신
 
+<img src="./image/sw/uart.png" width=700 height=320>
+
+#### [🔗[Detail UART Protocol]](/Software/Uart/UART.md)<br>
+
 ---
 
 ## ⚙️ Hardware
@@ -130,6 +133,7 @@ Software/
 #### UART
 
 #### SCCB Design & Verification
+[🔗[SCCB]](/Hardware/Design/SCCB.md)<br>
 
 ---
 
@@ -201,26 +205,26 @@ Software/
 
 <details>
     <summary> ⚙️ BTN IP CODE</summary>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
-    <a href="/Hardware/IP/hdl/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
+    <a href="/Hardware/IP/Btn_detector_v1_0.v">🔗 AXI_BTN</a><br>
+    <a href="/Hardware/IP/Btn_detector_v1_0_S00_AXI.v">🔗 AXI_Slave_BTN</a>
 </details>
 
 <details>
     <summary> ⚙️ UART IP CODE</summary>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
-    <a href="/Hardware/IP/hdl/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
+    <a href="/Hardware/IP/UART_FP_v1_0.v">🔗 AXI_UART</a><br>
+    <a href="/Hardware/IP/UART_FP_v1_0_S00_AXI.v">🔗 AXI_Slave_UART</a>
 </details>
 
 <details>
     <summary> ⚙️ SCCB IP CODE</summary>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
-    <a href="/Hardware/IP/hdl/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
+    <a href="/Hardware/IP/SCCB_final_v1_0.v">🔗 AXI_SCCB</a><br>
+    <a href="/Hardware/IP/SCCB_final_v1_0_S00_AXI.v">🔗 AXI_Slave_SCCB</a>
 </details>
 
 <details>
     <summary> ⚙️ VGA IP CODE</summary>
-    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0.v">🔗 AXI_VGA</a><br>
-    <a href="/Hardware/IP/hdl/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_VGA</a>
+    <a href="/Hardware/IP/VGA_IP_TOP_v1_0.v">🔗 AXI_VGA</a><br>
+    <a href="/Hardware/IP/VGA_IP_TOP_v1_0_S00_AXI.v">🔗 AXI_Slave_VGA</a>
 </details>
 
 ---
@@ -250,8 +254,8 @@ Software/
 ---
 
 ## 🚀 Trouble Shooting
-[🚀[UART_Protocol]](/TroubleShooting/uart_protocol.md)<br>
-[🚀[Trouble Shooting2]](/TroubleShooting/TroubleShooting2.md)<br>
+[🚀[UART_Protocol]](/TroubleShooting/TroubleShooting1.md)<br>
+[🚀[VGA Sync Timing Issue]](/TroubleShooting/TroubleShooting2.md)<br>
 [🚀[Trouble Shooting3]](/TroubleShooting/TroubleShooting3.md)<br>
 [🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
 
