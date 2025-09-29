@@ -1,7 +1,7 @@
 # SCCB 전체 구조 
 <div align="center">
 
-![alt text](../image/SCCB_BlockDesign.png)
+<img src="../image/SCCB_BlockDesign.png" width=800 height=400>
 
 </div>
 
@@ -13,7 +13,8 @@
 # SCCB Protocol
 <div align="center">
 
-![alt text](../image/SCCB_Protocol.png)
+<img src="../image/SCCB_Protocol.png" width=800 height=100>
+
 
 </div>
 
