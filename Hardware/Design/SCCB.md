@@ -1,27 +1,55 @@
-# SCCB 전체 구조 
+# 📌 SCCB 전체 구조
+
 <div align="center">
 
-![alt text](../image/SCCB_BlockDesign.png)
+![SCCB Block Design](../image/SCCB_BlockDesign.png)
 
 </div>
 
-### SCCB_Config_ROM을 통해 Write할 레지스터 주소 와 데이터 저장 및 불러오기 
-### CCB_Config를 통해 타이밍과 전송할 데이터 제어
-### SCCB_Interface를 통해 타이밍에 맞게 SCL, SDA 송신
-<br>
+---
 
-# SCCB Protocol
+## 🏗️ 주요 블록 구성
+
+- **SCCB_Config_ROM**  
+  → Write할 **레지스터 주소**와 **데이터**를 저장 및 불러오기  
+
+- **SCCB_Config**  
+  → 타이밍 및 전송할 데이터 제어  
+
+- **SCCB_Interface**  
+  → 타이밍에 맞게 **SCL, SDA 송신**
+
+---
+
+# 📡 SCCB Protocol
+
 <div align="center">
 
-![alt text](../image/SCCB_Protocol.png)
+![SCCB Protocol](../image/SCCB_Protocol.png)
 
 </div>
 
-- # IDLE : SCL = 1, SDA =1
-### SCL = 1일떄 SDA 가 하강엣지인 순간  START ID → REG_ADDR → REG_DATA 순 8비트 송신후 마지막 비트는 don’t care 처리 (0,1 상관x)
-- # ID : SLAVE 모듈을 ID로 구분 (7비트)
-### 8번쨰 비트로 R/W 여부 (0 : Write, 1 : Read)
-- # REG_ADDR
-### SLAVE 모듈속 레지스터 주소 값 전송
-- # REG_DATA : 레지스터에 Write할 Data 전송
-### 전송을 끝낼때는 SCL = 1일떄  상승엣지인 순간 DONE
+---
+
+## ⚙️ 상태 및 동작
+
+- **IDLE 상태**  
+  - `SCL = 1`, `SDA = 1`  
+  - `SCL = 1`일 때 **SDA 하강엣지** 순간 → **START** 발생  
+
+- **전송 순서**  
+  1. **ID (Slave Address)**  
+     - 슬레이브 모듈을 구분하는 7비트  
+     - 8번째 비트: **R/W 여부**
+       - `0 = Write`  
+       - `1 = Read`  
+  2. **REG_ADDR (Register Address)**  
+     - 슬레이브 모듈 내부 레지스터 주소 전송  
+  3. **REG_DATA (Register Data)**  
+     - 레지스터에 Write할 데이터 전송  
+     - 마지막 비트는 **Don’t Care** (`0`/`1` 무관)
+
+- **DONE (Stop Condition)**  
+  - 전송 종료 시, `SCL = 1`일 때 **SDA 상승엣지** 순간 DONE 발생  
+
+---
