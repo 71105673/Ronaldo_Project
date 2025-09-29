@@ -4,6 +4,8 @@
 - Polling으로 데이터를 처리하기 때문에 Slave의 IP에서 나오는 tick 신호를 CPU가 감지하지 못하는 문제 발생
 - ex) UART의 rx_done 신호는 tick 신호이기 때문에 CPU가 이 신호를 제대로 읽지 못하여 rx data를 가져오지 못하는 문제 발생
   
+![alt text](../image/gif모음/ts_btn.gif)
+
 ---
 
 ## ✅ 문제 해결 방안
