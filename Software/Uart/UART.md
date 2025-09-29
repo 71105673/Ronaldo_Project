@@ -84,7 +84,7 @@
 
 ## 6. CODE
 
-## ⚙️ Software(Python)
+### ⚙️ **Software(Python)**
 
 ### 송신 매핑 (PC→FPGA)
 ```python
@@ -116,7 +116,7 @@ y = full & 0x3FF           # 10b
 
 ---
 
-## ⚙️ Firmware(C)
+### ⚙️ **Firmware(C)**
 
 ### Header가 Mode 변경인지 확인
 ```C
