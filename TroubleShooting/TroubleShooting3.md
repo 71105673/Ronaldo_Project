@@ -4,7 +4,11 @@
 - Polling으로 데이터를 처리하기 때문에 Slave의 IP에서 나오는 tick 신호를 CPU가 감지하지 못하는 문제 발생
 - ex) UART의 rx_done 신호는 tick 신호이기 때문에 CPU가 이 신호를 제대로 읽지 못하여 rx data를 가져오지 못하는 문제 발생
   
-![alt text](../image/gif모음/ts_btn.gif)
+<div align="center">
+    
+   ![TroubleShooting](<image/gif모음/ts_btn.gif>)
+
+</div>
 
 ---
 
@@ -15,4 +19,10 @@
    - 이후 계속 그 값을 유지
    - CPU가 값을 읽어가면서 해당 레지스터를 초기화  
 
-![alt text](../image/gif모음/sol_ts_btn.gif)
+
+<div align="center">
+    
+   ![TroubleShooting](<image/gif모음/sol_ts_btn.gif>)
+
+</div>
+
