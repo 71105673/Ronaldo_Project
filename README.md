@@ -128,8 +128,8 @@ Software/
 
 #### [🔗[Detail UART Protocol]](/Software/Uart/UART.md)<br>
 
-#### ⚡ SCCB
-[🔗[SCCB Design]](/Hardware/Design/SCCB.md)<br>
+#### ⚡ SCCB 
+#### [🔗[SCCB Design]](/Hardware/Design/SCCB.md)<br>
 
 ---
 
