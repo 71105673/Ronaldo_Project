@@ -253,6 +253,5 @@ Software/
 [🚀[UART_Protocol]](/TroubleShooting/TroubleShooting1.md)<br>
 [🚀[VGA Sync Timing Issue]](/TroubleShooting/TroubleShooting2.md)<br>
 [🚀[SoC Tick Signal]](/TroubleShooting/TroubleShooting3.md)<br>
-[🚀[Trouble Shooting4]](/TroubleShooting/TroubleShooting4.md)<br>
 
 
