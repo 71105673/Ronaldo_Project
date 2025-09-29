@@ -6,7 +6,7 @@
   
 <div align="center">
     
-   ![TroubleShooting](<image/gif모음/ts_btn.gif>)
+   ![TroubleShooting](<../image/gif모음/ts_btn.gif>)
 
 </div>
 
@@ -22,7 +22,7 @@
 
 <div align="center">
     
-   ![TroubleShooting](<image/gif모음/sol_ts_btn.gif>)
+   ![TroubleShooting](<../image/gif모음/sol_ts_btn.gif>)
 
 </div>
 
