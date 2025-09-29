@@ -63,7 +63,7 @@
 | `010` (=2) | FACE | 4바이트 연속 (각 5b) | 총 20비트: `x=10b, y=10b` |
 | `011` (=3) | KICK | `1~5` | 공격수 **킥 방향** |
 
-<img src="../../image/trouble_shooting/uart_protocol.png" width=700 height=180>
+<img src="../image/trouble_shooting/uart_protocol.png" width=700 height=180>
 
 ---
 
